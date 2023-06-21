@@ -3,7 +3,7 @@ package models;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Cat {
+public class Cat implements IAnimal {
     private String name;
 
     public String getName() {
