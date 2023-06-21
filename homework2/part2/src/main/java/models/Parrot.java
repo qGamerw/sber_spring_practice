@@ -1,9 +1,11 @@
 package models;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-@Component
-public class Parrot {
+@Component()
+@Primary
+public class Parrot implements IAnimal {
     private String name;
 
     public String getName() {
