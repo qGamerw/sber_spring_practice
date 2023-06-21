@@ -1,11 +1,9 @@
-package models;
+package ru.sber.models;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-@Component()
-@Primary
-public class Parrot implements IAnimal {
+@Component
+public class Cat implements IAnimal {
     private String name;
 
     public String getName() {
@@ -18,6 +16,6 @@ public class Parrot implements IAnimal {
 
     @Override
     public String toString() {
-        return "Parrot{ " + name + " }";
+        return "Cat{ " + name + " }";
     }
 }

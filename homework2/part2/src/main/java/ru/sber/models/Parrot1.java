@@ -1,6 +1,10 @@
-package models;
+package ru.sber.models;
 
-public class Parrot {
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
+
+@Component("Koko")
+public class Parrot1 implements IAnimal, IParrot {
     private String name;
 
     public String getName() {

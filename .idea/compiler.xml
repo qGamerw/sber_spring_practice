@@ -6,10 +6,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="homework3" />
         <module name="part1" />
         <module name="gs-maven" />
         <module name="part2" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="homework2_part1" target="17" />
+      <module name="homework2_part2" target="17" />
+      <module name="homework2part1" target="17" />
+      <module name="homework2part2" target="17" />
+      <module name="homework3_part1" target="17" />
+      <module name="homework3_part2" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
