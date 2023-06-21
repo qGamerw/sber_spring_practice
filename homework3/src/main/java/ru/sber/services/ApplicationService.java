@@ -12,6 +12,10 @@ import ru.sber.repositories.DBTranslationHistoryRepository;
 
 import java.math.BigDecimal;
 
+/*
+ * Класс для реализации логики провеки существования пользователя и
+ * перевода средств на телефон
+ */
 @Service
 public class ApplicationService {
     private BankClientsInterfaceProxy bankClientsInterfaceProxy;
@@ -20,16 +24,20 @@ public class ApplicationService {
 
     @Autowired
     public ApplicationService(BankClientsAppProxy bankClientsAppProxy,
-                              TransferByPhoneInterfaceProxy transferByPhoneInterfaceProxy,
-                              DBTranslationHistoryRepository dbTranslationHistoryRepository) {
+                              TransferByPhoneInterfaceProxy transferByPhoneInterfaceProxy) {
         this.bankClientsInterfaceProxy = bankClientsAppProxy;
         this.transferByPhoneInterfaceProxy = transferByPhoneInterfaceProxy;
+//        this.dbTranslationHistoryRepository = dbTranslationHistoryRepository;
+    }
+
+    @Autowired
+    public void setDbTranslationHistoryRepository(DBTranslationHistoryRepository dbTranslationHistoryRepository) {
         this.dbTranslationHistoryRepository = dbTranslationHistoryRepository;
     }
 
-    public void checkClient(Client client) throws BankClientException {
+    public void checkUser(Client client) throws BankClientException {
         if (bankClientsInterfaceProxy.getBankClient(client)) {
-            System.out.println("Пользователь " + client.getName() + " является клиентом банка.");
+            System.out.println("Пользователь " + client.getName() + " с номером " + client.getPhone() + " является клиентом банка.");
         } else {
             throw new BankClientException("Пользователь не является клиентом банка.");
         }
@@ -45,7 +53,7 @@ public class ApplicationService {
     }
 
     public void printHistory() {
-        System.out.println("История платежей");
+        System.out.println("История платежей:");
         dbTranslationHistoryRepository.getTranslationHistory().forEach(System.out::println);
     }
 }

@@ -5,12 +5,15 @@ import ru.sber.model.Client;
 
 import java.util.List;
 
+/*
+ * Класс для проверки списка клиентов банка
+ */
 @Component
 public class BankClientsAppProxy implements BankClientsInterfaceProxy {
     @Override
     public boolean getBankClient(Client client) {
-        System.out.println("Получение списка клиентов банка");
+        System.out.println("Поиск пользователя в банке.");
 
-        return List.of(1, 2, 3, 4, 5).contains(client.getId());
+        return List.of(1, 2, 3).contains(client.getId());
     }
 }

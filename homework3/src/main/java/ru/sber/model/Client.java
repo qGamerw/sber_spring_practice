@@ -2,6 +2,9 @@ package ru.sber.model;
 
 import java.math.BigDecimal;
 
+/*
+ * Класс для описания клиента
+ */
 public class Client {
     private int id;
     private String name;
