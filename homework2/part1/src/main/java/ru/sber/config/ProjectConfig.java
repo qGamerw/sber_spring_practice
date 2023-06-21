@@ -1,11 +1,11 @@
-package config;
+package ru.sber.config;
 
-import models.Cat;
-import models.Dog;
-import models.Parrot;
-import models.Person;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.sber.models.Cat;
+import ru.sber.models.Dog;
+import ru.sber.models.Parrot;
+import ru.sber.models.Person;
 
 @Configuration
 public class ProjectConfig {
@@ -15,6 +15,7 @@ public class ProjectConfig {
         var person = new Person(getParrot1(), getParrot2(), getDog(), getCat());
         return person;
     }
+
     @Bean
     public Parrot getParrot1() {
         var parrot = new Parrot();

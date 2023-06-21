@@ -1,8 +1,8 @@
 package ru.sber;
 
-import config.ProjectConfig;
-import models.Person;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.sber.config.ProjectConfig;
+import ru.sber.models.Person;
 
 public class Main {
     public static void main(String[] args) {

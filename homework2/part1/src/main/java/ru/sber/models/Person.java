@@ -1,17 +1,18 @@
-package models;
+package ru.sber.models;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.annotation.PostConstruct;
 
 public class Person {
-    private String name;
     private final Parrot parrot1;
     private final Parrot parrot2;
     private final Dog dog;
     private final Cat cat;
+    private String name;
 
     @Autowired
-    public Person (Parrot parrot1, Parrot parrot2, Dog dog, Cat cat){
+    public Person(Parrot parrot1, Parrot parrot2, Dog dog, Cat cat) {
         this.parrot1 = parrot1;
         this.parrot2 = parrot2;
         this.dog = dog;
@@ -31,7 +32,7 @@ public class Person {
         this.name = name;
     }
 
-    public String getAnimals(){
+    public String getAnimals() {
         return "\n\t" + parrot1 + ", \n\t" + parrot2 + ", \n\t" + dog + ", \n\t" + cat;
     }
 

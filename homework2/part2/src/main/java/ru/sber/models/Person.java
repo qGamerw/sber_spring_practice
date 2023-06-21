@@ -1,21 +1,21 @@
-package models;
+package ru.sber.models;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
 import javax.annotation.PostConstruct;
 
 @Component
 public class Person {
-    private String name;
     private final Cat cat;
-
-    private final Parrot parrot1;
-    private final Parrot parrot2;
+    private final IParrot parrot1;
+    private final IParrot parrot2;
     private final Dog dog;
+    private String name;
 
     @Autowired
-    public Person(Cat cat, @Qualifier("getParrot1") Parrot parrot1, Parrot parrot2, Dog dog){
+    public Person(Cat cat, @Qualifier("Koko") IParrot parrot1, @Qualifier("kimi") IParrot parrot2, Dog dog) {
         this.cat = cat;
         this.parrot1 = parrot1;
         this.parrot2 = parrot2;

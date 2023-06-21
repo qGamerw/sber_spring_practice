@@ -1,6 +1,6 @@
-package models;
+package ru.sber.models;
 
-public class Cat {
+public class Cat implements IAnimal {
     private String name;
 
     public String getName() {
