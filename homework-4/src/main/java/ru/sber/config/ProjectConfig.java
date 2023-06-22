@@ -10,11 +10,12 @@ import ru.sber.aspects.LoggingAspect;
  * Класс создания конфигурации проекта
  */
 @Configuration
-@ComponentScan(basePackages = "ru.sber")
+@ComponentScan(basePackages = {"ru.sber.services"})
 @EnableAspectJAutoProxy
 public class ProjectConfig {
     @Bean
-    public LoggingAspect aspect() {
+    public LoggingAspect loggingAspect() {
         return new LoggingAspect();
     }
+
 }

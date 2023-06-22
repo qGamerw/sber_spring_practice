@@ -1,7 +1,7 @@
 package ru.sber.model;
 
 public interface IAnimal {
-    public String getName();
+    String getName();
 
-    public void setName(String name);
+    void setName(String name);
 }

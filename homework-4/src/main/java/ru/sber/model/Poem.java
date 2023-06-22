@@ -20,12 +20,13 @@ public class Poem {
         return text;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public String getAuthor() {
         return author;
+    }
+
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public void setAuthor(String author) {

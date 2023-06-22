@@ -1,10 +1,9 @@
 package ru.sber.hello;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.*;
-
 import org.junit.Test;
-import ru.sber.hello.Greeter;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertThat;
 
 public class GreeterTest {
 
