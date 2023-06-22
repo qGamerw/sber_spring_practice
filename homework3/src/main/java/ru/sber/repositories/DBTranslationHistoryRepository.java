@@ -1,7 +1,5 @@
 package ru.sber.repositories;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -13,10 +11,20 @@ import java.util.List;
  * База данных для сохранения истории переводов
  */
 @Repository
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class DBTranslationHistoryRepository implements TranslationHistoryRepository {
 
-    private List<String> translationHistory = new ArrayList<String>();
+    private static DBTranslationHistoryRepository instance;
+    private final List<String> translationHistory = new ArrayList<String>();
+
+    private DBTranslationHistoryRepository() {
+    }
+
+    public static DBTranslationHistoryRepository getInstance() {
+        if (instance == null) {
+            instance = new DBTranslationHistoryRepository();
+        }
+        return instance;
+    }
 
     @Override
     public void addTranslationHistory(String massage, BigDecimal bigDecimal) {

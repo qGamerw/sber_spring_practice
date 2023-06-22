@@ -6,10 +6,10 @@ import java.math.BigDecimal;
  * Класс для описания клиента
  */
 public class Client {
-    private int id;
-    private String name;
-    private String phone;
-    private BigDecimal account;
+    private final int id;
+    private final String name;
+    private final String phone;
+    private final BigDecimal account;
 
     public Client(int id, String name, String phone, BigDecimal sum) {
         this.id = id;

@@ -18,8 +18,8 @@ import java.math.BigDecimal;
  */
 @Service
 public class ApplicationService {
-    private BankClientsInterfaceProxy bankClientsInterfaceProxy;
-    private TransferByPhoneInterfaceProxy transferByPhoneInterfaceProxy;
+    private final BankClientsInterfaceProxy bankClientsInterfaceProxy;
+    private final TransferByPhoneInterfaceProxy transferByPhoneInterfaceProxy;
     private DBTranslationHistoryRepository dbTranslationHistoryRepository;
 
     @Autowired
@@ -27,17 +27,17 @@ public class ApplicationService {
                               TransferByPhoneInterfaceProxy transferByPhoneInterfaceProxy) {
         this.bankClientsInterfaceProxy = bankClientsAppProxy;
         this.transferByPhoneInterfaceProxy = transferByPhoneInterfaceProxy;
-//        this.dbTranslationHistoryRepository = dbTranslationHistoryRepository;
     }
 
     @Autowired
-    public void setDbTranslationHistoryRepository(DBTranslationHistoryRepository dbTranslationHistoryRepository) {
-        this.dbTranslationHistoryRepository = dbTranslationHistoryRepository;
+    public void initDB(DBTranslationHistoryRepository dbTranslationHistoryRepository) {
+        this.dbTranslationHistoryRepository = DBTranslationHistoryRepository.getInstance();
     }
 
     public void checkUser(Client client) throws BankClientException {
         if (bankClientsInterfaceProxy.getBankClient(client)) {
-            System.out.println("Пользователь " + client.getName() + " с номером " + client.getPhone() + " является клиентом банка.");
+            System.out.println("Пользователь " + client.getName() +
+                    " с номером " + client.getPhone() + " является клиентом банка.");
         } else {
             throw new BankClientException("Пользователь не является клиентом банка.");
         }
