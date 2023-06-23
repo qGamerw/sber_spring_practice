@@ -9,13 +9,13 @@ import javax.annotation.PostConstruct;
 @Component
 public class Person {
     private final Cat cat;
-    private final IParrot parrot1;
-    private final IParrot parrot2;
+    private final parrotInterface parrot1;
+    private final parrotInterface parrot2;
     private final Dog dog;
     private String name;
 
     @Autowired
-    public Person(Cat cat, @Qualifier("Koko") IParrot parrot1, @Qualifier("kimi") IParrot parrot2, Dog dog) {
+    public Person(Cat cat, @Qualifier("Koko") parrotInterface parrot1, @Qualifier("kimi") parrotInterface parrot2, Dog dog) {
         this.cat = cat;
         this.parrot1 = parrot1;
         this.parrot2 = parrot2;

@@ -27,10 +27,11 @@ public class DBTranslationHistoryRepository implements TranslationHistoryReposit
     }
 
     @Override
-    public void addTranslationHistory(String massage, BigDecimal bigDecimal) {
-        translationHistory.add("Number: " + massage + ", sum: " + bigDecimal + ", date: " + LocalDate.now());
+    public void addTranslationHistory(String phone, BigDecimal bigDecimal) {
+        translationHistory.add("Number: " + phone + ", sum: " + bigDecimal + ", date: " + LocalDate.now());
     }
 
+    @Override
     public List<String> getTranslationHistory() {
         return translationHistory;
     }

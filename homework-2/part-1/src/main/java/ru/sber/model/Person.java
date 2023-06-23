@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
+/**
+ * Класс для проверки присвоения @Bean
+ */
 public class Person {
     private final Parrot parrot1;
     private final Parrot parrot2;

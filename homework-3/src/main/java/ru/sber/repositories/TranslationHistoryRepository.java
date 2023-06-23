@@ -1,10 +1,24 @@
 package ru.sber.repositories;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
- * Интерфейс база данных для сохранения истории переводов
+ * Интерфейс для взаимодействия с базой данных сохранения истории переводов
  */
 public interface TranslationHistoryRepository {
-    void addTranslationHistory(String massage, BigDecimal bigDecimal);
+    /**
+     * Сохраняет перевод в базу данных
+     *
+     * @param phone      телефон
+     * @param bigDecimal сумма
+     */
+    void addTranslationHistory(String phone, BigDecimal bigDecimal);
+
+    /**
+     * Передает историю переводов номеров
+     *
+     * @return List<String> история переводов
+     */
+    List<String> getTranslationHistory();
 }

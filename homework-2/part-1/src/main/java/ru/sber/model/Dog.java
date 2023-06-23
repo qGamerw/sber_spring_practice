@@ -1,18 +1,10 @@
 package ru.sber.model;
 
-public class Dog implements IAnimal {
-    private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
+/**
+ * Класс собаки
+ */
+public record Dog(String name) {
     public String toString() {
-        return "Dog{ " + name + " }";
+        return "Dog { " + name + " }";
     }
 }

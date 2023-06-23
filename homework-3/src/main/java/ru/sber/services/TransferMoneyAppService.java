@@ -13,11 +13,11 @@ import ru.sber.repositories.DBTranslationHistoryRepository;
 import java.math.BigDecimal;
 
 /**
- * Класс для реализации логики провеки существования пользователя и
- * перевода средств на телефон
+ * Интерфейс для входа в приложение, перевода денежных средств и
+ * вывода истории перевода средств
  */
 @Service
-public class TransferMoneyAppService {
+public class TransferMoneyAppService implements TransferMoneyInterfaceService {
     private final BankClientsInterfaceProxy bankClientsInterfaceProxy;
     private final TransferByPhoneInterfaceProxy transferByPhoneInterfaceProxy;
     private DBTranslationHistoryRepository dbTranslationHistoryRepository;
@@ -30,20 +30,23 @@ public class TransferMoneyAppService {
     }
 
     @Autowired
-    public void initDB(DBTranslationHistoryRepository dbTranslationHistoryRepository) {
+    @Override
+    public void initDataBase(DBTranslationHistoryRepository dbTranslationHistoryRepository) {
         this.dbTranslationHistoryRepository = DBTranslationHistoryRepository.getInstance();
     }
 
-    public void checkUser(Client client) throws BankClientException {
+    @Override
+    public void signInBankApp(Client client) throws BankClientException {
         if (bankClientsInterfaceProxy.isBankClient(client)) {
-            System.out.println("Пользователь " + client.getName() +
-                    " с номером " + client.getPhone() + " является клиентом банка.");
+            System.out.println("Пользователь " + client.phone() +
+                    " с номером " + client.phone() + " является клиентом банка.");
         } else {
             throw new BankClientException("Пользователь не является клиентом банка.");
         }
     }
 
-    public void sendMoney(String phone, BigDecimal bigDecimal) {
+    @Override
+    public void sendMoneyToPhone(String phone, BigDecimal bigDecimal) {
         try {
             transferByPhoneInterfaceProxy.transferByPhone(phone, bigDecimal);
             dbTranslationHistoryRepository.addTranslationHistory(phone, bigDecimal);
@@ -52,8 +55,10 @@ public class TransferMoneyAppService {
         }
     }
 
-    public void printHistory() {
+    @Override
+    public void printTranslationHistory() {
         System.out.println("История платежей:");
-        dbTranslationHistoryRepository.getTranslationHistory().forEach(System.out::println);
+        dbTranslationHistoryRepository.getTranslationHistory().
+                forEach(System.out::println);
     }
 }

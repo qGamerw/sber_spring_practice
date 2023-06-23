@@ -13,7 +13,6 @@ public class BankClientsAppProxy implements BankClientsInterfaceProxy {
     @Override
     public boolean isBankClient(Client client) {
         System.out.println("Поиск пользователя в банке.");
-
-        return List.of(1, 2, 3).contains(client.getId());
+        return List.of(1, 2, 3).contains(client.id());
     }
 }

@@ -7,40 +7,34 @@ import ru.sber.model.Dog;
 import ru.sber.model.Parrot;
 import ru.sber.model.Person;
 
+/**
+ * Класс для создания конфигурации проекта
+ */
 @Configuration
 public class ProjectConfig {
 
     @Bean
     public Person person() {
-        var person = new Person(getParrot1(), getParrot2(), getDog(), getCat());
-        return person;
+        return new Person(getParrot1(), getParrot2(), getDog(), getCat());
     }
 
     @Bean
     public Parrot getParrot1() {
-        var parrot = new Parrot();
-        parrot.setName("Koko");
-        return parrot;
+        return new Parrot("Koko");
     }
 
     @Bean
     public Parrot getParrot2() {
-        var parrot = new Parrot();
-        parrot.setName("Kiko");
-        return parrot;
+        return new Parrot("Kiki");
     }
 
     @Bean
     public Dog getDog() {
-        var dog = new Dog();
-        dog.setName("Bobi");
-        return dog;
+        return new Dog("Bobi");
     }
 
     @Bean
     public Cat getCat() {
-        var cat = new Cat();
-        cat.setName("Murky");
-        return cat;
+        return new Cat("Murky");
     }
 }
