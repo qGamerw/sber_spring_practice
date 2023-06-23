@@ -10,27 +10,38 @@ import java.util.logging.Logger;
  */
 public interface InteractionPoemInterfaceService {
     /**
-     * Передать комментарий с анонимным автором
+     * Передает комментарий с анонимным автором
+     *
+     * @param text
      */
     void publishComment(String text);
 
     /**
-     * Редактируем строку у автора
+     * Редактирует текст у автора
+     *
+     * @param poem
+     * @param text
      */
     Poem editPoemText(Poem poem, String text);
 
     /**
-     * Передать информации о поэме
+     * Передает имя автора, текст и дату создания поэмы
+     *
+     * @param poem
      */
     String printInfoOfPoem(Poem poem);
 
     /**
-     * Передать список авторов
+     * Печатает список авторов
+     *
+     * @param authors
      */
     void printPublicAuthors(List<String> authors);
 
     /**
-     * Установить значение для поля логов
+     * Устанавливает значение для поля логов
+     *
+     * @param logger
      */
     void setLogger(Logger logger);
 }

@@ -24,15 +24,14 @@ public class InteractionPoemService implements InteractionPoemInterfaceService {
     @NotEmpty
     public Poem editPoemText(Poem poem, String text) {
         logger.info("Method: Editing comment: " + text);
-        poem.setText(text);
-        return poem;
+        return new Poem(poem.author(), text);
     }
 
     @Override
     @NotEmpty
     public String printInfoOfPoem(Poem poem) {
-        logger.info("Method: Author poem: " + poem.getAuthor() + ", text poem: " + poem.getText() + ", date: " + poem.getCreatedDate());
-        return "Method: Author poem: " + poem.getAuthor() + ", text poem: " + poem.getText() + ", date: " + poem.getCreatedDate();
+        logger.info("Method: Author poem: " + poem.author() + ", text poem: " + poem.text() + ", date: " + poem.createdDate());
+        return "Method: Author poem: " + poem.author() + ", text poem: " + poem.text() + ", date: " + poem.createdDate();
     }
 
     @Override
@@ -41,6 +40,7 @@ public class InteractionPoemService implements InteractionPoemInterfaceService {
         logger.info("Method: Print public author: " + authors);
     }
 
+    @Override
     public void setLogger(Logger logger) {
         this.logger = logger;
     }

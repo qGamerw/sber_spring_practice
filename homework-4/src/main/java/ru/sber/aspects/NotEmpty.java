@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Интерфейс для создания аннотации NotEmpty
+ * Аннотация для проверки на пустую строку и коллекцию, null объект в аргументе
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

@@ -1,7 +1,7 @@
 package ru.sber.exception;
 
 /**
- * Класс для обработки исключения для когда аргумент равен null
+ * Класс для обработки исключения null объекта в аргументе
  */
 public class NullArgumentException extends RuntimeException {
     public NullArgumentException(String message) {

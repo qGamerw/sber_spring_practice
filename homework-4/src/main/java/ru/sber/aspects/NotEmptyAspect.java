@@ -3,7 +3,7 @@ package ru.sber.aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.util.CollectionUtils;
+import org.springframework.stereotype.Component;
 import ru.sber.exception.EmptyCollectionArgumentException;
 import ru.sber.exception.EmptyStringArgumentException;
 import ru.sber.exception.NullArgumentException;
@@ -13,15 +13,18 @@ import java.util.Collection;
 import java.util.logging.Logger;
 
 /**
- * Класс для реализации функции аннотации NotEmpty
+ * Класс для реализации функции аннотации {@link  NotEmpty}
  */
 @Aspect
-public class LoggingAspect {
-    private Logger logger = Logger.getLogger(LoggingAspect.class.getName());
+@Component
+public class NotEmptyAspect {
+    private Logger logger = Logger.getLogger(NotEmptyAspect.class.getName());
 
     @Before("@annotation(NotEmpty)")
     public void checkEmptyArguments(JoinPoint joinPoint) throws NullArgumentException,
+            EmptyStringArgumentException,
             EmptyCollectionArgumentException {
+
         String methodName = joinPoint.getSignature().getName();
         Object[] arguments = joinPoint.getArgs();
 
@@ -31,9 +34,9 @@ public class LoggingAspect {
         for (Object obj : arguments) {
             if (obj == null) {
                 throw new NullArgumentException("Null argument in " + methodName);
-            } else if (obj instanceof String && obj.toString().isEmpty()) {
+            } else if (obj instanceof String string && string.isEmpty()) {
                 throw new EmptyStringArgumentException("Empty string in argument in " + methodName);
-            } else if (obj instanceof Collection<?> && CollectionUtils.isEmpty((Collection<?>) obj)) {
+            } else if (obj instanceof Collection<?> collection && collection.isEmpty()) {
                 throw new EmptyCollectionArgumentException("Collection's argument is empty in argument in " + methodName);
             }
         }

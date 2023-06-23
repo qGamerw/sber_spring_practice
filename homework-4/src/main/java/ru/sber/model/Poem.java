@@ -5,36 +5,16 @@ import java.time.LocalDate;
 /**
  * Класс для описания поэмы
  */
-public class Poem {
-    private final LocalDate createdDate;
-    private String author;
-    private String text;
+public record Poem(String author, String text, LocalDate createdDate) {
 
+    /**
+     * Публичный конструктор
+     *
+     * @param author
+     * @param text
+     */
     public Poem(String author, String text) {
-        this.author = author;
-        this.text = text;
-        this.createdDate = LocalDate.now();
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public LocalDate getCreatedDate() {
-        return createdDate;
+        this(author, text, LocalDate.now());
     }
 
     @Override
