@@ -12,50 +12,52 @@ import java.util.List;
 @Service
 public class SignInService implements SignInInterfaceService {
     private List<User> users = new ArrayList<>();
+    private final int MAXLOGHISTORY = 4;
 
     @Override
-    public void addUser(User user){
-        if (users.size() < 4){
+    public List<User> addUser(User user) {
+        if (users.size() < MAXLOGHISTORY) {
             users.add(0, user);
-            return;
+            return users;
+        }
+        var list = new ArrayList<User>();
+        list.add(user);
+        list.add(users.get(0));
+        list.add(users.get(1));
+        return list;
+    }
+
+    @Override
+    public boolean isUser(User user) {
+        if (users.size() < MAXLOGHISTORY) {
+            users.add(0, user);
+            return true;
         }
         var list = new ArrayList<User>();
         list.add(user);
         list.add(users.get(0));
         list.add(users.get(1));
         users = list;
+        return true;
     }
 
     @Override
-    public void isUser(User user){
-        if (users.size() < 4) {
-            users.add(0, user);
-            return;
-        }
-        var list = new ArrayList<User>();
-        list.add(user);
-        list.add(users.get(0));
-        list.add(users.get(1));
-        users = list;
-    }
-
-    @Override
-    public void signOutUser(String login) {
+    public List<User> signOutUser(String login) {
         var optionalUser = users.stream().filter(user1 -> user1.name().equals(login)).findFirst();
-
         if (optionalUser.isPresent()) {
             var user = optionalUser.get();
             var newUser = new User(user.name(), user.email(), user.password(), "Sign out");
-            if (users.size() < 4) {
+            if (users.size() < MAXLOGHISTORY) {
                 users.add(0, newUser);
-                return;
+                return users;
             }
             var list = new ArrayList<User>();
             list.add(newUser);
             list.add(users.get(0));
             list.add(users.get(1));
-            users = list;
+            return list;
         }
+        return users;
     }
 
     @Override

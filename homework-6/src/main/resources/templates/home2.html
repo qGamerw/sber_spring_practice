@@ -52,12 +52,11 @@
 
       <div id="signin">
         <div id="oknoformsignin">
-          <form action="/home2" method="post">
+          <form action="/sign-in" method="post">
             Login:<br>
             <input name="login" placeholder="Email" type="text"><br><br>
             Password:<br>
             <input name="password" placeholder="Password" type="password"><br>
-            <input type="text" name="email" value=" " class="hidden">
             <input type="submit" placeholder="Войти">
           </form>
         </div>
@@ -65,7 +64,7 @@
 
       <div id="registration">
         <div id="oknoformregistration">
-          <form action="/home2" method="post">
+          <form action="/registration" method="post">
             Login:<br>
             <input name="login" placeholder="Firstname" type="text"><br><br>
             Password:<br>
@@ -79,9 +78,9 @@
 
       <div id="signout">
         <div id="oknoformsignout">
-          <form action="/home3" method="post">
+          <form action="/sign-out" method="post">
             <span>Вы точно хотите выйти?</span><br><br>
-            <input class="hidden" name="requestSignOut" th:value="${login}" type="text">
+            <input class="hidden" name="login" th:value="${login}" type="text">
             <input placeholder="Выход" type="submit">
           </form>
         </div>

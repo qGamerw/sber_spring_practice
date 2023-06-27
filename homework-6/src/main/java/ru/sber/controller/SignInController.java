@@ -16,14 +16,13 @@ import ru.sber.services.SignInService;
 public class SignInController {
 
     private final SignInInterfaceService signInInterfaceService;
-    private boolean isSign = true;
 
     public SignInController(SignInService signInInterfaceService) {
         this.signInInterfaceService = signInInterfaceService;
     }
 
     /**
-     * Регистрируем вход временного пользователя через строку поиска
+     * Регистрирует вход временного пользователя через строку поиска
      */
     @GetMapping("/home")
     public String temporaryUser(@RequestParam(required = false) String name, Model model) {
@@ -33,53 +32,61 @@ public class SignInController {
 
             model.addAttribute("listusers", users);
             model.addAttribute("login", name);
-            model.addAttribute("isSign", isSign = true);
+            model.addAttribute("isSign", true);
         }
         return "home2.html";
     }
 
     /**
-     * Регистрируем вход пользователя через форму
+     * Регистрирует регистрацию пользователя через форму
      */
-    @PostMapping("/home2")
+    @PostMapping("/registration")
     public String registrationUser(
             @RequestParam String login,
             @RequestParam String password,
             @RequestParam String email,
             Model model
     ) {
-        if (login != null && password != null && email.equals(" ")) {
-            signInInterfaceService.isUser(new User(login, "", password, "Sign in"));
-            var user = signInInterfaceService.getUsers();
+        signInInterfaceService.addUser(new User(login, email, password, "Registration"));
+        var user = signInInterfaceService.getUsers();
 
-            model.addAttribute("login", login);
-            model.addAttribute("listusers", user);
-            model.addAttribute("isSign", isSign = true);
-        } else if (login != null && password != null) {
-            signInInterfaceService.addUser(new User(login, email, password, "Registration"));
-            var user = signInInterfaceService.getUsers();
+        model.addAttribute("login", login);
+        model.addAttribute("listusers", user);
+        model.addAttribute("isSign", true);
 
-            model.addAttribute("login", login);
-            model.addAttribute("listusers", user);
-            model.addAttribute("isSign", isSign = true);
-        }
+        return "home2.html";
+    }
+
+    /**
+     * Регистрирует авторизацию пользователя через форму
+     */
+    @PostMapping("/sign-in")
+    public String signInUser(
+            @RequestParam String login,
+            @RequestParam String password,
+            Model model
+    ) {
+        signInInterfaceService.isUser(new User(login, "", password, "Sign in"));
+        var user = signInInterfaceService.getUsers();
+
+        model.addAttribute("login", login);
+        model.addAttribute("listusers", user);
+        model.addAttribute("isSign", true);
+
         return "home2.html";
     }
 
     /**
      * Регистрируем выход пользователя через форму
      */
-    @PostMapping("/home3")
-    public String signOutUser(@RequestParam String requestSignOut,
-                              Model model
-    ) {
-        if (requestSignOut != null) {
-            var user = signInInterfaceService.getUsers();
-            signInInterfaceService.signOutUser(requestSignOut);
+    @PostMapping("/sign-out")
+    public String signOutUser(@RequestParam String login, Model model) {
+        var user = signInInterfaceService.getUsers();
+        signInInterfaceService.signOutUser(login);
 
-            model.addAttribute("listusers", user);
-            model.addAttribute("isSign", isSign = false);
-        }
+        model.addAttribute("listusers", user);
+        model.addAttribute("isSign", false);
+
         return "home2.html";
     }
 }

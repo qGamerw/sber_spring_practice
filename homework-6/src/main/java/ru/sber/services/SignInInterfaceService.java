@@ -9,22 +9,22 @@ import java.util.List;
  */
 public interface SignInInterfaceService {
     /**
-     * Добавляем зарегистрированного пользователя
+     * Добавляет зарегистрированного пользователя
      */
-    void addUser(User user);
+    List<User> addUser(User user);
 
     /**
-     * Проверяем зарегистрирован ли пользователь
+     * Проверяет зарегистрирован ли пользователь
      */
-    void isUser(User user);
+    boolean isUser(User user);
 
     /**
-     * Меняем состояние пользователя при выходе
+     * Меняет состояние пользователя при выходе
      */
-    void signOutUser(String login);
+    List<User> signOutUser(String login);
 
     /**
-     * Получаем список зарегистрированных пользователей
+     * Получает список зарегистрированных пользователей
      */
     List<User> getUsers();
 }
