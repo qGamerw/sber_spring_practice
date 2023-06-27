@@ -19,6 +19,11 @@ public interface SignInInterfaceService {
     void isUser(User user);
 
     /**
+     * Меняем состояние пользователя при выходе
+     */
+    void signOutUser(String login);
+
+    /**
      * Получаем список зарегистрированных пользователей
      */
     List<User> getUsers();

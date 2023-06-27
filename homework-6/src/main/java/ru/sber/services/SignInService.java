@@ -28,7 +28,7 @@ public class SignInService implements SignInInterfaceService {
 
     @Override
     public void isUser(User user){
-        if (users.size() < 4){
+        if (users.size() < 4) {
             users.add(0, user);
             return;
         }
@@ -38,8 +38,28 @@ public class SignInService implements SignInInterfaceService {
         list.add(users.get(1));
         users = list;
     }
+
     @Override
-    public List<User> getUsers(){
+    public void signOutUser(String login) {
+        var optionalUser = users.stream().filter(user1 -> user1.name().equals(login)).findFirst();
+
+        if (optionalUser.isPresent()) {
+            var user = optionalUser.get();
+            var newUser = new User(user.name(), user.email(), user.password(), "Sign out");
+            if (users.size() < 4) {
+                users.add(0, newUser);
+                return;
+            }
+            var list = new ArrayList<User>();
+            list.add(newUser);
+            list.add(users.get(0));
+            list.add(users.get(1));
+            users = list;
+        }
+    }
+
+    @Override
+    public List<User> getUsers() {
         return users;
     }
 }

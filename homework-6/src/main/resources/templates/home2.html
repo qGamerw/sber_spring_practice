@@ -14,10 +14,19 @@
           <li><a href="#guides">Гайды</a></li>
           <li><a href="#about">Новости</a></li>
         </ul>
-        <ul float="left">
-          <li><a href="#signin">Вход</a></li>
-          <li><a href="#registration">Регистрация</a></li>
-        </ul>
+        <div th:hidden="${isSign==true}">
+          <ul float="left">
+            <li><a href="#signin">Вход</a></li>
+            <li><a href="#registration">Регистрация</a></li>
+          </ul>
+        </div>
+
+        <div th:hidden="false" th:if="${isSign==true}">
+          <ul float="left">
+            <li><a href="#start-game" th:text="${login}"></a></li>
+            <li><a href="#signout">Выход</a></li>
+          </ul>
+        </div>
       </nav>   
 
       <div id="wikipedia">
@@ -43,11 +52,11 @@
 
       <div id="signin">
         <div id="oknoformsignin">
-          <form action="/home" method="post">
-            First name:<br>
-            <input type="text" name="login" placeholder="Email"><br>
-            Last name:<br>
-            <input type="password" name="password" placeholder="Password"><br><br>
+          <form action="/home2" method="post">
+            Login:<br>
+            <input name="login" placeholder="Email" type="text"><br><br>
+            Password:<br>
+            <input name="password" placeholder="Password" type="password"><br>
             <input type="text" name="email" value=" " class="hidden">
             <input type="submit" placeholder="Войти">
           </form>
@@ -56,14 +65,24 @@
 
       <div id="registration">
         <div id="oknoformregistration">
-          <form action="/home" method="post">
-            First name:<br>
-            <input type="text" name="login" placeholder="Firstname"><br>
-            Last name:<br>
+          <form action="/home2" method="post">
+            Login:<br>
+            <input name="login" placeholder="Firstname" type="text"><br><br>
+            Password:<br>
             <input type="password" name="password" placeholder="Password"><br><br>
             Email:<br>
-            <input type="email" name="email" placeholder="Email"><br><br>
+            <input name="email" placeholder="Email" type="email"><br>
             <input type="submit" placeholder="Регистрация">
+          </form>
+        </div>
+      </div>
+
+      <div id="signout">
+        <div id="oknoformsignout">
+          <form action="/home3" method="post">
+            <span>Вы точно хотите выйти?</span><br><br>
+            <input class="hidden" name="requestSignOut" th:value="${login}" type="text">
+            <input placeholder="Выход" type="submit">
           </form>
         </div>
       </div>
@@ -134,6 +153,7 @@
             }
           </script>
         </div>
+
 
         <div class="useractivity">
           <p>В этой увлекательной стратегической игре ты можешь написать свою собственную историю и сделать свой выбор в управлении своей империей. 
