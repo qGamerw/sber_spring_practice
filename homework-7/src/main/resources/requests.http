@@ -1,0 +1,73 @@
+###
+POST localhost:8080/clients
+Content-Type: application/json
+
+{
+  "name": "Ananimus",
+  "login": "admin",
+  "password": "admin",
+  "email": "ne.ananimus@anon.an"
+}
+###
+GET localhost:8080/clients/get/548573
+###
+DELETE localhost:8080/clients/delete/28989
+
+
+
+###
+POST localhost:8080/products
+Content-Type: application/json
+
+{
+  "name": "Яблоки",
+  "price": 100,
+  "amount": 100
+}
+
+###
+GET localhost:8080/products/all
+
+###
+PUT localhost:8080/products
+Content-Type: application/json
+
+{
+  "id": 168360,
+  "name": "Банан",
+  "price": 80,
+  "amount": 8
+}
+
+###
+DELETE localhost:8080/products/delete/902077
+
+###
+GET localhost:8080/products/name/Яблоки
+
+
+
+###
+POST localhost:8080/baskets/add/402273/10
+###
+###
+POST localhost:8080/products
+Content-Type: application/json
+
+{
+  "name": "Яблоки",
+  "price": 100,
+  "amount": 100
+}
+
+###
+PUT localhost:8080/baskets
+Content-Type: application/json
+
+{
+  "id": 402273,
+  "amount": 2000
+}
+
+###
+POST localhost:8080/baskets/delete/445273

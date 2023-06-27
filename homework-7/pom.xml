@@ -11,7 +11,7 @@
     <groupId>ru.sber</groupId>
     <artifactId>homework-7</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>web-application-example</name>
+    <name>homework-7</name>
     <description>web-application-example</description>
     <properties>
         <java.version>17</java.version>
