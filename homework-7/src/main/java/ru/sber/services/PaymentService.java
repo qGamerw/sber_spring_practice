@@ -8,6 +8,9 @@ import ru.sber.repository.ClientRepository;
 
 import java.math.BigDecimal;
 
+/**
+ * Класс для оплаты продуктов в корзине
+ */
 @Service
 public class PaymentService implements PaymentInterfaceService {
     private final ClientRepository clientRepository;

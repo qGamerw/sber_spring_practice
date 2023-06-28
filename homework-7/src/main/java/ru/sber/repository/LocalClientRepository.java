@@ -3,13 +3,15 @@ package ru.sber.repository;
 import org.springframework.stereotype.Repository;
 import ru.sber.model.Basket;
 import ru.sber.model.Client;
-import ru.sber.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+/**
+ * Класс для взаимодействия с клиентом
+ */
 @Repository
 public class LocalClientRepository implements ClientRepository {
     private final List<Client> clients = new ArrayList<>();

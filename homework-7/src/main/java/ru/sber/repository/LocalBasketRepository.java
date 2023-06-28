@@ -1,17 +1,21 @@
 package ru.sber.repository;
 
 import org.springframework.stereotype.Repository;
+import ru.sber.exception.IncorrectAmountException;
 import ru.sber.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Класс для взаимодействия с корзиной
+ */
 @Repository
 public class LocalBasketRepository implements BasketRepository {
 
     private final ProductRepository productRepository;
-    private List<Product> listBasket;
+    private final List<Product> listBasket;
 
     public LocalBasketRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -19,39 +23,40 @@ public class LocalBasketRepository implements BasketRepository {
     }
 
 
-
     @Override
-    public List<Product> add(long id, int count) {
+    public boolean add(long id, int count) {
         var productOptional = productRepository.getProductById(id);
         if (productOptional.isPresent()) {
+            if (count < 1) {
+                throw new IncorrectAmountException("Некорректное значение количества");
+            }
             var product = productOptional.get();
             product.setAmount(count);
             listBasket.add(product);
+            return true;
         }
-        return listBasket;
+        return false;
     }
 
     @Override
-    public List<Product> update(long id, int count) {
+    public boolean update(long id, int count) {
         var productOptional = productRepository.getProductById(id);
         if (productOptional.isPresent()) {
             for (Product item : listBasket) {
                 if (item.getId() == id) {
                     item.setAmount(count);
-                    break;
+                    return true;
                 }
             }
         }
-        return listBasket;
+        return false;
     }
 
     @Override
-    public List<Product> delete(long id) {
+    public boolean delete(long id) {
         var productOptional = productRepository.getProductById(id);
-        if (productOptional.isPresent()) {
-            listBasket.removeIf(item -> item.getId() == id);
-        }
-        return listBasket;
+        return productOptional.isPresent()
+                && listBasket.removeIf(item -> item.getId() == id);
     }
 
     @Override

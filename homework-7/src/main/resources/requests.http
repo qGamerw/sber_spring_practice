@@ -9,9 +9,9 @@ Content-Type: application/json
   "email": "ne.ananimus@anon.an"
 }
 ###
-GET localhost:8080/clients/get/824304
+GET localhost:8080/clients/get/459830
 ###
-DELETE localhost:8080/clients/delete/28989
+DELETE localhost:8080/clients/delete/245984
 
 
 
@@ -22,7 +22,7 @@ Content-Type: application/json
 {
   "name": "Яблоки",
   "price": 100,
-  "amount": 100
+  "amount": 10
 }
 
 ###
@@ -33,14 +33,14 @@ PUT localhost:8080/products
 Content-Type: application/json
 
 {
-  "id": 168360,
+  "id": 817969,
   "name": "Банан",
   "price": 80,
   "amount": 8
 }
 
 ###
-DELETE localhost:8080/products/delete/902077
+DELETE localhost:8080/products/delete/817969
 
 ###
 GET localhost:8080/products/name/Яблоки
@@ -48,24 +48,15 @@ GET localhost:8080/products/name/Яблоки
 
 
 ###
-POST localhost:8080/baskets/add/105424/10
+POST localhost:8080/baskets/add/418764/1
 ###
-###
-POST localhost:8080/products
-Content-Type: application/json
-
-{
-  "name": "Яблоки",
-  "price": 100,
-  "amount": 100
-}
 
 ###
 PUT localhost:8080/baskets
 Content-Type: application/json
 
 {
-  "id": 402273,
+  "id": 418764,
   "amount": 2000
 }
 
@@ -79,6 +70,6 @@ POST localhost:8080/payment/pay/445273
 Content-Type: application/json
 
 {
-  "idClient": 334123,
-  "sum": 2000
+  "idClient": 459830,
+  "sum": 2000000000
 }

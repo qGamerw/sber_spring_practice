@@ -1,5 +1,8 @@
 package ru.sber.model;
 
+/**
+ * Класс для отправки ошибки на запрос
+ */
 public class ErrorDetails {
     private String message;
 

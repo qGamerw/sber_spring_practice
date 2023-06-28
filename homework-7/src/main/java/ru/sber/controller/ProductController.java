@@ -8,6 +8,9 @@ import ru.sber.repository.ProductRepository;
 
 import java.util.List;
 
+/**
+ * Получает запросы для взаимодействия с продуктом
+ */
 @Slf4j
 @RestController
 @RequestMapping("products")
@@ -26,38 +29,42 @@ public class ProductController {
 
     @GetMapping("/name/{name}")
     public ResponseEntity<List<Product>> getProduct(@PathVariable String name) {
+        log.info("Получение продуктов с именем {}", name);
         var product = productRepository.getListProductName(name);
         if (product.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            log.info("Получение продукта с именем {}, id {}", name, product);
             return ResponseEntity.ok().body(product);
         }
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<Product>> getProduct() {
+        log.info("Получение списка продуктов");
         var product = productRepository.getListProduct();
         if (product.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            log.info("Получение списка продуктов {}", product);
             return ResponseEntity.ok().body(product);
         }
     }
 
     @PutMapping
-    public Product updateProduct(@RequestBody Product product) {
+    public ResponseEntity<?> updateProduct(@RequestBody Product product) {
         log.info("Обновление продукта {}", product);
-        productRepository.update(product);
-        return product;
+        boolean isUpdate = productRepository.update(product);
+        if (isUpdate) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable long id) {
+        log.info("Удаление продукта {}", id);
         boolean isDeleted = productRepository.delete(id);
         if (isDeleted) {
-            log.info("Удаление продукта {}", id);
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();

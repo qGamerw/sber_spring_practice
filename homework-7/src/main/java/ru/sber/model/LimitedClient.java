@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.Optional;
 
+/**
+ * Класс для описания укороченного клиента
+ */
 @Data
 public class LimitedClient {
     private String name;

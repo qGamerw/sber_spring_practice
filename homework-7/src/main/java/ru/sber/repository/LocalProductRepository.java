@@ -1,6 +1,7 @@
 package ru.sber.repository;
 
 import org.springframework.stereotype.Repository;
+import ru.sber.exception.IncorrectAmountException;
 import ru.sber.model.Product;
 
 import java.util.ArrayList;
@@ -8,12 +9,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+/**
+ * Класс для взаимодействия с продуктом
+ */
 @Repository
 public class LocalProductRepository implements ProductRepository {
-    private List<Product> products = new ArrayList<>();
+    private final List<Product> products = new ArrayList<>();
 
     @Override
     public long add(Product product) {
+        if (product.getAmount() < 1) {
+            throw new IncorrectAmountException("Некорректное значение количества");
+        }
         product.setId(generateId());
         products.add(product);
         return product.getId();
@@ -28,6 +35,9 @@ public class LocalProductRepository implements ProductRepository {
 
     @Override
     public boolean update(Product product) {
+        if (product.getAmount() < 1) {
+            throw new IncorrectAmountException("Некорректное значение количества");
+        }
         for (Product item : products) {
             if (item.getId() == product.getId()) {
                 item.setName(product.getName());

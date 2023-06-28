@@ -3,6 +3,9 @@ package ru.sber.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * Класс для описания клиента
+ */
 @Data
 @AllArgsConstructor
 public class Client {
