@@ -1,16 +1,11 @@
 package ru.sber.model;
 
+import lombok.Data;
+
 /**
  * Класс для отправки ошибки на запрос
  */
+@Data
 public class ErrorDetails {
     private String message;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }

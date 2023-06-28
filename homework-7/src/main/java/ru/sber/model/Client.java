@@ -14,5 +14,6 @@ public class Client {
     private String login;
     private String password;
     private String email;
+    private long card;
     private Basket basket;
 }

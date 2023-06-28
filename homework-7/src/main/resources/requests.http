@@ -6,11 +6,12 @@ Content-Type: application/json
   "name": "Unanimous",
   "login": "admin",
   "password": "admin",
-  "email": "ad.Unanimous@Unanim.ad"
+  "email": "ad.Unanimous@Unanim.ad",
+  "card": "11112"
 }
 
 ###
-GET localhost:8080/clients/get/459830
+GET localhost:8080/clients/get/605664
 
 ###
 DELETE localhost:8080/clients/delete/245984
@@ -50,7 +51,7 @@ GET localhost:8080/products/name/Яблоки
 
 
 ###
-POST localhost:8080/baskets/add/418764/1
+POST localhost:8080/baskets/add/333824/1
 
 ###
 
@@ -64,15 +65,14 @@ Content-Type: application/json
 }
 
 ###
-POST localhost:8080/baskets/delete/105424
+POST localhost:8080/baskets/delete/883525
 
 
 
 ###
-POST localhost:8080/payment/pay/445273
+POST localhost:8080/payment
 Content-Type: application/json
 
 {
-  "idClient": 459830,
-  "sum": 2000000000
+  "idClient": 40934
 }
