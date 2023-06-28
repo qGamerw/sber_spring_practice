@@ -3,10 +3,10 @@ POST localhost:8080/clients
 Content-Type: application/json
 
 {
-  "name": "Ananimus",
+  "name": "Unanimous",
   "login": "admin",
   "password": "admin",
-  "email": "ne.ananimus@anon.an"
+  "email": "ad.Unanimous@Unanim.ad"
 }
 
 ###
