@@ -8,8 +8,10 @@ Content-Type: application/json
   "password": "admin",
   "email": "ne.ananimus@anon.an"
 }
+
 ###
 GET localhost:8080/clients/get/459830
+
 ###
 DELETE localhost:8080/clients/delete/245984
 
@@ -49,6 +51,7 @@ GET localhost:8080/products/name/Яблоки
 
 ###
 POST localhost:8080/baskets/add/418764/1
+
 ###
 
 ###
