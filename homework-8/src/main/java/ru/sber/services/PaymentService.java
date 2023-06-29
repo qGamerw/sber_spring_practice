@@ -30,7 +30,12 @@ public class PaymentService implements PaymentInterfaceService {
     @Override
     public BigDecimal pay(PaymentDetails paymentDetails) {
         log.info("Оплата товара");
-        return transferByPhoneAppProxy.transferToPay(basketRepository.getPrice(paymentDetails.getIdClient()), paymentDetails.getIdClient());
+        var isBaket = basketRepository.isBasket(paymentDetails.getIdClient());
+        if (isBaket) {
+            return transferByPhoneAppProxy.transferToPay(basketRepository.getPrice(paymentDetails.getIdClient()), paymentDetails.getIdClient());
+        } else {
+            throw new EmptyBasketException("Корзина пустая");
+        }
 
     }
 

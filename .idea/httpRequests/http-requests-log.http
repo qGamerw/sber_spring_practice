@@ -9,6 +9,59 @@ Accept-Encoding: br,deflate,gzip,x-gzip
   "idClient": 2
 }
 
+<> 2023-06-29T095759.400.json
+
+###
+
+POST http://localhost:8080/baskets/delete/2/1
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+POST http://localhost:8080/payment
+Content-Type: application/json
+Content-Length: 19
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "idClient": 2
+}
+
+<> 2023-06-29T095753.202.json
+
+###
+
+POST http://localhost:8080/payment
+Content-Type: application/json
+Content-Length: 19
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "idClient": 2
+}
+
+<> 2023-06-29T095751.202.json
+
+###
+
+POST http://localhost:8080/payment
+Content-Type: application/json
+Content-Length: 19
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "idClient": 2
+}
+
 <> 2023-06-29T094340.202.json
 
 ###
@@ -520,46 +573,6 @@ Accept-Encoding: br,deflate,gzip,x-gzip
 }
 
 <> 2023-06-29T093318.200.json
-
-###
-
-GET http://localhost:8080/products/all
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T093315.200.json
-
-###
-
-DELETE http://localhost:8080/products/delete/2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-###
-
-GET http://localhost:8080/products/all
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T093305.200.json
-
-###
-
-PUT http://localhost:8080/products
-Content-Type: application/json
-Content-Length: 53
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": 1,
-  "name": "Банан",
-  "price": 800
-}
 
 ###
 

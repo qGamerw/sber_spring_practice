@@ -56,9 +56,24 @@ public interface BasketRepository {
     /**
      * Удаление корзины по индефикатору
      *
+     * @param idBasket индефикатор корзины
      * @return результат
      */
     boolean deleteBasket(long idBasket);
 
+    /**
+     * Получает сумму для оплаты
+     *
+     * @param idClient индефикатор клиета
+     * @return результат
+     */
     BigDecimal getPrice(long idClient);
+
+    /**
+     * Проверяет существуют ли продукты в корзине
+     *
+     * @param idClient индефикатор клиета
+     * @return результат
+     */
+    boolean isBasket(long idClient);
 }

@@ -156,4 +156,26 @@ public class DBBasketRepository implements BasketRepository {
         return BigDecimal.valueOf(0);
     }
 
+    @Override
+    public boolean isBasket(long idClient){
+
+        var selectSql = """
+                SELECT EXISTS(SELECT id_cart FROM ukhinms.product_client where id=?)
+                """;
+
+        try (var connection = DriverManager.getConnection(JDBC);
+             var prepareStatement = connection.prepareStatement(selectSql);) {
+
+            prepareStatement.setLong(1, idClient);
+
+            var resultSet = prepareStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getBoolean(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
 }
