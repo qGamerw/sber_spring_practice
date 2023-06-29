@@ -1,9 +1,6 @@
 package ru.sber.proxies;
 
-import ru.sber.model.Card;
-
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Интерфейс для взаимодействия класса для проверки списка клиентов банка
@@ -24,11 +21,4 @@ public interface BankClientsInterfaceProxy {
      * @return сумма
      */
     BigDecimal getCashByIdClient(long card);
-
-    /**
-     * Выводит карты банка
-     *
-     * @return результат проверки
-     */
-    List<Card> getCards();
 }

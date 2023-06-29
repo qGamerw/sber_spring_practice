@@ -38,29 +38,6 @@ public interface BasketRepository {
      */
     boolean delete(long idClient, long idProduct);
 
-
-    /**
-     * Выводит список товаров в корзине
-     *
-     * @return результат
-     */
-    List<Product> getListBasket();
-
-    /**
-     * Генерирует индефикатор корзины
-     *
-     * @return результат
-     */
-    long generateLongId();
-
-    /**
-     * Удаление корзины по индефикатору
-     *
-     * @param idBasket индефикатор корзины
-     * @return результат
-     */
-    boolean deleteBasket(long idBasket);
-
     /**
      * Получает сумму для оплаты
      *

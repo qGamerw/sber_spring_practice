@@ -1,81 +1,76 @@
 package ru.sber.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.sber.exception.IncorrectAmountException;
-import ru.sber.model.Product;
 
 import java.math.BigDecimal;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
+@Slf4j
 @Repository
 public class DBBasketRepository implements BasketRepository {
 
     public static final String JDBC = "jdbc:postgresql://localhost:5432/postgres?schema=<ukhinms>&user=postgres&password=postgre";
 
-    private final ProductRepository productRepository;
-
-    public DBBasketRepository(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
     @Override
     public boolean add(long idClient, long idProduct, int count) {
+        log.info("Добавляет продукт в корзину клиента с id {} продукт id {} в количестве {}", idClient, idProduct, count);
+
         if (count < 1) {
             throw new IncorrectAmountException("Некорректное значение количества");
         }
-        var insertSql = "INSERT INTO ukhinms.product_client (id_product, id_cart, count) VALUES (?,?,?);";
+        var insertSql = """
+                INSERT INTO ukhinms.products_baskets (id_product, id_basket, count)
+                VALUES (?, (select id from ukhinms.baskets where id_client = ? LIMIT 1), ?);
+                """;
+        var selectSql = """
+                SELECT EXISTS(SELECT * FROM ukhinms.products_baskets
+                                join ukhinms.baskets b on b.id = products_baskets.id_basket
+                                where id_client = ?)
+                """;
 
         try (var connection = DriverManager.getConnection(JDBC);
-             var prepareStatementProdCart = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);) {
-            var product = productRepository.getProductById(idProduct);
+             var prepareStatementProdCart = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+             var prepareStatement = connection.prepareStatement(selectSql);) {
 
-            if (product.isPresent()) {
-                prepareStatementProdCart.setLong(1, idProduct);
-                prepareStatementProdCart.setLong(2, getClientIdCartById(idClient));
-                prepareStatementProdCart.setInt(3, count);
-
-                prepareStatementProdCart.executeUpdate();
-                return prepareStatementProdCart.getGeneratedKeys().next();
-            } else {
-                throw new RuntimeException("Ошибка при получении идентификатора 1");
-            }
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    public long getClientIdCartById(long idClient) {
-        var selectSql = "SELECT cart_id FROM ukhinms.client where id = ?";
-
-        try (var connection = DriverManager.getConnection(JDBC);
-             var prepareStatement = connection.prepareStatement(selectSql)) {
             prepareStatement.setLong(1, idClient);
 
             var resultSet = prepareStatement.executeQuery();
 
-            if (resultSet.next()) {
-                return resultSet.getLong(1);
+            if (resultSet.next() && resultSet.getBoolean(1)) {
+                prepareStatementProdCart.setLong(1, idProduct);
+                prepareStatementProdCart.setLong(2, idClient);
+                prepareStatementProdCart.setInt(3, count);
+
+                prepareStatementProdCart.executeUpdate();
+
+                return prepareStatementProdCart.getGeneratedKeys().next();
             }
-            throw new RuntimeException("Ошибка при получении идентификатора корзины");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return false;
     }
 
     @Override
-    public boolean update(long idCart, long idProduct, int count) {
-        var selectSql = "UPDATE ukhinms.product_client SET count = ? where id_product = ? and id_cart = ?;";
+    public boolean update(long idClient, long idProduct, int count) {
+        log.info("Меняет количество продуктов в корзине у клиента id {} продукта id {} на {}", idClient, idProduct, count);
+
+        var selectSql = """
+                update ukhinms.products_baskets
+                set count = ?
+                where id_product = ?
+                  and id_basket = (select id from ukhinms.baskets where id_client = ? LIMIT 1)
+                """;
 
         try (var connection = DriverManager.getConnection(JDBC);
              var prepareStatement = connection.prepareStatement(selectSql)) {
             prepareStatement.setDouble(1, count);
             prepareStatement.setLong(2, idProduct);
-            prepareStatement.setLong(3, idCart);
+            prepareStatement.setLong(3, idClient);
 
             var rows = prepareStatement.executeUpdate();
 
@@ -87,12 +82,19 @@ public class DBBasketRepository implements BasketRepository {
 
     @Override
     public boolean delete(long idClient, long idProduct) {
-        var selectSql = "DELETE FROM ukhinms.product_client where id_cart = ? and id_product = ?";
+        log.info("Удаляет продукт в корзине у клиента id {} продукт id {}", idClient, idProduct);
+
+        var selectSql = """
+                DELETE
+                FROM ukhinms.products_baskets
+                where id_product = ?
+                  and id_basket = (select id from ukhinms.baskets where id_client = ? LIMIT 1)
+                """;
 
         try (var connection = DriverManager.getConnection(JDBC);
              var prepareStatement = connection.prepareStatement(selectSql)) {
-            prepareStatement.setLong(1, getClientIdCartById(idClient));
-            prepareStatement.setLong(2, idProduct);
+            prepareStatement.setLong(1, idProduct);
+            prepareStatement.setLong(2, idClient);
 
             var rows = prepareStatement.executeUpdate();
 
@@ -103,37 +105,7 @@ public class DBBasketRepository implements BasketRepository {
     }
 
     @Override
-    public List<Product> getListBasket() {
-        return null;
-    }
-
-    @Override
-    public long generateLongId() {
-        return 0;
-    }
-
-    @Override
-    public boolean deleteBasket(long idBasket) {
-        var selectSql = "DELETE FROM ukhinms.cart where id = ?";
-        var selectSqlProdClient = "DELETE FROM ukhinms.product_client where id_cart = ?";
-        try (var connection = DriverManager.getConnection(JDBC);
-             var prepareStatement = connection.prepareStatement(selectSql);
-             var prepareStatementProdClient = connection.prepareStatement(selectSqlProdClient);) {
-
-            prepareStatement.setLong(1, idBasket);
-
-            prepareStatementProdClient.setLong(1, idBasket);
-            prepareStatementProdClient.executeUpdate();
-
-            var rows = prepareStatement.executeUpdate();
-
-            return rows > 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    @Override
-    public BigDecimal getPrice(long idClient){
+    public BigDecimal getPrice(long idClient) {
         var selectSql = """
                 SELECT sum(p.price * pc.count) FROM ukhinms.product_client pc
                     join ukhinms.PRODUCT p on pc.id_product=p.id
@@ -157,10 +129,13 @@ public class DBBasketRepository implements BasketRepository {
     }
 
     @Override
-    public boolean isBasket(long idClient){
+    public boolean isBasket(long idClient) {
+        log.info("Проверяет есть ли у кликента id {} корзина", idClient);
 
         var selectSql = """
-                SELECT EXISTS(SELECT id_cart FROM ukhinms.product_client where id=?)
+                SELECT EXISTS(SELECT * FROM ukhinms.products_baskets
+                                join ukhinms.baskets b on b.id = products_baskets.id_basket
+                                where id_client = ?)
                 """;
 
         try (var connection = DriverManager.getConnection(JDBC);

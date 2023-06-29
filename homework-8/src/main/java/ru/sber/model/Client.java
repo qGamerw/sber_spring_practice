@@ -11,9 +11,9 @@ import lombok.Data;
 public class Client {
     private long id;
     private String name;
-    private String login;
-    private String password;
     private String email;
     private long card;
+    private String login;
+    private String password;
     private Basket basket;
 }
