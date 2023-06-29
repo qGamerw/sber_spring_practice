@@ -54,7 +54,7 @@ public class DBProductRepository implements ProductRepository {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 double price = resultSet.getDouble("price");
-                Product product = new Product(id, name, BigDecimal.valueOf(price));
+                Product product = new Product(id, name, BigDecimal.valueOf(price),0);
 
                 return Optional.of(product);
             }
@@ -115,7 +115,7 @@ public class DBProductRepository implements ProductRepository {
                 String name = resultSet.getString("name");
                 double price = resultSet.getDouble("price");
 
-                products.add(new Product(id, name, BigDecimal.valueOf(price)));
+                products.add(new Product(id, name, BigDecimal.valueOf(price),0));
             }
 
             return products;
@@ -138,7 +138,7 @@ public class DBProductRepository implements ProductRepository {
                 String name = resultSet.getString("name");
                 double price = resultSet.getDouble("price");
 
-                products.add(new Product(id, name, BigDecimal.valueOf(price)));
+                products.add(new Product(id, name, BigDecimal.valueOf(price),0));
             }
             return products;
         } catch (SQLException e) {

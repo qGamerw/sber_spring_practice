@@ -59,4 +59,6 @@ public interface BasketRepository {
      * @return результат
      */
     boolean deleteBasket(long idBasket);
-    }
+
+    BigDecimal getPrice(long idClient);
+}

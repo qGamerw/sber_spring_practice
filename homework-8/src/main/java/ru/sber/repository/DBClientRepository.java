@@ -83,8 +83,8 @@ public class DBClientRepository implements ClientRepository {
                 String name = resultSet.getString(2);
                 String login = resultSet.getString(3);
                 String password = resultSet.getString(4);
-                String email = resultSet.getString(6);
-                long card = resultSet.getLong(5);
+                String email = resultSet.getString(5);
+                long card = resultSet.getLong(6);
 
                 var b = new Basket(idClient, getClientProduct(card), 0);
 
@@ -158,28 +158,5 @@ public class DBClientRepository implements ClientRepository {
         }
     }
 
-    @Override
-    public BigDecimal getPrice(long idClient){
-        var selectSql = """
-                SELECT sum(p.price * pc.count) FROM ukhinms.product_client pc
-                    join ukhinms.PRODUCT p on pc.id_product=p.id
-                    join ukhinms.client c on c.cart_id=pc.id_cart
-                where c.cart_id =?
-                """;
-
-        try (var connection = DriverManager.getConnection(JDBC);
-             var prepareStatement = connection.prepareStatement(selectSql);) {
-
-            prepareStatement.setLong(1, idClient);
-
-            var resultSet = prepareStatement.executeQuery();
-            if (resultSet.next()) {
-                return BigDecimal.valueOf(resultSet.getLong(1));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return BigDecimal.valueOf(0);
-    }
 
 }

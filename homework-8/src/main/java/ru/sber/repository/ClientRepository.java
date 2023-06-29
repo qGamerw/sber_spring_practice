@@ -32,6 +32,6 @@ public interface ClientRepository {
      * @return результат
      */
     boolean deleteById(long id);
-    BigDecimal getPrice(long idClient);
+
 
 }

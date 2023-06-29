@@ -50,7 +50,7 @@ public class DBBasketRepository implements BasketRepository {
     }
 
     public long getClientIdCartById(long idClient) {
-        var selectSql = "SELECT * FROM ukhinms.client where id = ?";
+        var selectSql = "SELECT cart_id FROM ukhinms.client where id = ?";
 
         try (var connection = DriverManager.getConnection(JDBC);
              var prepareStatement = connection.prepareStatement(selectSql)) {
@@ -59,7 +59,7 @@ public class DBBasketRepository implements BasketRepository {
             var resultSet = prepareStatement.executeQuery();
 
             if (resultSet.next()) {
-                return resultSet.getLong(5);
+                return resultSet.getLong(1);
             }
             throw new RuntimeException("Ошибка при получении идентификатора корзины");
         } catch (SQLException e) {
@@ -131,6 +131,29 @@ public class DBBasketRepository implements BasketRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    @Override
+    public BigDecimal getPrice(long idClient){
+        var selectSql = """
+                SELECT sum(p.price * pc.count) FROM ukhinms.product_client pc
+                    join ukhinms.PRODUCT p on pc.id_product=p.id
+                    join ukhinms.client c on c.cart_id=pc.id_cart
+                where c.cart_id =?
+                """;
+
+        try (var connection = DriverManager.getConnection(JDBC);
+             var prepareStatement = connection.prepareStatement(selectSql);) {
+
+            prepareStatement.setLong(1, idClient);
+
+            var resultSet = prepareStatement.executeQuery();
+            if (resultSet.next()) {
+                return BigDecimal.valueOf(resultSet.getLong(1));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return BigDecimal.valueOf(0);
     }
 
 }

@@ -19,18 +19,18 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class PaymentService implements PaymentInterfaceService {
-    private final ClientRepository clientRepository;
+    private final BasketRepository basketRepository;
     private final TransferByPhoneAppProxy transferByPhoneAppProxy;
 
-    public PaymentService(ClientRepository basketRepository, TransferByPhoneAppProxy transferByPhoneAppProxy) {
-        this.clientRepository = basketRepository;
+    public PaymentService(BasketRepository basketRepository, TransferByPhoneAppProxy transferByPhoneAppProxy) {
+        this.basketRepository = basketRepository;
         this.transferByPhoneAppProxy = transferByPhoneAppProxy;
     }
 
     @Override
     public boolean pay(PaymentDetails paymentDetails) {
         log.info("Оплата товара");
-        return transferByPhoneAppProxy.transferToPay(clientRepository.getPrice(paymentDetails.getIdClient()), paymentDetails.getIdClient());
+        return transferByPhoneAppProxy.transferToPay(basketRepository.getPrice(paymentDetails.getIdClient()), paymentDetails.getIdClient());
 
     }
 
