@@ -12,5 +12,5 @@ public interface TransferByPhoneInterfaceProxy {
      * @param card индикатор карты
      * @param sum    сумма платежа
      */
-    boolean transferToPay(BigDecimal sum, long card);
+    BigDecimal transferToPay(BigDecimal sum, long card);
 }

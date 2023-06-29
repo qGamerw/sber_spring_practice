@@ -28,7 +28,7 @@ public class PaymentService implements PaymentInterfaceService {
     }
 
     @Override
-    public boolean pay(PaymentDetails paymentDetails) {
+    public BigDecimal pay(PaymentDetails paymentDetails) {
         log.info("Оплата товара");
         return transferByPhoneAppProxy.transferToPay(basketRepository.getPrice(paymentDetails.getIdClient()), paymentDetails.getIdClient());
 

@@ -2,6 +2,8 @@ package ru.sber.services;
 
 import ru.sber.model.PaymentDetails;
 
+import java.math.BigDecimal;
+
 /**
  * Интерфейс для оплаты товаров в корзине
  */
@@ -12,5 +14,5 @@ public interface PaymentInterfaceService {
      * @param paymentDetails данные платежа
      * @return результат
      */
-    boolean pay(PaymentDetails paymentDetails);
+    BigDecimal pay(PaymentDetails paymentDetails);
 }

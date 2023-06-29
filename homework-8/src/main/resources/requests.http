@@ -61,7 +61,7 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "price": 2
+  "price": 1
 }
 
 ###
