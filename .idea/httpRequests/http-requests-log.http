@@ -6,6 +6,268 @@ User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
 {
+  "idClient": 2
+}
+
+<> 2023-06-29T093847.202.json
+
+###
+
+GET http://localhost:8080/clients/get/2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-06-29T093836.200.json
+
+###
+
+POST http://localhost:8080/baskets/delete/2/1
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+GET http://localhost:8080/clients/get/2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-06-29T093823.200.json
+
+###
+
+PUT http://localhost:8080/baskets/2
+Content-Type: application/json
+Content-Length: 27
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": 1,
+  "price": 2
+}
+
+###
+
+GET http://localhost:8080/clients/get/2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-06-29T093814.200.json
+
+###
+
+GET http://localhost:8080/clients/get/1
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+POST http://localhost:8080/baskets/add/2/1/3
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+GET http://localhost:8080/products/all
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-06-29T093752.200.json
+
+###
+
+GET http://localhost:8080/products/id/2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-06-29T093750.200.json
+
+###
+
+DELETE http://localhost:8080/products/delete/3
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+POST http://localhost:8080/products
+Content-Type: application/json
+Content-Length: 44
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "name": "Яблоки",
+  "price": 100
+}
+
+<> 2023-06-29T093743.200.json
+
+###
+
+GET http://localhost:8080/products/all
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-06-29T093735.200.json
+
+###
+
+PUT http://localhost:8080/products
+Content-Type: application/json
+Content-Length: 53
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": 1,
+  "name": "Банан",
+  "price": 800
+}
+
+###
+
+GET http://localhost:8080/products/id/2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-06-29T093728.200.json
+
+###
+
+GET http://localhost:8080/products/all
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-06-29T093724.200.json
+
+###
+
+GET http://localhost:8080/products/name/Яблоки
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-06-29T093720.200.json
+
+###
+
+POST http://localhost:8080/products
+Content-Type: application/json
+Content-Length: 44
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "name": "Яблоки",
+  "price": 100
+}
+
+<> 2023-06-29T093718.200.json
+
+###
+
+POST http://localhost:8080/products
+Content-Type: application/json
+Content-Length: 44
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "name": "Яблоки",
+  "price": 100
+}
+
+<> 2023-06-29T093717.200.json
+
+###
+
+GET http://localhost:8080/clients/get/1
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+DELETE http://localhost:8080/clients/delete/1
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+GET http://localhost:8080/clients/get/1
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-06-29T093710.200.json
+
+###
+
+POST http://localhost:8080/clients
+Content-Type: application/json
+Content-Length: 105
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "name": "Unanimous",
+  "login": "admin",
+  "password": "admin",
+  "email": "ad.Unanimous@Unanim.ad"
+}
+
+<> 2023-06-29T093707.200.json
+
+###
+
+POST http://localhost:8080/clients
+Content-Type: application/json
+Content-Length: 105
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "name": "Unanimous",
+  "login": "admin",
+  "password": "admin",
+  "email": "ad.Unanimous@Unanim.ad"
+}
+
+<> 2023-06-29T093705.200.json
+
+###
+
+POST http://localhost:8080/payment
+Content-Type: application/json
+Content-Length: 19
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
   "idClient": 8
 }
 
@@ -299,274 +561,6 @@ Accept-Encoding: br,deflate,gzip,x-gzip
 }
 
 <> 2023-06-29T093220.200.json
-
-###
-
-DELETE http://localhost:8080/clients/delete/1
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-###
-
-GET http://localhost:8080/clients/get/1
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T093212.200.json
-
-###
-
-POST http://localhost:8080/clients
-Content-Type: application/json
-Content-Length: 105
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "name": "Unanimous",
-  "login": "admin",
-  "password": "admin",
-  "email": "ad.Unanimous@Unanim.ad"
-}
-
-<> 2023-06-29T093208.200.json
-
-###
-
-POST http://localhost:8080/baskets/add/2/3/1
-Content-Length: 0
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T092933.500.json
-
-###
-
-POST http://localhost:8080/baskets/add/2/3/1
-Content-Length: 0
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T092917.500.json
-
-###
-
-POST http://localhost:8080/baskets/add/2/3/10
-Content-Length: 0
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T092553.500.json
-
-###
-
-POST http://localhost:8080/baskets/add/2/3/10
-Content-Length: 0
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T092316.500.json
-
-###
-
-POST http://localhost:8080/baskets/add/2/3/10
-Content-Length: 0
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T092251.500.json
-
-###
-
-POST http://localhost:8080/baskets/add/2/3/10
-Content-Length: 0
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T092034.500.json
-
-###
-
-POST http://localhost:8080/products
-Content-Type: application/json
-Content-Length: 42
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "name": "Груша",
-  "price": 100
-}
-
-<> 2023-06-29T092005.200.json
-
-###
-
-GET http://localhost:8080/products/all
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T092002.200.json
-
-###
-
-DELETE http://localhost:8080/products/delete/2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-###
-
-GET http://localhost:8080/products/all
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T091945.200.json
-
-###
-
-PUT http://localhost:8080/products
-Content-Type: application/json
-Content-Length: 53
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "id": 1,
-  "name": "Банан",
-  "price": 800
-}
-
-###
-
-GET http://localhost:8080/products/id/2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T091936.200.json
-
-###
-
-GET http://localhost:8080/products/all
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T091930.200.json
-
-###
-
-GET http://localhost:8080/products/name/Яблоки
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T091927.200.json
-
-###
-
-POST http://localhost:8080/products
-Content-Type: application/json
-Content-Length: 42
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "name": "Груша",
-  "price": 100
-}
-
-<> 2023-06-29T091925.200.json
-
-###
-
-GET http://localhost:8080/products/name/Яблоки
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T091917.200.json
-
-###
-
-POST http://localhost:8080/products
-Content-Type: application/json
-Content-Length: 44
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "name": "Яблоки",
-  "price": 100
-}
-
-<> 2023-06-29T091913.200.json
-
-###
-
-POST http://localhost:8080/products
-Content-Type: application/json
-Content-Length: 44
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "name": "Яблоки",
-  "price": 100
-}
-
-<> 2023-06-29T091541.500.json
-
-###
-
-GET http://localhost:8080/clients/get/2
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-06-29T091538.200.json
-
-###
-
-POST http://localhost:8080/clients
-Content-Type: application/json
-Content-Length: 105
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{
-  "name": "Unanimous",
-  "login": "admin",
-  "password": "admin",
-  "email": "ad.Unanimous@Unanim.ad"
-}
-
-<> 2023-06-29T091532.200.json
-
-###
-
-DELETE http://localhost:8080/clients/delete/1
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
 
 ###
 

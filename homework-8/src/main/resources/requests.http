@@ -40,32 +40,32 @@ PUT localhost:8080/products
 Content-Type: application/json
 
 {
-  "id": 3,
+  "id": 1,
   "name": "Банан",
   "price": 800
 }
 
 ###
-DELETE localhost:8080/products/delete/2
+DELETE localhost:8080/products/delete/3
 
 
 
 
 
 ###
-POST localhost:8080/baskets/add/2/4/3
+POST localhost:8080/baskets/add/2/1/3
 
 ###
 PUT localhost:8080/baskets/2
 Content-Type: application/json
 
 {
-  "id": 3,
+  "id": 1,
   "price": 2
 }
 
 ###
-POST localhost:8080/baskets/delete/2/3
+POST localhost:8080/baskets/delete/2/1
 
 
 
@@ -74,5 +74,5 @@ POST localhost:8080/payment
 Content-Type: application/json
 
 {
-  "idClient": 8
+  "idClient": 2
 }
