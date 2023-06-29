@@ -133,29 +133,4 @@ public class DBProductRepository implements ProductRepository {
             throw new RuntimeException(e);
         }
     }
-
-    @Override
-    public List<Product> getListProduct() {
-        log.info("Получаем продукты в базе данных");
-
-        var selectSql = "SELECT * FROM ukhinms.PRODUCTS";
-        List<Product> products = new ArrayList<>();
-
-        try (var connection = DriverManager.getConnection(JDBC);
-             var prepareStatement = connection.prepareStatement(selectSql)) {
-
-            var resultSet = prepareStatement.executeQuery();
-
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                double price = resultSet.getDouble("price");
-
-                products.add(new Product(id, name, BigDecimal.valueOf(price), 0));
-            }
-            return products;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

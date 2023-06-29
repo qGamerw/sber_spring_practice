@@ -27,16 +27,14 @@ public class DBBasketRepository implements BasketRepository {
                 VALUES (?, (select id from ukhinms.baskets where id_client = ? LIMIT 1), ?);
                 """;
         var selectSql = """
-                SELECT EXISTS(SELECT * FROM ukhinms.products_baskets
-                                join ukhinms.baskets b on b.id = products_baskets.id_basket
-                                where id_client = ?)
+                select exists(SELECT * FROM ukhinms.products where id = ?)
                 """;
 
         try (var connection = DriverManager.getConnection(JDBC);
              var prepareStatementProdCart = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
              var prepareStatement = connection.prepareStatement(selectSql);) {
 
-            prepareStatement.setLong(1, idClient);
+            prepareStatement.setLong(1, idProduct);
 
             var resultSet = prepareStatement.executeQuery();
 
@@ -106,11 +104,10 @@ public class DBBasketRepository implements BasketRepository {
 
     @Override
     public BigDecimal getPrice(long idClient) {
+        log.info("Считает сумму у кликента id {}", idClient);
+
         var selectSql = """
-                SELECT sum(p.price * pc.count) FROM ukhinms.product_client pc
-                    join ukhinms.PRODUCT p on pc.id_product=p.id
-                    join ukhinms.client c on c.cart_id=pc.id_cart
-                where c.cart_id =?
+                select price from ukhinms.baskets where id_client = ?;
                 """;
 
         try (var connection = DriverManager.getConnection(JDBC);
@@ -144,13 +141,12 @@ public class DBBasketRepository implements BasketRepository {
             prepareStatement.setLong(1, idClient);
 
             var resultSet = prepareStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getBoolean(1);
-            }
+
+            return resultSet.next() && resultSet.getBoolean(1);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return false;
     }
 
 }

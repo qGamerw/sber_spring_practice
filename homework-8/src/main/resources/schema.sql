@@ -42,7 +42,7 @@ create table if not exists ukhinms.products_baskets
 CREATE OR REPLACE FUNCTION ukhinms.update_basket_price()
     RETURNS TRIGGER
 AS
-$$
+'
 BEGIN
     UPDATE ukhinms."baskets"
     SET price = (SELECT SUM(p.price * pb.count)
@@ -52,7 +52,8 @@ BEGIN
     WHERE id = NEW.id_basket;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+'
+ LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER products_baskets_insert_trigger
     AFTER UPDATE

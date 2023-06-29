@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.sber.model.Product;
 import ru.sber.repository.BasketRepository;
 
+import java.net.URI;
+
 /**
  * Получает запросы для взаимодействия с корзиной
  */
@@ -19,30 +21,32 @@ public class BasketController {
         this.basketRepository = basketRepository;
     }
 
-    @PostMapping("/add/{idClient}/{idProduct}/{count}")
-    public ResponseEntity<?> addProduct(@PathVariable long idClient, @PathVariable long idProduct, @PathVariable int count) {
-        log.info("Добавление продукта в корзину с id: {} -> {} клиенту {}", idProduct, count, idClient);
-        boolean isAdd = basketRepository.add(idClient, idProduct, count);
-        if (isAdd) {
-            return ResponseEntity.ok().build();
+    @PostMapping
+    public ResponseEntity<?> addProduct(@RequestParam long idClient, @RequestBody Product product) {
+        log.info("Добавление продукта в корзину с id: {} -> {} клиенту {}", product.getId(), product.getCount(), idClient);
+
+        var isCreated = basketRepository.add(idClient, product.getId(), product.getCount());
+        if (isCreated) {
+            return ResponseEntity.created(URI.create("basket/" + product.getId())).build();
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PutMapping("/{idClient}")
-    public ResponseEntity<?> updateProduct(@PathVariable long idClient, @RequestBody Product product) {
+    @PutMapping
+    public ResponseEntity<?> updateProduct(@RequestParam long idClient, @RequestBody Product product) {
         log.info("Изменение количества продукта в корзине с id: {} -> {}", product.getId(), 1);
-        boolean isUpdate = basketRepository.update(idClient, product.getId(), product.getPrice().intValue());
-        if (isUpdate) {
-            return ResponseEntity.ok().build();
+
+        var isUpdated = basketRepository.update(idClient, product.getId(), product.getCount());
+        if (isUpdated) {
+            return ResponseEntity.created(URI.create("basket/" + product.getId())).build();
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PostMapping("/delete/{idClient}/{idProduct}")
-    public ResponseEntity<?> deleteProduct(@PathVariable long idClient, @PathVariable long idProduct) {
+    @DeleteMapping
+    public ResponseEntity<?> deleteProduct(@RequestParam long idClient, @RequestParam long idProduct) {
         log.info("Удаление продукта в корзине с id: {} у клиента {}", idProduct, idClient);
         boolean isDelete = basketRepository.delete(idClient, idProduct);
         if (isDelete) {

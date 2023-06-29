@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 public class BankClientsAppProxy implements BankClientsInterfaceProxy {
 
-    private List<Card> cards = new ArrayList<>(List.of(
+    private final List<Card> cards = new ArrayList<>(List.of(
             new Card(1111, BigDecimal.valueOf(1000)),
             new Card(2222, BigDecimal.valueOf(2000)),
             new Card(3333, BigDecimal.valueOf(20))

@@ -28,6 +28,7 @@ public class PaymentController {
     @PostMapping
     public ResponseEntity<?> payProduct(@RequestBody PaymentDetails paymentDetails) {
         log.info("Оплата товара");
+
         return ResponseEntity.status(HttpStatus.ACCEPTED)
                 .body(paymentInterfaceService.pay(paymentDetails));
     }

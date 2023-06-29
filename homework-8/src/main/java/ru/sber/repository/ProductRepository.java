@@ -48,11 +48,4 @@ public interface ProductRepository {
      * @return результат
      */
     List<Product> getListProductName(String name);
-
-    /**
-     * Выводи список всех продуктов
-     *
-     * @return результат
-     */
-    List<Product> getListProduct();
 }

@@ -11,10 +11,10 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/clients/get/6
+GET localhost:8080/clients?id=2
 
 ###
-DELETE localhost:8080/clients/delete/6
+DELETE localhost:8080/clients?id=6
 
 
 
@@ -23,50 +23,56 @@ POST localhost:8080/products
 Content-Type: application/json
 
 {
-  "name": "Яблоки",
-  "price": 102
+  "name": "sdfsdf",
+  "price": 12
 }
 
 ###
-GET localhost:8080/products/name/Яблоки
+GET localhost:8080/products?name=Яблоки
 
 ###
-GET localhost:8080/products/all
+GET localhost:8080/products
 
 ###
-GET localhost:8080/products/id/2
+GET localhost:8080/products/?id=2
 
 ###
 PUT localhost:8080/products
 Content-Type: application/json
 
 {
-  "id": 1,
+  "id": 2,
   "name": "Банан",
   "price": 800
 }
 
 ###
-DELETE localhost:8080/products/delete/2
+DELETE localhost:8080/products?id=2
 
 
 
 
 
 ###
-POST localhost:8080/baskets/add/2/1/2
-
-###
-PUT localhost:8080/baskets/2
+POST localhost:8080/baskets?idClient=2
 Content-Type: application/json
 
 {
-  "id": 1,
-  "price": 1
+  "idProduct": 100,
+  "count": 1
 }
 
 ###
-POST localhost:8080/baskets/delete/2/1
+PUT localhost:8080/baskets?idClient=2
+Content-Type: application/json
+
+{
+  "id": 100,
+  "count": 1
+}
+
+###
+DELETE localhost:8080/baskets?idClient=2&idProduct=1
 
 
 
@@ -75,5 +81,5 @@ POST localhost:8080/payment
 Content-Type: application/json
 
 {
-  "idClient": 2
+  "idClient": 3
 }
