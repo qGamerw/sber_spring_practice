@@ -1,9 +1,6 @@
 package ru.sber.services;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.sber.exception.EmptyBasketException;
@@ -14,8 +11,6 @@ import ru.sber.proxies.TransferByPhoneAppProxy;
 import ru.sber.repository.BasketRepository;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.util.List;
 
 /**
  * Класс для оплаты продуктов в корзине

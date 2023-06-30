@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.model.Product;
-import ru.sber.repository.ProductRepository;
+import ru.sber.services.ProductInterfaceService;
 
 import java.net.URI;
 import java.util.List;
@@ -17,22 +17,24 @@ import java.util.Optional;
 @RestController
 @RequestMapping("products")
 public class ProductController {
-    private final ProductRepository productRepository;
+    private final ProductInterfaceService productInterfaceService;
 
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductInterfaceService productInterfaceService) {
+        this.productInterfaceService = productInterfaceService;
     }
 
     @PostMapping
     public ResponseEntity<?> addProduct(@RequestBody Product product) {
         log.info("Добавление продукта: {}", product);
-        return ResponseEntity.created(URI.create("product/" + productRepository.add(product))).build();
+
+        return ResponseEntity.created(URI.create("product/" + productInterfaceService.addProduct(product))).build();
     }
 
     @GetMapping
     public ResponseEntity<List<Product>> getProduct(@RequestParam(required = false) String name) {
         log.info("Получение продуктов с именем {}", name);
-        var product = productRepository.getListProductName(name);
+
+        var product = productInterfaceService.getListProductName(name);
         if (product.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
@@ -44,7 +46,7 @@ public class ProductController {
     public ResponseEntity<Optional<Product>> getProductById(@RequestParam long id) {
         log.info("Получение списка продуктов");
 
-        var product = productRepository.getProductById(id);
+        var product = productInterfaceService.getProductById(id);
         if (product.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
@@ -56,7 +58,7 @@ public class ProductController {
     public ResponseEntity<?> updateProduct(@RequestBody Product product) {
         log.info("Обновление продукта {}", product);
 
-        boolean isUpdate = productRepository.update(product);
+        var isUpdate = productInterfaceService.update(product);
         if (isUpdate) {
             return ResponseEntity.accepted().build();
         } else {
@@ -67,7 +69,8 @@ public class ProductController {
     @DeleteMapping
     public ResponseEntity<?> deleteProduct(@RequestParam long id) {
         log.info("Удаление продукта {}", id);
-        boolean isDeleted = productRepository.delete(id);
+
+        var isDeleted = productInterfaceService.delete(id);
         if (isDeleted) {
             return ResponseEntity.noContent().build();
         } else {

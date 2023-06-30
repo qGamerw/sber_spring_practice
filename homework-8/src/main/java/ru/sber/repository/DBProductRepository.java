@@ -2,7 +2,6 @@ package ru.sber.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import ru.sber.exception.IncorrectAmountException;
 import ru.sber.model.Product;
 
 import java.math.BigDecimal;
@@ -13,7 +12,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Slf4j
 @Repository

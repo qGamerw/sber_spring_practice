@@ -1,4 +1,4 @@
-package ru.sber.ControllerAdvice;
+package ru.sber.controllerAdvice;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

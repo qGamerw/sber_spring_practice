@@ -1,10 +1,9 @@
 package ru.sber.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * Класс для получение json клиента
+ * Класс для получения из json клиента
  */
 @Data
 public class GetJsonClient {

@@ -1,12 +1,9 @@
-package ru.sber.ControllerAdvice;
+package ru.sber.controllerAdvice;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.sber.exception.BankClientException;
-import ru.sber.exception.EmptyBasketException;
-import ru.sber.exception.IncorrectAmountException;
-import ru.sber.exception.NotEnoughMoneyException;
+import ru.sber.exception.*;
 import ru.sber.model.ErrorDetails;
 
 /**
@@ -45,6 +42,24 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<ErrorDetails> exceptionBankClientHandler() {
         ErrorDetails errorDetails = new ErrorDetails();
         errorDetails.setMessage("Не является клиентом банка");
+        return ResponseEntity
+                .badRequest()
+                .body(errorDetails);
+    }
+
+    @ExceptionHandler(InsufficientQuantityException.class)
+    public ResponseEntity<ErrorDetails> exceptionInsufficientQuantityHandler() {
+        ErrorDetails errorDetails = new ErrorDetails();
+        errorDetails.setMessage("Недостаточно количество товара на с кладе");
+        return ResponseEntity
+                .badRequest()
+                .body(errorDetails);
+    }
+
+    @ExceptionHandler(RemoveProductException.class)
+    public ResponseEntity<ErrorDetails> exceptionRemoveProductHandler() {
+        ErrorDetails errorDetails = new ErrorDetails();
+        errorDetails.setMessage("Ошибка удаления товара");
         return ResponseEntity
                 .badRequest()
                 .body(errorDetails);

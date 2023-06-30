@@ -1,9 +1,6 @@
 package ru.sber.repository;
 
-import ru.sber.model.Product;
-
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -16,7 +13,7 @@ public interface BasketRepository {
      * @param idClient  индикатор клитента
      * @param idProduct индикатор товара
      * @param count     количество
-     * @return результат
+     * @return boolean
      */
     boolean add(long idClient, long idProduct, int count);
 
@@ -26,7 +23,7 @@ public interface BasketRepository {
      * @param idCart    индикатор клиента
      * @param idProduct индикатор товара
      * @param count     количество
-     * @return результат
+     * @return boolean
      */
     boolean update(long idCart, long idProduct, int count);
 
@@ -35,7 +32,7 @@ public interface BasketRepository {
      *
      * @param idClient  индикатор клиента
      * @param idProduct индикатор товара
-     * @return результат
+     * @return boolean
      */
     boolean delete(long idClient, long idProduct);
 
@@ -43,7 +40,7 @@ public interface BasketRepository {
      * Получает сумму для оплаты
      *
      * @param idClient индикатор клиента
-     * @return результат
+     * @return BigDecimal
      */
     BigDecimal getPrice(long idClient);
 
@@ -59,7 +56,7 @@ public interface BasketRepository {
      * Проверяет хватает ли товара на складе
      *
      * @param idClient индикатор клиента
-     * @return результат
+     * @return boolean
      */
     boolean isCountProduct(long idClient);
 
@@ -67,8 +64,15 @@ public interface BasketRepository {
      * Удаляет продукты в корзине и на складе
      *
      * @param idClient индикатор клиента
-     * @return результат
+     * @return boolean
      */
     boolean removeProductBasket(long idClient);
+
+    /**
+     * Получает id карты клиента
+     *
+     * @param idClient индикатор клиента
+     * @return Optional<Long>
+     */
     Optional<Long> getIdCard(long idClient);
 }

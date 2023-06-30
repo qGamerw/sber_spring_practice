@@ -12,7 +12,7 @@ public interface PaymentInterfaceService {
      * Оплачивает товар
      *
      * @param paymentDetails данные платежа
-     * @return результат
+     * @return BigDecimal
      */
     BigDecimal pay(PaymentDetails paymentDetails);
 }

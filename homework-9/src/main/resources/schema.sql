@@ -34,7 +34,7 @@ create table if not exists ukhinms.baskets
     id_client     integer not null
         references ukhinms.clients (id) on delete cascade,
     price         integer not null,
-    id_promo_code integer not null references ukhinms.promo_codes(id) on delete cascade
+    id_promo_code integer not null references ukhinms.promo_codes (id) on delete cascade
 );
 
 create table if not exists ukhinms.products_baskets

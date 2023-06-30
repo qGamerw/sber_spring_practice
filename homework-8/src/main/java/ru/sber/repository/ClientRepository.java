@@ -2,7 +2,6 @@ package ru.sber.repository;
 
 import ru.sber.model.Client;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 /**

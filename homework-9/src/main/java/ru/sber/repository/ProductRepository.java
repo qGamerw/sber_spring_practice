@@ -13,7 +13,7 @@ public interface ProductRepository {
      * Добавляет продукт
      *
      * @param product продукт
-     * @return индикатор продукта
+     * @return long
      */
     long add(Product product);
 
@@ -21,7 +21,7 @@ public interface ProductRepository {
      * Выводи продукт
      *
      * @param id индикатор продукта
-     * @return результат
+     * @return Optional<Product>
      */
     Optional<Product> getProductById(long id);
 
@@ -29,7 +29,7 @@ public interface ProductRepository {
      * Изменяет продукт
      *
      * @param product продукт
-     * @return результат
+     * @return boolean
      */
     boolean update(Product product);
 
@@ -37,7 +37,7 @@ public interface ProductRepository {
      * Удаляет продукт
      *
      * @param id индикатор продукта
-     * @return результат
+     * @return boolean
      */
     boolean delete(long id);
 
@@ -45,7 +45,7 @@ public interface ProductRepository {
      * Выводи список продуктов по имени
      *
      * @param name название продукта
-     * @return результат
+     * @return List<Product>
      */
     List<Product> getListProductName(String name);
 }

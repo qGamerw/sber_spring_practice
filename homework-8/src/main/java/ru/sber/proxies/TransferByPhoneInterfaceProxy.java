@@ -10,7 +10,7 @@ public interface TransferByPhoneInterfaceProxy {
      * Оплачивает товар
      *
      * @param card индикатор карты
-     * @param sum    сумма платежа
+     * @param sum  сумма платежа
      */
     BigDecimal transferToPay(BigDecimal sum, long card);
 }

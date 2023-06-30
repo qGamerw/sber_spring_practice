@@ -17,7 +17,7 @@ import java.util.List;
 public class BankClientsAppProxy implements BankClientsInterfaceProxy {
 
     private final List<Card> cards = new ArrayList<>(List.of(
-            new Card(1111, BigDecimal.valueOf(1000)),
+            new Card(1111, BigDecimal.valueOf(10000)),
             new Card(2222, BigDecimal.valueOf(2000)),
             new Card(3333, BigDecimal.valueOf(20))
     ));

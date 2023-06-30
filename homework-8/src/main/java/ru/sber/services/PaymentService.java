@@ -6,7 +6,6 @@ import ru.sber.exception.EmptyBasketException;
 import ru.sber.model.PaymentDetails;
 import ru.sber.proxies.TransferByPhoneAppProxy;
 import ru.sber.repository.BasketRepository;
-import ru.sber.repository.ClientRepository;
 
 import java.math.BigDecimal;
 import java.sql.DriverManager;

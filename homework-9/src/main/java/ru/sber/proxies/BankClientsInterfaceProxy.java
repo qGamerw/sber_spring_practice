@@ -10,7 +10,7 @@ public interface BankClientsInterfaceProxy {
      * Проверяет являться ли пользователь клиентом банка
      *
      * @param card номер карты для проверки
-     * @return результат проверки
+     * @return boolean
      */
     boolean isBankClient(long card);
 
@@ -18,7 +18,7 @@ public interface BankClientsInterfaceProxy {
      * Получает сумму на карте
      *
      * @param card номер карты для проверки
-     * @return сумма
+     * @return BigDecimal
      */
     BigDecimal getCashByIdClient(long card);
 }

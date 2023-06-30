@@ -10,10 +10,12 @@ import ru.sber.exception.IncorrectAmountException;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Класс для взаимодействия с корзиной
+ */
 @Slf4j
 @Repository
 public class DBBasketRepository implements BasketRepository {
@@ -73,19 +75,16 @@ public class DBBasketRepository implements BasketRepository {
 
         RowMapper<Boolean> rowMapper = (resultSet, rowNum) -> resultSet.getBoolean(1);
 
+        var isExistsProduct = jdbcTemplate.query(preparedStatementCreatorExistsProduct, rowMapper)
+                .stream()
+                .findFirst()
+                .get();
 
-        List<Boolean> listExistsProduct = jdbcTemplate.query(preparedStatementCreatorExistsProduct, rowMapper);
-        List<Boolean> listExistsBasket = jdbcTemplate.query(preparedStatementCreatorExistBasket, rowMapper);
+        var isExistsBasket = jdbcTemplate.query(preparedStatementCreatorExistBasket, rowMapper)
+                .stream()
+                .findFirst()
+                .get();
 
-
-        var isExistsProduct = listExistsProduct.stream()
-                                                .findFirst()
-                                                .get();
-
-        var isExistsBasket = listExistsBasket.stream()
-                                            .findFirst()
-                                            .get();
-        
         if (isExistsProduct && !isExistsBasket) {
 
             int rows = jdbcTemplate.update(preparedStatementCreatorInsertProduct);
@@ -94,26 +93,7 @@ public class DBBasketRepository implements BasketRepository {
 
         } else if (isExistsProduct) {
 
-            var updateProductCount = """
-                    UPDATE products_baskets
-                    SET count = count + ?
-                    WHERE id_product = ?
-                    AND id_basket = (SELECT id FROM baskets WHERE id_client = ? LIMIT 1)
-                    """;
-
-            PreparedStatementCreator preparedStatementCreator = connection -> {
-                var preparedStatement = connection.prepareStatement(updateProductCount);
-                preparedStatement.setDouble(1, count);
-                preparedStatement.setLong(2, idProduct);
-                preparedStatement.setLong(3, idClient);
-
-                return preparedStatement;
-            };
-
-            jdbcTemplate.update(preparedStatementCreator);
-            updatePriceBasket(idClient);
-
-            return true;
+            return UpgradeExistingProduct(idClient, idProduct, count);
         }
         return false;
     }
@@ -130,19 +110,7 @@ public class DBBasketRepository implements BasketRepository {
                 AND id_basket = (SELECT id FROM baskets WHERE id_client = ? LIMIT 1)
                 """;
 
-        PreparedStatementCreator preparedStatementCreator = connection -> {
-            var preparedStatement = connection.prepareStatement(updateProductCount);
-            preparedStatement.setDouble(1, count);
-            preparedStatement.setLong(2, idProduct);
-            preparedStatement.setLong(3, idClient);
-
-            return preparedStatement;
-        };
-
-        int rows = jdbcTemplate.update(preparedStatementCreator);
-        updatePriceBasket(idClient);
-
-        return rows > 0;
+        return PreparedStatementCreatorUpdate(idClient, idProduct, count, updateProductCount);
     }
 
     @Override
@@ -217,30 +185,9 @@ public class DBBasketRepository implements BasketRepository {
 
         List<Boolean> getPrice = jdbcTemplate.query(preparedStatementCreator, rowMapper);
 
-        return getPrice.stream().findFirst().get();
-    }
-
-    private void updatePriceBasket(long idClient) {
-        log.info("Обновляет цену у клиента id {} в корзине", idClient);
-
-        var updateBasketSQL = """
-                UPDATE baskets
-                SET price = (SELECT SUM(p.price * pb.count)
-                             FROM products p
-                             JOIN products_baskets pb ON pb.id_product = p.id
-                             WHERE pb.id_basket = ?)
-                WHERE id = ?;
-                """;
-
-        PreparedStatementCreator preparedStatementCreator2 = connection -> {
-            var preparedStatement = connection.prepareStatement(updateBasketSQL);
-            preparedStatement.setLong(1, idClient);
-            preparedStatement.setLong(2, idClient);
-
-            return preparedStatement;
-        };
-
-        jdbcTemplate.update(preparedStatementCreator2);
+        return getPrice.stream()
+                .findFirst()
+                .get();
     }
 
     @Override
@@ -264,7 +211,7 @@ public class DBBasketRepository implements BasketRepository {
 
     @Override
     public boolean removeProductBasket(long idClient) {
-        log.info("Удаляет товары на складе");
+        log.info("Удаляет товары на складе и корзины");
 
         var updateProductMinusSQL = """
                 UPDATE products
@@ -273,26 +220,33 @@ public class DBBasketRepository implements BasketRepository {
                 WHERE products.id = products_baskets.id_product
                 """;
 
-        var deleteClientSQL = """
-                DELETE from clients where id = ?;
+        var deleteProductBasketSQL = """
+                DELETE from products_baskets where id_basket = ?;
+                """;
+
+        var updateBasketSQL = """
+                UPDATE baskets SET price = 0 where id = ?;
                 """;
 
         PreparedStatementCreator preparedStatementCreatorUpdateProduce = connection -> {
-
-            return connection.prepareStatement(updateProductMinusSQL);
-        };
-
-        PreparedStatementCreator preparedStatementCreatorDeleteClient = connection -> {
-            var preparedStatement = connection.prepareStatement(deleteClientSQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(updateBasketSQL);
             preparedStatement.setLong(1, idClient);
 
             return preparedStatement;
         };
 
-        int rowsUpdate = jdbcTemplate.update(preparedStatementCreatorUpdateProduce);
-        int rowsDelete = jdbcTemplate.update(preparedStatementCreatorDeleteClient);
+        PreparedStatementCreator preparedStatementCreatorDeleteClient = connection -> {
+            var preparedStatement = connection.prepareStatement(deleteProductBasketSQL);
+            preparedStatement.setLong(1, idClient);
 
-        return rowsUpdate > 0 && rowsDelete > 0;
+            return preparedStatement;
+        };
+
+        int rowsDeleteUpdateBasket = jdbcTemplate.update(preparedStatementCreatorUpdateProduce);
+        int rowsUpdateProducts = jdbcTemplate.update(updateProductMinusSQL);
+        int rowsDeleteProductBasket = jdbcTemplate.update(preparedStatementCreatorDeleteClient);
+
+        return rowsUpdateProducts > 0 && rowsDeleteProductBasket > 0 && rowsDeleteUpdateBasket > 0;
     }
 
     @Override
@@ -300,9 +254,7 @@ public class DBBasketRepository implements BasketRepository {
         log.info("Получение id карты клиента {}", idClient);
 
         var selectIdCardSql = """
-                SELECT id_card
-                FROM clients
-                where id = ?;
+                SELECT id_card FROM clients where id = ?;
                 """;
 
         PreparedStatementCreator preparedStatementCreator = connection -> {
@@ -317,5 +269,59 @@ public class DBBasketRepository implements BasketRepository {
         return jdbcTemplate.query(preparedStatementCreator, rowMapper)
                 .stream()
                 .findFirst();
+    }
+
+    private boolean UpgradeExistingProduct(long idClient, long idProduct, int count) {
+        var updateProductCount = """
+                UPDATE products_baskets
+                SET count = count + ?
+                WHERE id_product = ?
+                AND id_basket = (SELECT id FROM baskets WHERE id_client = ? LIMIT 1)
+                """;
+
+        return PreparedStatementCreatorUpdate(idClient, idProduct, count, updateProductCount);
+    }
+
+    private boolean PreparedStatementCreatorUpdate(long idClient,
+                                                   long idProduct,
+                                                   int count,
+                                                   String updateProductCount) {
+
+        PreparedStatementCreator preparedStatementCreator = connection -> {
+            var preparedStatement = connection.prepareStatement(updateProductCount);
+            preparedStatement.setDouble(1, count);
+            preparedStatement.setLong(2, idProduct);
+            preparedStatement.setLong(3, idClient);
+
+            return preparedStatement;
+        };
+
+        int rows = jdbcTemplate.update(preparedStatementCreator);
+        updatePriceBasket(idClient);
+
+        return rows > 0;
+    }
+
+    private void updatePriceBasket(long idClient) {
+        log.info("Обновляет цену у клиента id {} в корзине", idClient);
+
+        var updateBasketSQL = """
+                UPDATE baskets
+                SET price = (SELECT SUM(p.price * pb.count)
+                             FROM products p
+                             JOIN products_baskets pb ON pb.id_product = p.id
+                             WHERE pb.id_basket = ?)
+                WHERE id = ?;
+                """;
+
+        PreparedStatementCreator preparedStatementCreator2 = connection -> {
+            var preparedStatement = connection.prepareStatement(updateBasketSQL);
+            preparedStatement.setLong(1, idClient);
+            preparedStatement.setLong(2, idClient);
+
+            return preparedStatement;
+        };
+
+        jdbcTemplate.update(preparedStatementCreator2);
     }
 }

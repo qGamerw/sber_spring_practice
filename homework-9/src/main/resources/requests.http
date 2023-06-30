@@ -24,7 +24,7 @@ POST localhost:8080/products
 Content-Type: application/json
 
 {
-  "name": "Apple",
+  "name": "Банан",
   "price": 120,
   "count": 15
 }
@@ -61,21 +61,21 @@ POST localhost:8080/baskets?idClient=1
 Content-Type: application/json
 
 {
-  "idProduct": 1,
+  "idProduct": 2,
   "count": 1
 }
 
 ###
-PUT localhost:8080/baskets?idClient=4
+PUT localhost:8080/baskets?idClient=1
 Content-Type: application/json
 
 {
   "idProduct": 1,
-  "count": 2
+  "count": 5
 }
 
 ###
-DELETE localhost:8080/baskets?idClient=4
+DELETE localhost:8080/baskets?idClient=1
 Content-Type: application/json
 
 {

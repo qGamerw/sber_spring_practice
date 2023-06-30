@@ -1,14 +1,11 @@
 package ru.sber.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.sber.model.Client;
 import ru.sber.model.GetJsonClient;
 import ru.sber.model.LimitedClient;
-import ru.sber.repository.BasketRepository;
-import ru.sber.repository.ClientRepository;
+import ru.sber.services.ClientInterfaceService;
 
 import java.net.URI;
 
@@ -19,25 +16,26 @@ import java.net.URI;
 @RestController
 @RequestMapping("clients")
 public class ClientController {
-    private final ClientRepository clientRepository;
+    private final ClientInterfaceService clientInterfaceService;
 
-    public ClientController(ClientRepository clientRepository, BasketRepository basketRepository) {
-        this.clientRepository = clientRepository;
+    public ClientController(ClientInterfaceService clientInterfaceService) {
+        this.clientInterfaceService = clientInterfaceService;
     }
 
 
     @PostMapping
     public ResponseEntity<?> addClient(@RequestBody GetJsonClient client) {
-        log.info("Добавление клиента: {}", client);
+        log.info("Добавляет клиента: {}", client);
 
-        return ResponseEntity.created(URI.create("client/" + clientRepository.add(client))).build();
+        return ResponseEntity.created(URI.create("client/" +
+                clientInterfaceService.addClient(client))).build();
     }
 
     @GetMapping
     public ResponseEntity<LimitedClient> getClient(@RequestParam long id) {
-        log.info("Получение клиента с id {}", id);
+        log.info("Получает клиента с id {}", id);
 
-        var client = clientRepository.getClientById(id);
+        var client = clientInterfaceService.getClientById(id);
         if (client.isPresent()) {
             return ResponseEntity.ok().body(new LimitedClient(client));
         } else {
@@ -47,9 +45,9 @@ public class ClientController {
 
     @DeleteMapping
     public ResponseEntity<?> deleteClient(@RequestParam long id) {
-        log.info("Удаление клиента с id {}", id);
+        log.info("Удаляет клиента с id {}", id);
 
-        boolean isDeleted = clientRepository.deleteById(id);
+        boolean isDeleted = clientInterfaceService.deleteClientById(id);
         if (isDeleted) {
             return ResponseEntity.noContent().build();
         } else {

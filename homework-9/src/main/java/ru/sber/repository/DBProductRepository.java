@@ -11,10 +11,13 @@ import ru.sber.exception.IncorrectAmountException;
 import ru.sber.model.Product;
 
 import java.math.BigDecimal;
-import java.sql.*;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Класс для взаимодействия с продуктом
+ */
 @Slf4j
 @Repository
 public class DBProductRepository implements ProductRepository {
@@ -23,6 +26,18 @@ public class DBProductRepository implements ProductRepository {
 
     public DBProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    private static RowMapper<Product> getProductRowMapper() {
+        RowMapper<Product> rowMapper = (resultSet, rowNum) -> {
+            int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            double price = resultSet.getDouble("price");
+            int amount = resultSet.getInt("amount");
+
+            return new Product(id, name, BigDecimal.valueOf(price), amount);
+        };
+        return rowMapper;
     }
 
     @Override
@@ -122,17 +137,5 @@ public class DBProductRepository implements ProductRepository {
         RowMapper<Product> rowMapper = getProductRowMapper();
 
         return jdbcTemplate.query(preparedStatementCreator, rowMapper);
-    }
-
-    private static RowMapper<Product> getProductRowMapper() {
-        RowMapper<Product> rowMapper = (resultSet, rowNum) -> {
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            double price = resultSet.getDouble("price");
-            int amount = resultSet.getInt("amount");
-
-            return new Product(id, name, BigDecimal.valueOf(price), amount);
-        };
-        return rowMapper;
     }
 }

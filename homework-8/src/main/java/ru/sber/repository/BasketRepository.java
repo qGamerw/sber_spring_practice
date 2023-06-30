@@ -1,9 +1,6 @@
 package ru.sber.repository;
 
-import ru.sber.model.Product;
-
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Интерфейс для взаимодействия с корзиной

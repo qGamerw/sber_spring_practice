@@ -11,8 +11,8 @@ import java.util.List;
  */
 @Service
 public class SignInService implements SignInInterfaceService {
-    private List<User> users = new ArrayList<>();
     private final int MAXLOGHISTORY = 4;
+    private List<User> users = new ArrayList<>();
 
     @Override
     public List<User> addUser(User user) {

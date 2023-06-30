@@ -13,9 +13,13 @@ import ru.sber.model.GetJsonClient;
 import ru.sber.model.Product;
 
 import java.math.BigDecimal;
-import java.sql.*;
-import java.util.*;
+import java.sql.Statement;
+import java.util.List;
+import java.util.Optional;
 
+/**
+ * Класс для взаимодействия с клиентом
+ */
 @Slf4j
 @Repository
 public class DBClientRepository implements ClientRepository {
@@ -52,6 +56,53 @@ public class DBClientRepository implements ClientRepository {
         return id;
     }
 
+    @Override
+    public Optional<Client> getClientById(long idClient) {
+        log.info("Получает информации о клиенте с id {}", idClient);
+
+        var selectClientSQL = "SELECT * FROM clients where id = ?";
+
+        PreparedStatementCreator preparedStatementCreator = connection -> {
+            var prepareStatement = connection.prepareStatement(selectClientSQL);
+            prepareStatement.setLong(1, idClient);
+
+            return prepareStatement;
+        };
+
+        RowMapper<Client> rowMapper = (resultSet, rowNum) -> {
+            long id = resultSet.getLong(1);
+            String name = resultSet.getString(2);
+            String email = resultSet.getString(3);
+            long card = resultSet.getLong(4);
+            String login = resultSet.getString(5);
+            String password = resultSet.getString(6);
+
+            var basket = new Basket(idClient, getClientProduct(id), getPromoCode(idClient));
+
+            return new Client(id, name, email, card, login, password, basket);
+        };
+
+        List<Client> clients = jdbcTemplate.query(preparedStatementCreator, rowMapper);
+        return clients.stream().findFirst();
+    }
+
+    @Override
+    public boolean deleteById(long id) {
+        log.info("Удаляет клиента с id {}", id);
+
+        var deleteClientSQL = "delete from clients where id = ?";
+
+        PreparedStatementCreator preparedStatementCreator = connection -> {
+            var preparedStatement = connection.prepareStatement(deleteClientSQL);
+            preparedStatement.setLong(1, id);
+
+            return preparedStatement;
+        };
+
+        int rows = jdbcTemplate.update(preparedStatementCreator);
+        return rows > 0;
+    }
+
     private long generationIdCart(long idClient, long promo_code) {
         log.info("Создает корзину в базе данных с id клиентом {}", idClient);
 
@@ -69,36 +120,6 @@ public class DBClientRepository implements ClientRepository {
 
         jdbcTemplate.update(preparedStatementCreator, keyHolder);
         return (long) (int) keyHolder.getKeys().get("id");
-    }
-
-    @Override
-    public Optional<Client> getClientById(long idClient) {
-        log.info("Получает информации о клиенте с id {}", idClient);
-
-        var selectClientSQL = "SELECT * FROM clients where id = ?";
-
-        PreparedStatementCreator preparedStatementCreator = connection -> {
-            var prepareStatement = connection.prepareStatement(selectClientSQL);
-            prepareStatement.setLong(1, idClient);
-
-            return prepareStatement;
-        };
-
-        RowMapper<Client> rowMapper = (resultSet, Numrow) -> {
-            long id = resultSet.getLong(1);
-            String name = resultSet.getString(2);
-            String email = resultSet.getString(3);
-            long card = resultSet.getLong(4);
-            String login = resultSet.getString(5);
-            String password = resultSet.getString(6);
-
-            var basket = new Basket(idClient, getClientProduct(id), getPromoCode(idClient));
-
-            return new Client(id, name, email, card, login, password, basket);
-        };
-
-        List<Client> clients = jdbcTemplate.query(preparedStatementCreator, rowMapper);
-        return clients.stream().findFirst();
     }
 
     private List<Product> getClientProduct(long idClient) {
@@ -147,27 +168,10 @@ public class DBClientRepository implements ClientRepository {
             return preparedStatement;
         };
 
-        RowMapper<Long> rowMapper = (resultSet, rowNum) ->  resultSet.getLong(1);
+        RowMapper<Long> rowMapper = (resultSet, rowNum) -> resultSet.getLong(1);
 
         return jdbcTemplate.query(preparedStatementCreator, rowMapper).stream()
                 .findFirst()
                 .get();
-    }
-
-    @Override
-    public boolean deleteById(long id) {
-        log.info("Удаляет клиента с id {}", id);
-
-        var deleteClientSQL = "delete from clients where id = ?";
-
-        PreparedStatementCreator preparedStatementCreator = connection -> {
-            var preparedStatement = connection.prepareStatement(deleteClientSQL);
-            preparedStatement.setLong(1, id);
-
-            return preparedStatement;
-        };
-
-        int rows = jdbcTemplate.update(preparedStatementCreator);
-        return rows > 0;
     }
 }
