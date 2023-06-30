@@ -1,0 +1,92 @@
+###
+POST localhost:8080/clients
+Content-Type: application/json
+
+{
+  "name": "Unanimous",
+  "login": "admin",
+  "password": "admin",
+  "email": "ad.Unanimous@Unanim.ad",
+  "card": 1111,
+  "promo_code": 1
+}
+
+###
+GET localhost:8080/clients?id=1
+
+###
+DELETE localhost:8080/clients?id=1
+
+
+
+###
+POST localhost:8080/products
+Content-Type: application/json
+
+{
+  "name": "Банан",
+  "price": 120,
+  "count": 15
+}
+
+###
+GET localhost:8080/products?name=Банан
+
+###
+GET localhost:8080/products
+
+###
+GET localhost:8080/products/?id=1
+
+###
+PUT localhost:8080/products
+Content-Type: application/json
+
+{
+  "idProduct": 1,
+  "name": "Apple",
+  "price": 100,
+  "count": 10
+}
+
+###
+DELETE localhost:8080/products?id=1
+
+
+
+
+
+###
+POST localhost:8080/baskets?idClient=1
+Content-Type: application/json
+
+{
+  "idProduct": 2,
+  "count": 1
+}
+
+###
+PUT localhost:8080/baskets?idClient=1
+Content-Type: application/json
+
+{
+  "idProduct": 1,
+  "count": 5
+}
+
+###
+DELETE localhost:8080/baskets?idClient=1
+Content-Type: application/json
+
+{
+  "idProduct": 1
+}
+
+
+###
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "idClient": 1
+}
