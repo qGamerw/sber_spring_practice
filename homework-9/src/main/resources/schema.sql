@@ -2,11 +2,11 @@ create schema if not exists ukhinms;
 
 create table if not exists ukhinms.products
 (
-    id    integer generated always as identity
+    id     integer generated always as identity
         primary key,
-    name  varchar(255) not null,
-    price numeric      not null,
-    amount integer not null
+    name   varchar(255) not null,
+    price  numeric      not null,
+    amount integer      not null
 );
 
 create table if not exists ukhinms.clients
@@ -20,14 +20,21 @@ create table if not exists ukhinms.clients
     password varchar(255) not null
 );
 
+create table if not exists ukhinms.promo_codes
+(
+    id       integer generated always as identity
+        primary key,
+    discount real not null
+);
+
 create table if not exists ukhinms.baskets
 (
-    id         integer generated always as identity
+    id            integer generated always as identity
         primary key,
-    id_client  integer not null
+    id_client     integer not null
         references ukhinms.clients (id) on delete cascade,
-    price      integer not null,
-    promo_code varchar(255)
+    price         integer not null,
+    id_promo_code integer not null references ukhinms.promo_codes(id) on delete cascade
 );
 
 create table if not exists ukhinms.products_baskets

@@ -9,6 +9,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.sber.model.Basket;
 import ru.sber.model.Client;
+import ru.sber.model.GetJsonClient;
 import ru.sber.model.Product;
 
 import java.math.BigDecimal;
@@ -26,8 +27,8 @@ public class DBClientRepository implements ClientRepository {
     }
 
     @Override
-    public long add(Client client) {
-        log.info("Создает клиента базе данных {}", client);
+    public long add(GetJsonClient client) {
+        log.info("Создает клиента в базе данных {}", client);
 
         var insertClientSQL = "INSERT INTO clients (name, email, id_card, username, password) VALUES (?,?,?,?,?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -46,22 +47,22 @@ public class DBClientRepository implements ClientRepository {
         jdbcTemplate.update(preparedStatementCreator, keyHolder);
 
         long id = (long) (int) keyHolder.getKeys().get("id");
-        generationIdCart(id);
+        generationIdCart(id, client.getPromo_code());
 
         return id;
     }
 
-    private long generationIdCart(long idClient) {
+    private long generationIdCart(long idClient, long promo_code) {
         log.info("Создает корзину в базе данных с id клиентом {}", idClient);
 
-        var insertBasketSQL = "INSERT INTO baskets (id_client, price, promo_code) VALUES (?,?,?);";
+        var insertBasketSQL = "INSERT INTO baskets (id_client, price, id_promo_code) VALUES (?,?,?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         PreparedStatementCreator preparedStatementCreator = connection -> {
             var preparedStatement = connection.prepareStatement(insertBasketSQL, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, idClient);
             preparedStatement.setLong(2, 0);
-            preparedStatement.setString(3, "");
+            preparedStatement.setLong(3, promo_code);
 
             return preparedStatement;
         };
@@ -91,7 +92,7 @@ public class DBClientRepository implements ClientRepository {
             String login = resultSet.getString(5);
             String password = resultSet.getString(6);
 
-            var basket = new Basket(idClient, getClientProduct(id), 0);
+            var basket = new Basket(idClient, getClientProduct(id), getPromoCode(idClient));
 
             return new Client(id, name, email, card, login, password, basket);
         };
@@ -101,7 +102,7 @@ public class DBClientRepository implements ClientRepository {
     }
 
     private List<Product> getClientProduct(long idClient) {
-        log.info("Получает информацию и продуктов у клиента {}", idClient);
+        log.info("Получает информацию и продуктов у клиента id {}", idClient);
 
         var selectClientSQL = """
                 SELECT p.id, p.name, p.price, pc.count
@@ -128,6 +129,29 @@ public class DBClientRepository implements ClientRepository {
         };
 
         return jdbcTemplate.query(preparedStatementCreator, rowMapper);
+    }
+
+    private Long getPromoCode(long idBasket) {
+        log.info("Получает код промокода в корзине id {}", idBasket);
+
+        var selectClientSQL = """
+                SELECT id_promo_code
+                FROM baskets
+                where id_client = ?
+                """;
+
+        PreparedStatementCreator preparedStatementCreator = connection -> {
+            var preparedStatement = connection.prepareStatement(selectClientSQL);
+            preparedStatement.setLong(1, idBasket);
+
+            return preparedStatement;
+        };
+
+        RowMapper<Long> rowMapper = (resultSet, rowNum) ->  resultSet.getLong(1);
+
+        return jdbcTemplate.query(preparedStatementCreator, rowMapper).stream()
+                .findFirst()
+                .get();
     }
 
     @Override

@@ -7,7 +7,8 @@ Content-Type: application/json
   "login": "admin",
   "password": "admin",
   "email": "ad.Unanimous@Unanim.ad",
-  "card": 1112
+  "card": 1111,
+  "promo_code": 1
 }
 
 ###
@@ -44,8 +45,8 @@ Content-Type: application/json
 {
   "idProduct": 1,
   "name": "Apple",
-  "price": 8005,
-  "count": 12
+  "price": 100,
+  "count": 10
 }
 
 ###
@@ -56,11 +57,11 @@ DELETE localhost:8080/products?id=1
 
 
 ###
-POST localhost:8080/baskets?idClient=5
+POST localhost:8080/baskets?idClient=1
 Content-Type: application/json
 
 {
-  "idProduct": 2,
+  "idProduct": 1,
   "count": 1
 }
 
@@ -87,5 +88,5 @@ POST localhost:8080/payment
 Content-Type: application/json
 
 {
-  "idClient": 5
+  "idClient": 1
 }

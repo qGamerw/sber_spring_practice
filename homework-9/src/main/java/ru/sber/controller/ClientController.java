@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.model.Client;
+import ru.sber.model.GetJsonClient;
 import ru.sber.model.LimitedClient;
 import ru.sber.repository.BasketRepository;
 import ru.sber.repository.ClientRepository;
@@ -26,7 +27,7 @@ public class ClientController {
 
 
     @PostMapping
-    public ResponseEntity<?> addClient(@RequestBody Client client) {
+    public ResponseEntity<?> addClient(@RequestBody GetJsonClient client) {
         log.info("Добавление клиента: {}", client);
 
         return ResponseEntity.created(URI.create("client/" + clientRepository.add(client))).build();

@@ -1,6 +1,7 @@
 package ru.sber.repository;
 
 import ru.sber.model.Client;
+import ru.sber.model.GetJsonClient;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -15,7 +16,7 @@ public interface ClientRepository {
      * @param client клиент
      * @return индефикатор клиента
      */
-    long add(Client client);
+    long add(GetJsonClient client);
 
     /**
      * Выводит клиента по индикатору

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.sber.model.PaymentDetails;
 import ru.sber.services.PaymentInterfaceService;
 
+import java.net.URI;
+
 
 /**
  * Получает запросы для платы товаров
@@ -29,7 +31,7 @@ public class PaymentController {
     public ResponseEntity<?> payProduct(@RequestBody PaymentDetails paymentDetails) {
         log.info("Оплата товара");
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED)
-                .body(paymentInterfaceService.pay(paymentDetails));
+        return ResponseEntity.accepted().location(
+                URI.create("payment/" + paymentInterfaceService.pay(paymentDetails))).build();
     }
 }

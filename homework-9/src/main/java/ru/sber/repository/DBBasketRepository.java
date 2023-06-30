@@ -43,8 +43,8 @@ public class DBBasketRepository implements BasketRepository {
 
         var selectExistBasketSQL = """
                 SELECT EXISTS(SELECT *
-                              FROM ukhinms.products_baskets pb
-                                       join ukhinms.products p on p.id = pb.id_product
+                              FROM products_baskets pb
+                                       join products p on p.id = pb.id_product
                               where id_product = ?)
                 """;
 
@@ -78,22 +78,21 @@ public class DBBasketRepository implements BasketRepository {
         List<Boolean> listExistsBasket = jdbcTemplate.query(preparedStatementCreatorExistBasket, rowMapper);
 
 
-        var isisExistsProduct = listExistsProduct.stream()
+        var isExistsProduct = listExistsProduct.stream()
                                                 .findFirst()
                                                 .get();
 
-        var isisExistsBasket = listExistsBasket.stream()
+        var isExistsBasket = listExistsBasket.stream()
                                             .findFirst()
                                             .get();
-
-
-        if (isisExistsProduct && !isisExistsBasket) {
+        
+        if (isExistsProduct && !isExistsBasket) {
 
             int rows = jdbcTemplate.update(preparedStatementCreatorInsertProduct);
             updatePriceBasket(idClient);
             return rows > 0;
 
-        } else if (isisExistsProduct) {
+        } else if (isExistsProduct) {
 
             var updateProductCount = """
                     UPDATE products_baskets
@@ -112,8 +111,6 @@ public class DBBasketRepository implements BasketRepository {
             };
 
             jdbcTemplate.update(preparedStatementCreator);
-            updatePriceBasket(idClient);
-
             updatePriceBasket(idClient);
 
             return true;
@@ -178,7 +175,10 @@ public class DBBasketRepository implements BasketRepository {
         log.info("Считает сумму у клиента id {}", idClient);
 
         var selectPriceSQL = """
-                SELECT * FROM baskets WHERE id_client = ?;
+                SELECT CEIL(b.price - (b.price * pc.discount))
+                FROM baskets b
+                join promo_codes pc on pc.id = b.id_promo_code
+                WHERE id_client = ?;
                 """;
 
         PreparedStatementCreator preparedStatementCreator = connection -> {
@@ -188,13 +188,12 @@ public class DBBasketRepository implements BasketRepository {
             return preparedStatement;
         };
 
-        RowMapper<BigDecimal> rowMapper = (resultSet, rowNum) -> resultSet.getBigDecimal(3);
+        RowMapper<BigDecimal> rowMapper = (resultSet, rowNum) -> resultSet.getBigDecimal(1);
 
-        List<BigDecimal> getPrice = jdbcTemplate.query(preparedStatementCreator, rowMapper);
-
-        log.info("{}", jdbcTemplate.query(preparedStatementCreator, rowMapper));
-
-        return getPrice.stream().findFirst().get();
+        return jdbcTemplate.query(preparedStatementCreator, rowMapper)
+                .stream()
+                .findFirst()
+                .get();
     }
 
     @Override
@@ -202,8 +201,8 @@ public class DBBasketRepository implements BasketRepository {
         log.info("Проверяет есть ли у клиента id {} корзина", idClient);
 
         var selectExistsBasketSQL = """
-                SELECT EXISTS(SELECT * FROM ukhinms.products_baskets
-                                  JOIN ukhinms.baskets b ON b.id = products_baskets.id_basket
+                SELECT EXISTS(SELECT * FROM products_baskets
+                                  JOIN baskets b ON b.id = products_baskets.id_basket
                 WHERE id_client = ?)
                 """;
 
@@ -223,6 +222,7 @@ public class DBBasketRepository implements BasketRepository {
 
     private void updatePriceBasket(long idClient) {
         log.info("Обновляет цену у клиента id {} в корзине", idClient);
+
         var updateBasketSQL = """
                 UPDATE baskets
                 SET price = (SELECT SUM(p.price * pb.count)
@@ -249,8 +249,8 @@ public class DBBasketRepository implements BasketRepository {
 
         var selectExistsPoduct = """
                 SELECT EXISTS (SELECT (p.amount - pb.count)
-                               FROM ukhinms.products_baskets AS pb
-                                        JOIN ukhinms.products AS p ON p.id = pb.id_product
+                               FROM products_baskets pb
+                                        JOIN products AS p ON p.id = pb.id_product
                                WHERE (p.amount - pb.count) < 0);
                 """;
 
@@ -278,9 +278,8 @@ public class DBBasketRepository implements BasketRepository {
                 """;
 
         PreparedStatementCreator preparedStatementCreatorUpdateProduce = connection -> {
-            var preparedStatement = connection.prepareStatement(updateProductMinusSQL);
 
-            return preparedStatement;
+            return connection.prepareStatement(updateProductMinusSQL);
         };
 
         PreparedStatementCreator preparedStatementCreatorDeleteClient = connection -> {
@@ -315,6 +314,8 @@ public class DBBasketRepository implements BasketRepository {
 
         RowMapper<Long> rowMapper = (resultSet, rowNum) -> resultSet.getLong(1);
 
-        return jdbcTemplate.query(preparedStatementCreator, rowMapper).stream().findFirst();
+        return jdbcTemplate.query(preparedStatementCreator, rowMapper)
+                .stream()
+                .findFirst();
     }
 }

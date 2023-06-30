@@ -13,5 +13,5 @@ import java.util.List;
 public class Basket {
     private long id;
     private List<Product> productList;
-    private int promoCode;
+    private long promoCode;
 }

@@ -1,0 +1,10 @@
+INSERT INTO ukhinms.promo_codes VALUES (default, 0.1);
+INSERT INTO ukhinms.promo_codes VALUES (default, 0.2);
+INSERT INTO ukhinms.promo_codes VALUES (default, 0.3);
+INSERT INTO ukhinms.promo_codes VALUES (default, 0.4);
+INSERT INTO ukhinms.promo_codes VALUES (default, 0.5);
+INSERT INTO ukhinms.promo_codes VALUES (default, 0.6);
+INSERT INTO ukhinms.promo_codes VALUES (default, 0.7);
+INSERT INTO ukhinms.promo_codes VALUES (default, 0.8);
+INSERT INTO ukhinms.promo_codes VALUES (default, 0.9);
+INSERT INTO ukhinms.promo_codes VALUES (default, 1);

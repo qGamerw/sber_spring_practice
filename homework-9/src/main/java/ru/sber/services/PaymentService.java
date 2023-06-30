@@ -25,14 +25,11 @@ import java.util.List;
 public class PaymentService implements PaymentInterfaceService {
     private final BasketRepository basketRepository;
     private final TransferByPhoneAppProxy transferByPhoneAppProxy;
-    private final JdbcTemplate jdbcTemplate;
 
     public PaymentService(BasketRepository basketRepository,
-                          TransferByPhoneAppProxy transferByPhoneAppProxy,
-                          JdbcTemplate jdbcTemplate) {
+                          TransferByPhoneAppProxy transferByPhoneAppProxy) {
         this.basketRepository = basketRepository;
         this.transferByPhoneAppProxy = transferByPhoneAppProxy;
-        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Transactional
@@ -61,8 +58,4 @@ public class PaymentService implements PaymentInterfaceService {
 
         return transferByPhoneAppProxy.transferToPay(price, idCard);
     }
-
-
-
-
 }
