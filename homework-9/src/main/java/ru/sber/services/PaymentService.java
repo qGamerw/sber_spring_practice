@@ -7,7 +7,7 @@ import ru.sber.exception.EmptyBasketException;
 import ru.sber.exception.InsufficientQuantityException;
 import ru.sber.exception.RemoveProductException;
 import ru.sber.model.PaymentDetails;
-import ru.sber.proxies.TransferByPhoneAppProxy;
+import ru.sber.proxies.TransferAppProxy;
 import ru.sber.repository.BasketRepository;
 
 import java.math.BigDecimal;
@@ -19,12 +19,12 @@ import java.math.BigDecimal;
 @Service
 public class PaymentService implements PaymentInterfaceService {
     private final BasketRepository basketRepository;
-    private final TransferByPhoneAppProxy transferByPhoneAppProxy;
+    private final TransferAppProxy transferAppProxy;
 
     public PaymentService(BasketRepository basketRepository,
-                          TransferByPhoneAppProxy transferByPhoneAppProxy) {
+                          TransferAppProxy transferAppProxy) {
         this.basketRepository = basketRepository;
-        this.transferByPhoneAppProxy = transferByPhoneAppProxy;
+        this.transferAppProxy = transferAppProxy;
     }
 
     @Transactional
@@ -51,6 +51,6 @@ public class PaymentService implements PaymentInterfaceService {
             throw new RemoveProductException("Ошибка удаления товара");
         }
 
-        return transferByPhoneAppProxy.transferToPay(price, idCard);
+        return transferAppProxy.transferToPay(price, idCard);
     }
 }

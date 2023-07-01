@@ -1,0 +1,17 @@
+###
+POST localhost:8080/clients
+Content-Type: application/json
+
+{
+  "name": "Unanimous",
+  "username": "admin",
+  "password": "admin",
+  "email": "ad.Unanimous@Unanim.ad",
+  "idCard": 1111
+}
+
+###
+GET localhost:8080/clients?id=1
+
+###
+DELETE localhost:8080/clients?id=1

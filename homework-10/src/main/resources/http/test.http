@@ -1,0 +1,197 @@
+
+# нормальная работа на карте 10_000
+###
+POST localhost:8080/clients
+Content-Type: application/json
+
+{
+  "name": "Unanimous",
+  "username": "admin",
+  "password": "admin",
+  "email": "ad.Unanimous@Unanim.ad",
+  "idCard": 1111
+}
+
+###
+POST localhost:8080/products
+Content-Type: application/json
+
+{
+  "name": "Яблоко",
+  "price": 10,
+  "amount": 100
+}
+
+###
+POST localhost:8080/baskets?idClient=1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "amount": 1
+}
+
+###
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+###
+
+
+#----------------------------------
+
+# Недостаточно средств (на карте 10_000)
+###
+POST localhost:8080/clients
+Content-Type: application/json
+
+{
+  "name": "Unanimous",
+  "username": "admin",
+  "password": "admin",
+  "email": "ad.Unanimous@Unanim.ad",
+  "idCard": 1111
+}
+
+###
+POST localhost:8080/products
+Content-Type: application/json
+
+{
+  "name": "Яблоко",
+  "price": 1000000,
+  "amount": 100
+}
+
+###
+POST localhost:8080/baskets?idClient=2
+Content-Type: application/json
+
+{
+  "id": 2,
+  "amount": 10
+}
+
+###
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "id": 2
+}
+
+###
+
+#----------------------------------
+
+# Недостаточно количество товара на складе (на карте 10_000)
+###
+POST localhost:8080/clients
+Content-Type: application/json
+
+{
+  "name": "Unanimous",
+  "username": "admin",
+  "password": "admin",
+  "email": "ad.Unanimous@Unanim.ad",
+  "idCard": 1111
+}
+
+###
+POST localhost:8080/products
+Content-Type: application/json
+
+{
+  "name": "Яблоко",
+  "price": 10,
+  "amount": 10
+}
+
+###
+POST localhost:8080/baskets?idClient=3
+Content-Type: application/json
+
+{
+  "id": 3,
+  "amount": 100000
+}
+
+###
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "id": 3
+}
+
+###
+
+#----------------------------------
+
+# Пустая корзина
+###
+POST localhost:8080/clients
+Content-Type: application/json
+
+{
+  "name": "Unanimous",
+  "username": "admin",
+  "password": "admin",
+  "email": "ad.Unanimous@Unanim.ad",
+  "idCard": 1111
+}
+
+###
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "id": 4
+}
+
+###
+#----------------------------------
+
+# не является клиентом банка
+###
+POST localhost:8080/clients
+Content-Type: application/json
+
+{
+  "name": "Unanimous",
+  "username": "admin",
+  "password": "admin",
+  "email": "ad.Unanimous@Unanim.ad",
+  "idCard": 123123123
+}
+
+###
+POST localhost:8080/products
+Content-Type: application/json
+
+{
+  "name": "Яблоко",
+  "price": 10,
+  "amount": 100
+}
+
+###
+POST localhost:8080/baskets?idClient=5
+Content-Type: application/json
+
+{
+  "id": 1,
+  "amount": 1
+}
+
+###
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "id": 5
+}
