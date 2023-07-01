@@ -26,10 +26,15 @@ public class BasketController {
         log.info("Добавляет продукт в корзину с id {} -> {} клиенту id {}", product.getId(), product.getAmount(), idClient);
 
         var isCreated = basketInterfaceService.add(idClient, product);
+
         if (isCreated) {
-            return ResponseEntity.created(URI.create("basket/" + product.getId())).build();
+            return ResponseEntity
+                    .created(URI.create("basket/" + product.getId()))
+                    .build();
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
     }
 
@@ -38,10 +43,15 @@ public class BasketController {
         log.info("Обновляет количество продукта в корзине с id: {} -> {}", product.getId(), 1);
 
         var isUpdated = basketInterfaceService.updateProduct(idClient, product);
+
         if (isUpdated) {
-            return ResponseEntity.created(URI.create("basket/" + product.getId())).build();
+            return ResponseEntity
+                    .created(URI.create("basket/" + product.getId()))
+                    .build();
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
     }
 
@@ -50,11 +60,16 @@ public class BasketController {
         log.info("Удаляет продукт в корзине с id: {} у клиента {}", product.getId(), idClient);
 
         boolean isDelete = basketInterfaceService.deleteProduct(idClient, product);
-        log.info(String.valueOf(isDelete));
+        log.info("Продукты {}", isDelete ? "удалились" : "не удалились");
+
         if (isDelete) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity
+                    .noContent()
+                    .build();
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
     }
 }

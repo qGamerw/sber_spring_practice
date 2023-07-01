@@ -1,6 +1,5 @@
 package ru.sber.services;
 
-
 import ru.sber.entity.Product;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public interface ProductInterfaceService {
      * @param name имя продукта
      * @return List<Product>
      */
-    List<ru.sber.entity.Product> getListProductName(String name);
+    List<Product> getListProductName(String name);
 
     /**
      * Выводит продут по id
@@ -33,7 +32,7 @@ public interface ProductInterfaceService {
      * @return Optional<Product>
      */
 
-    Optional<ru.sber.entity.Product> getProductById(long id);
+    Optional<Product> getProductById(long id);
 
     /**
      * Обновляет информацию о продукте

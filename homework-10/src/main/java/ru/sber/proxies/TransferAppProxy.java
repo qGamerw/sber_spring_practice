@@ -8,7 +8,7 @@ import ru.sber.exception.NotEnoughMoneyException;
 import java.math.BigDecimal;
 
 /**
- * Класс для перевода денежных средств по номеру телефона
+ * Класс для перевода денежных средств
  */
 @Slf4j
 @Component

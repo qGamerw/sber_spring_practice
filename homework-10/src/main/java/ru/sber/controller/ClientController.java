@@ -5,11 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.entity.Client;
 import ru.sber.model.LimitedClient;
+import ru.sber.services.BasketInterfaceService;
 import ru.sber.services.ClientInterfaceService;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Получает запросы для взаимодействия с клиентом
@@ -19,18 +18,20 @@ import java.util.Optional;
 @RequestMapping("clients")
 public class ClientController {
     private final ClientInterfaceService clientInterfaceService;
+    private final BasketInterfaceService basketInterfaceService;
 
-    public ClientController(ClientInterfaceService clientInterfaceService) {
+    public ClientController(ClientInterfaceService clientInterfaceService, BasketInterfaceService basketInterfaceService) {
         this.clientInterfaceService = clientInterfaceService;
+        this.basketInterfaceService = basketInterfaceService;
     }
-
 
     @PostMapping
     public ResponseEntity<?> addClient(@RequestBody Client client) {
         log.info("Добавляет клиента: {}", client);
 
-        return ResponseEntity.created(URI.create("client/" +
-                clientInterfaceService.addClient(client))).build();
+        return ResponseEntity
+                .created(URI.create("client/" + clientInterfaceService.addClient(client)))
+                .build();
     }
 
     @GetMapping
@@ -38,10 +39,16 @@ public class ClientController {
         log.info("Получает клиента с id {}", id);
 
         var client = clientInterfaceService.getClientById(id);
+        var product = basketInterfaceService.getClientById(id);
+
         if (client.isPresent()) {
-            return ResponseEntity.ok().body(new LimitedClient(client, null));
+            return ResponseEntity
+                    .ok()
+                    .body(new LimitedClient(client.get(), product));
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
     }
 
@@ -50,10 +57,15 @@ public class ClientController {
         log.info("Удаляет клиента с id {}", id);
 
         boolean isDeleted = clientInterfaceService.deleteClientById(id);
+
         if (isDeleted) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity
+                    .noContent()
+                    .build();
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
     }
 }

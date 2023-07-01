@@ -6,20 +6,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.sber.entity.Client;
+import ru.sber.model.PaymentDetails;
 import ru.sber.services.PaymentInterfaceService;
 
 import java.net.URI;
 
-
 /**
- * Получает запросы для платы товаров
+ * Получает запросы для оплаты товаров
  */
 @Slf4j
 @RestController
 @RequestMapping("payment")
 public class PaymentController {
-
     private final PaymentInterfaceService paymentInterfaceService;
 
     public PaymentController(PaymentInterfaceService paymentInterfaceService) {
@@ -27,10 +25,12 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> payProduct(@RequestBody Client client) {
-        log.info("Оплата товара");
+    public ResponseEntity<?> payProduct(@RequestBody PaymentDetails paymentDetails) {
+        log.info("Оплата товара клиента id {} с промокодом {}", paymentDetails.getIdClient(), paymentDetails.getIdPromoCode());
 
-        return ResponseEntity.accepted().location(
-                URI.create("payment/" + paymentInterfaceService.pay(client))).build();
+        return ResponseEntity
+                .accepted()
+                .location(URI.create("payment/" + paymentInterfaceService.pay(paymentDetails)))
+                .build();
     }
 }

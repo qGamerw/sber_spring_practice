@@ -1,3 +1,27 @@
+###
+POST localhost:8080/promocode
+Content-Type: application/json
+
+{
+  "discount": 10
+}
+
+###
+GET localhost:8080/promocode?id=2
+
+###
+PUT localhost:8080/promocode
+Content-Type: application/json
+
+{
+  "id": 2,
+  "discount": 21
+}
+
+###
+DELETE localhost:8080/promocode?id=1
+
+#-------------------------------------
 
 ###
 POST localhost:8080/clients
@@ -12,7 +36,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/clients?id=4
+GET localhost:8080/clients?id=1
 
 ###
 DELETE localhost:8080/clients?id=5
@@ -57,25 +81,25 @@ DELETE localhost:8080/products?id=1
 
 
 ###
-POST localhost:8080/baskets?idClient=5
+POST localhost:8080/baskets?idClient=7
 Content-Type: application/json
 
 {
-  "id": 7,
+  "id": 5,
+  "amount": 1000
+}
+
+###
+PUT localhost:8080/baskets?idClient=7
+Content-Type: application/json
+
+{
+  "id": 5,
   "amount": 1
 }
 
 ###
-PUT localhost:8080/baskets?idClient=5
-Content-Type: application/json
-
-{
-  "id": 7,
-  "amount": 1
-}
-
-###
-DELETE localhost:8080/baskets?idClient=4
+DELETE localhost:8080/baskets?idClient=1
 Content-Type: application/json
 
 {
@@ -90,5 +114,6 @@ POST localhost:8080/payment
 Content-Type: application/json
 
 {
-  "id": 5
+  "idClient": 7,
+  "idPromoCode": 2
 }

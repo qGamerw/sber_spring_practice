@@ -1,5 +1,5 @@
 
-# нормальная работа на карте 10_000
+# Нормальная работа на карте 10_000
 ###
 POST localhost:8080/clients
 Content-Type: application/json
@@ -32,11 +32,26 @@ Content-Type: application/json
 }
 
 ###
+GET localhost:8080/clients?id=1
+
+###
+POST localhost:8080/promocode
+Content-Type: application/json
+
+{
+  "discount": 10
+}
+
+###
+GET localhost:8080/promocode?id=1
+
+###
 POST localhost:8080/payment
 Content-Type: application/json
 
 {
-  "id": 1
+  "idClient": 1,
+  "idPromoCode": 1
 }
 
 ###
@@ -77,11 +92,26 @@ Content-Type: application/json
 }
 
 ###
+GET localhost:8080/clients?id=2
+
+###
+POST localhost:8080/promocode
+Content-Type: application/json
+
+{
+  "discount": 20
+}
+
+###
+GET localhost:8080/promocode?id=2
+
+###
 POST localhost:8080/payment
 Content-Type: application/json
 
 {
-  "id": 2
+  "idClient": 2,
+  "idPromoCode": 2
 }
 
 ###
@@ -121,11 +151,26 @@ Content-Type: application/json
 }
 
 ###
+GET localhost:8080/clients?id=3
+
+###
+POST localhost:8080/promocode
+Content-Type: application/json
+
+{
+  "discount": 30
+}
+
+###
+GET localhost:8080/promocode?id=3
+
+###
 POST localhost:8080/payment
 Content-Type: application/json
 
 {
-  "id": 3
+  "idClient": 3,
+  "idPromoCode": 3
 }
 
 ###
@@ -146,17 +191,33 @@ Content-Type: application/json
 }
 
 ###
+GET localhost:8080/clients?id=4
+
+###
+POST localhost:8080/promocode
+Content-Type: application/json
+
+{
+  "discount": 40
+}
+
+###
+GET localhost:8080/promocode?id=4
+
+###
 POST localhost:8080/payment
 Content-Type: application/json
 
 {
-  "id": 4
+  "idClient": 4,
+  "idPromoCode": 4
 }
 
 ###
 #----------------------------------
 
-# не является клиентом банка
+# Не является клиентом банка
+
 ###
 POST localhost:8080/clients
 Content-Type: application/json
@@ -189,9 +250,151 @@ Content-Type: application/json
 }
 
 ###
+GET localhost:8080/clients?id=5
+
+###
+POST localhost:8080/promocode
+Content-Type: application/json
+
+{
+  "discount": 50
+}
+
+###
+GET localhost:8080/promocode?id=5
+
+###
 POST localhost:8080/payment
 Content-Type: application/json
 
 {
-  "id": 5
+  "idClient": 5,
+  "idPromoCode": 5
+}
+
+###
+#----------------------------------
+
+# Проверка стакак проодуктов с одинаковым именем и ценой
+
+###
+POST localhost:8080/clients
+Content-Type: application/json
+
+{
+  "name": "Unanimous",
+  "username": "admin",
+  "password": "admin",
+  "email": "ad.Unanimous@Unanim.ad",
+  "idCard": 123123123
+}
+
+###
+POST localhost:8080/products
+Content-Type: application/json
+
+{
+  "name": "Яблоко",
+  "price": 10,
+  "amount": 100
+}
+
+###
+POST localhost:8080/baskets?idClient=6
+Content-Type: application/json
+
+{
+  "id": 1,
+  "amount": 1
+}
+
+###
+GET localhost:8080/clients?id=6
+
+###
+POST localhost:8080/promocode
+Content-Type: application/json
+
+{
+  "discount": 60
+}
+
+###
+GET localhost:8080/promocode?id=6
+
+###
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "idClient": 6,
+  "idPromoCode": 6
+}
+
+###
+
+#----------------------------------
+
+# Проверка на не нахождение прмокода
+
+###
+POST localhost:8080/clients
+Content-Type: application/json
+
+{
+  "name": "Unanimous",
+  "username": "admin",
+  "password": "admin",
+  "email": "ad.Unanimous@Unanim.ad",
+  "idCard": 1111
+}
+
+###
+POST localhost:8080/products
+Content-Type: application/json
+
+{
+  "name": "Яблоко",
+  "price": 10,
+  "amount": 100
+}
+
+###
+POST localhost:8080/baskets?idClient=7
+Content-Type: application/json
+
+{
+  "id": 1,
+  "amount": 1
+}
+
+###
+GET localhost:8080/clients?id=7
+
+###
+POST localhost:8080/promocode
+Content-Type: application/json
+
+{
+  "discount": 70
+}
+
+###
+GET localhost:8080/promocode?id=7
+
+###
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "idClient": 7
+}
+
+###
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "idClient": 7,
+  "idPromoCode": 7
 }

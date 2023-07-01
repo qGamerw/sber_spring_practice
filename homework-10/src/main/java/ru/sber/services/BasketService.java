@@ -9,8 +9,11 @@ import ru.sber.entity.ProductBasket;
 import ru.sber.repository.BasketRepository;
 import ru.sber.repository.ClientRepository;
 import ru.sber.repository.ProductRepository;
+import ru.sber.repository.PromoCodeRepository;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,12 +26,18 @@ public class BasketService implements BasketInterfaceService {
     private final BasketRepository basketRepository;
     private final ProductRepository productRepository;
     private final ClientRepository clientRepository;
+    private final PromoCodeRepository promoCodeRepository;
 
     @Autowired
-    public BasketService(BasketRepository basketRepository, ProductRepository productRepository, ClientRepository clientRepository) {
+    public BasketService(BasketRepository basketRepository,
+                         ProductRepository productRepository,
+                         ClientRepository clientRepository,
+                         PromoCodeRepository promoCodeRepository) {
+
         this.basketRepository = basketRepository;
         this.productRepository = productRepository;
         this.clientRepository = clientRepository;
+        this.promoCodeRepository = promoCodeRepository;
     }
 
     @Override
@@ -109,7 +118,6 @@ public class BasketService implements BasketInterfaceService {
             isClient.get().setPrice(newPrice);
             clientRepository.save(isClient.get());
 
-
             return true;
         }
         return false;
@@ -148,38 +156,40 @@ public class BasketService implements BasketInterfaceService {
     }
 
     @Override
-    public boolean isBasket(long client){
+    public boolean isBasket(long client) {
         log.info("Проверяет есть ли у клиента корзина {}", client);
+
         return basketRepository.existsByClientId(client);
     }
 
     @Override
     public boolean isCountProduct(Client client) {
         log.info("Проверяет достаточно ли товара у клиента id {}", client.getId());
+
         var listBasket = basketRepository.findByClientId(client.getId());
 
         for (ProductBasket item : listBasket) {
             var product = productRepository.findById(item.getProduct().getId());
 
-            if (item.getAmount() > product.get().getAmount()){
+            if (item.getAmount() > product.get().getAmount()) {
                 return true;
             }
         }
         return false;
     }
 
-    private Optional<Product> getProduct(Product product) {
-        return productRepository.findAll()
-                .stream()
-                .filter(item -> product.getId() == item.getId())
-                .findAny();
-    }
-
     @Override
-    public BigDecimal getPrice(long id) {
-        log.info("Получает сумма к оплате у клиента id {}", id);
+    public BigDecimal getPrice(long idClient, long idPromoCode) {
+        log.info("Получает сумма к оплате у клиента id {} с учетом скидки", idClient);
 
-        return clientRepository.findById(id).get().getPrice();
+        var price = clientRepository.findById(idClient).get().getPrice();
+        var promoCode = promoCodeRepository.findById(idPromoCode).get().getDiscount();
+
+        var discount = promoCode / 100;
+
+        return price.subtract(
+                price.multiply(
+                        BigDecimal.valueOf(discount)));
     }
 
     @Override
@@ -195,18 +205,16 @@ public class BasketService implements BasketInterfaceService {
 
         updateAmountProduct(id);
 
-        log.info("1");
         var client = new Client();
         client.setId(id);
         basketRepository.deleteByClient(client);
 
-        log.info("2");
         var isClient = clientRepository.findAll()
                 .stream()
                 .filter(item -> item.getId() == id)
                 .findAny();
 
-        if (isClient.isPresent()){
+        if (isClient.isPresent()) {
             isClient.get().setPrice(BigDecimal.ZERO);
             clientRepository.save(isClient.get());
 
@@ -215,7 +223,44 @@ public class BasketService implements BasketInterfaceService {
         return false;
     }
 
-    private boolean updateAmountProduct(long id){
+    @Override
+    public List<Product> getClientById(long id) {
+        log.info("Получаем список продуктов у клиента с id {}", id);
+
+        List<ProductBasket> productBaskets = basketRepository.findByClientId(id);
+        List<Product> products = new ArrayList<>();
+
+        for (ProductBasket item : productBaskets) {
+            item.getProduct().setAmount(item.getAmount());
+
+            var ind = -1;
+
+            for (int i = 0; i < products.size(); i++) {
+                if (products.get(i).getName().equals(item.getProduct().getName())
+                        && products.get(i).getPrice().compareTo(item.getProduct().getPrice()) == 0) {
+                    ind = i;
+                    break;
+                }
+            }
+
+            if (ind != -1) {
+                products.get(ind).setAmount(products.get(ind).getAmount() + item.getAmount());
+            } else {
+                products.add(item.getProduct());
+            }
+        }
+
+        return products;
+    }
+
+    private Optional<Product> getProduct(Product product) {
+        return productRepository.findAll()
+                .stream()
+                .filter(item -> product.getId() == item.getId())
+                .findAny();
+    }
+
+    private boolean updateAmountProduct(long id) {
         log.info("Обновляет количество товара на складе");
 
         var listProduct = basketRepository.findByClientId(id);

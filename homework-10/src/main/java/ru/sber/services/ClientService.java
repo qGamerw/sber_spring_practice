@@ -1,6 +1,7 @@
 package ru.sber.services;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.sber.entity.Client;
 import ru.sber.repository.ClientRepository;
@@ -17,6 +18,7 @@ public class ClientService implements ClientInterfaceService {
 
     private final ClientRepository clientRepository;
 
+    @Autowired
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
@@ -35,8 +37,6 @@ public class ClientService implements ClientInterfaceService {
     @Override
     public Optional<Client> getClientById(long id) {
         log.info("ClientService получает клиента с id {}", id);
-
-        Optional<Client> client = clientRepository.findById(id);
 
         return clientRepository.findById(id);
     }

@@ -1,0 +1,22 @@
+###
+POST localhost:8080/promocode
+Content-Type: application/json
+
+{
+  "discount": 10
+}
+
+###
+GET localhost:8080/promocode?id=1
+
+###
+PUT localhost:8080/promocode
+Content-Type: application/json
+
+{
+  "id": 1,
+  "discount": 10
+}
+
+###
+DELETE localhost:8080/promocode?id=1

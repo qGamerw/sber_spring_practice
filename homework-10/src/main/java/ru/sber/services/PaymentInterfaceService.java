@@ -1,7 +1,6 @@
 package ru.sber.services;
 
-
-import ru.sber.entity.Client;
+import ru.sber.model.PaymentDetails;
 
 import java.math.BigDecimal;
 
@@ -12,8 +11,8 @@ public interface PaymentInterfaceService {
     /**
      * Оплачивает товар
      *
-     * @param client данные платежа
+     * @param paymentDetails данные платежа
      * @return BigDecimal
      */
-    BigDecimal pay(Client client);
+    BigDecimal pay(PaymentDetails paymentDetails);
 }

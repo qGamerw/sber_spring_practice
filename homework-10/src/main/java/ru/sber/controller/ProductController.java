@@ -22,9 +22,11 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<?> addProduct(@RequestBody Product product) {
-        log.info("Добавление продукта: {}", product);
+        log.info("Добавление продукта {}", product);
 
-        return ResponseEntity.created(URI.create("product/" + productInterfaceService.addProduct(product))).build();
+        return ResponseEntity
+                .created(URI.create("product/" + productInterfaceService.addProduct(product)))
+                .build();
     }
 
     @GetMapping
@@ -32,22 +34,32 @@ public class ProductController {
         log.info("Получение продуктов с именем {}", name);
 
         var product = productInterfaceService.getListProductName(name);
+
         if (product.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity
+                    .notFound()
+                    .build();
         } else {
-            return ResponseEntity.ok().body(product);
+            return ResponseEntity
+                    .ok()
+                    .body(product);
         }
     }
 
     @GetMapping("/")
     public ResponseEntity<Optional<Product>> getProductById(@RequestParam long id) {
-        log.info("Получение списка продуктов");
+        log.info("Получение списка продуктов по id {}", id);
 
         var product = productInterfaceService.getProductById(id);
+
         if (product.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity
+                    .notFound()
+                    .build();
         } else {
-            return ResponseEntity.ok().body(product);
+            return ResponseEntity
+                    .ok()
+                    .body(product);
         }
     }
 
@@ -56,22 +68,32 @@ public class ProductController {
         log.info("Обновление продукта {}", product);
 
         var isUpdate = productInterfaceService.update(product);
+
         if (isUpdate) {
-            return ResponseEntity.accepted().build();
+            return ResponseEntity
+                    .accepted()
+                    .build();
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteProduct(@RequestParam long id) {
-        log.info("Удаление продукта {}", id);
+        log.info("Удаление продукта id {}", id);
 
         var isDeleted = productInterfaceService.delete(id);
+
         if (isDeleted) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity
+                    .noContent()
+                    .build();
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
     }
 }
