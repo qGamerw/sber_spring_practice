@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * Интерфейс для взаимодействия с классом для оплаты товара
  */
-public interface TransferByPhoneInterfaceProxy {
+public interface TransferInterfaceProxy {
     /**
      * Оплачивает товар
      *

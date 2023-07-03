@@ -8,19 +8,19 @@ import ru.sber.exception.NotEnoughMoneyException;
 import java.math.BigDecimal;
 
 /**
- * Класс для перевода денежных средств по номеру телефона
+ * Класс для перевода денежных средств
  */
 @Slf4j
 @Component
-public class TransferByPhoneAppProxy implements TransferByPhoneInterfaceProxy {
+public class TransferAppProxy implements TransferInterfaceProxy {
     private final BankClientsInterfaceProxy bankClientsInterfaceProxy;
 
-    public TransferByPhoneAppProxy(BankClientsInterfaceProxy bankClientsInterfaceProxy) {
+    public TransferAppProxy(BankClientsInterfaceProxy bankClientsInterfaceProxy) {
         this.bankClientsInterfaceProxy = bankClientsInterfaceProxy;
     }
 
     @Override
-    public BigDecimal transferToPay(BigDecimal sum, long card) {
+    public boolean transferToPay(BigDecimal sum, long card) {
         log.info("Номер карты {} сумма платежа {}", card, sum);
 
         if (sum.compareTo(BigDecimal.valueOf(0)) < 0) {
@@ -30,7 +30,7 @@ public class TransferByPhoneAppProxy implements TransferByPhoneInterfaceProxy {
         if (bankClientsInterfaceProxy.isBankClient(card)
                 && bankClientsInterfaceProxy.getCashByIdClient(card).compareTo(sum) > 0) {
 
-            return bankClientsInterfaceProxy.getCashByIdClient(card).subtract(sum);
+            return true;
         } else {
             throw new NotEnoughMoneyException("Недостаточно средств для оплаты");
         }
