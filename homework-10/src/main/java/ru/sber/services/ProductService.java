@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.sber.entity.Product;
+import ru.sber.model.LimitedProduct;
 import ru.sber.repository.ProductRepository;
 
 import java.util.List;
@@ -30,21 +31,28 @@ public class ProductService implements ProductInterfaceService {
     }
 
     @Override
-    public List<Product> getListProductsByName(String name) {
+    public List<LimitedProduct> getListProductsByName(String name) {
         log.info("ProductService получает товар по имени {}", name);
 
         if (name == null) {
-            return productRepository.findAll();
+            return productRepository.findAll()
+                    .stream()
+                    .map(LimitedProduct::new)
+                    .toList();
         }
 
-        return productRepository.findByNameIsLikeIgnoreCase(name);
+        return productRepository.findByNameIsLikeIgnoreCase(name)
+                .stream()
+                .map(LimitedProduct::new)
+                .toList();
     }
 
     @Override
-    public Optional<Product> getProductById(long id) {
+    public Optional<LimitedProduct> getProductById(long id) {
         log.info("ProductService получает товар по id {}", id);
 
-        return productRepository.findById(id);
+        return productRepository.findById(id).map(LimitedProduct::new);
+
     }
 
     @Override

@@ -48,7 +48,7 @@ Content-Type: application/json
 GET localhost:8080/clients/1
 
 ###
-DELETE localhost:8080/clients/1
+DELETE localhost:8080/clients/5
 
 
 #-------------------------------------
@@ -57,7 +57,7 @@ POST localhost:8080/products
 Content-Type: application/json
 
 {
-  "name": "Яблоко",
+  "name": "sdfsdf",
   "price": 10,
   "amount": 10
 }
@@ -69,7 +69,7 @@ GET localhost:8080/products?name=Яблоко
 GET localhost:8080/products
 
 ###
-GET localhost:8080/products/30
+GET localhost:8080/products/8
 
 
 ###
@@ -84,7 +84,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE localhost:8080/products/2
+DELETE localhost:8080/products/1
 
 
 #-------------------------------------

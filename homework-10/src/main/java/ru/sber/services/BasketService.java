@@ -171,7 +171,10 @@ public class BasketService implements BasketInterfaceService {
     public List<LimitedProduct> getClientProductListById(long id) {
         log.info("BasketService получаем список продуктов у клиента с id {}", id);
 
-        return basketRepository.findByClientId(id).stream().map(LimitedProduct::new).toList();
+        return basketRepository.findByClientId(id)
+                .stream()
+                .map(LimitedProduct::new)
+                .toList();
     }
 
     @Override

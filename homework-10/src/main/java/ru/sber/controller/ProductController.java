@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.entity.Product;
+import ru.sber.model.LimitedProduct;
 import ru.sber.services.ProductInterfaceService;
 
 import java.net.URI;
@@ -33,7 +34,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getProductByName(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<LimitedProduct>> getProductByName(@RequestParam(required = false) String name) {
         log.info("Получение продуктов с именем {}", name);
 
         var productList = productInterfaceService.getListProductsByName(name);
@@ -50,7 +51,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Product>> getProductById(@PathVariable long id) {
+    public ResponseEntity<Optional<LimitedProduct>> getProductById(@PathVariable long id) {
         log.info("Получение списка продуктов по id {}", id);
 
         var product = productInterfaceService.getProductById(id);
