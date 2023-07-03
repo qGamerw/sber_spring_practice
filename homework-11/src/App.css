@@ -1,0 +1,20 @@
+.Main {
+  padding: 5px 10px;
+}
+
+.client-item {
+  box-shadow: 0px -1px 30px 12px rgba(106, 108, 111, 0.7);
+  width: fit-content;
+  margin: 10px;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background-color: navajowhite;
+}
+
+.client-item > div {
+  padding: 10px;
+}
+
+.create-product {
+  padding: 10px;
+}
