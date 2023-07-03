@@ -20,7 +20,7 @@ public class TransferAppProxy implements TransferInterfaceProxy {
     }
 
     @Override
-    public BigDecimal transferToPay(BigDecimal sum, long card) {
+    public boolean transferToPay(BigDecimal sum, long card) {
         log.info("Номер карты {} сумма платежа {}", card, sum);
 
         if (sum.compareTo(BigDecimal.valueOf(0)) < 0) {
@@ -30,7 +30,7 @@ public class TransferAppProxy implements TransferInterfaceProxy {
         if (bankClientsInterfaceProxy.isBankClient(card)
                 && bankClientsInterfaceProxy.getCashByIdClient(card).compareTo(sum) > 0) {
 
-            return bankClientsInterfaceProxy.getCashByIdClient(card).subtract(sum);
+            return true;
         } else {
             throw new NotEnoughMoneyException("Недостаточно средств для оплаты");
         }

@@ -10,13 +10,14 @@ import ru.sber.model.PaymentDetails;
 import ru.sber.services.PaymentInterfaceService;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Получает запросы для оплаты товаров
  */
 @Slf4j
 @RestController
-@RequestMapping("payment")
+@RequestMapping("payments")
 public class PaymentController {
     private final PaymentInterfaceService paymentInterfaceService;
 
@@ -25,12 +26,22 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> payProduct(@RequestBody PaymentDetails paymentDetails) {
-        log.info("Оплата товара клиента id {} с промокодом {}", paymentDetails.getIdClient(), paymentDetails.getIdPromoCode());
+    public ResponseEntity<Void> payProductsInBasket(@RequestBody PaymentDetails paymentDetails) throws URISyntaxException {
+        log.info("Оплата товара клиента id {} с промокодом {}",
+                paymentDetails.getIdClient(), paymentDetails.getIdPromoCode());
 
-        return ResponseEntity
-                .accepted()
-                .location(URI.create("payment/" + paymentInterfaceService.pay(paymentDetails)))
-                .build();
+        var isPay = paymentInterfaceService.pay(paymentDetails);
+        log.info("Оплата клиента с id {} {}", paymentDetails.getIdClient(), isPay ? "удалились" : "не удалились");
+
+        if (isPay) {
+            return ResponseEntity
+                    .ok()
+                    .location(new URI("payments/clients/" + paymentDetails.getIdClient()))
+                    .build();
+        } else {
+            return ResponseEntity
+                    .badRequest()
+                    .build();
+        }
     }
 }

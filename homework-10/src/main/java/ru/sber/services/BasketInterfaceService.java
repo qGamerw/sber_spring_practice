@@ -3,7 +3,6 @@ package ru.sber.services;
 import ru.sber.entity.Client;
 import ru.sber.entity.Product;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -21,7 +20,7 @@ public interface BasketInterfaceService {
     boolean add(long idClient, Product product);
 
     /**
-     * Обновляет количество продутов в корзине
+     * Обновляет количество продуктов в корзине
      *
      * @param idClient id клиента
      * @param product  продукт
@@ -30,7 +29,7 @@ public interface BasketInterfaceService {
     boolean updateProduct(long idClient, Product product);
 
     /**
-     * Удаляет продуты в корзине
+     * Удаляет продут в корзине
      *
      * @param idClient id клиента
      * @param product  продукт
@@ -55,35 +54,26 @@ public interface BasketInterfaceService {
     boolean isCountProduct(Client client);
 
     /**
-     * Получает сумму к оплате
-     *
-     * @param idClient    id клиента
-     * @param idPromoCode id промокода
-     * @return boolean
-     */
-    BigDecimal getPrice(long idClient, long idPromoCode);
-
-    /**
-     * Получает карту клиента
+     * Удаляет товары в корзине при оплате
      *
      * @param id id клиента
      * @return boolean
      */
-    long getIdCard(long id);
+    boolean basketCleaning(long id);
 
     /**
-     * Удаляет товары в корзине
-     *
-     * @param id id клиента
-     * @return boolean
-     */
-    boolean removeProductBasket(long id);
-
-    /**
-     * Получает список продуктов у клиента
+     * Получает список неповторяющихся продуктов у клиента
      *
      * @param id id клиента
      * @return List<Product>
      */
-    List<Product> getClientById(long id);
+    List<Product> getClientUnrepeatableProductListById(long id);
+
+    /**
+     * Удаляет корзину клиента
+     *
+     * @param id id клиента
+     * @return boolean
+     */
+    boolean deleteBasket(long id);
 }

@@ -2,6 +2,7 @@ package ru.sber.services;
 
 import ru.sber.entity.Client;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 /**
@@ -31,4 +32,21 @@ public interface ClientInterfaceService {
      * @return boolean
      */
     boolean deleteClientById(long id);
+
+    /**
+     * Получает сумму к оплате
+     *
+     * @param idClient    id клиента
+     * @param idPromoCode id промокода
+     * @return BigDecimal
+     */
+    BigDecimal getPrice(long idClient, long idPromoCode);
+
+    /**
+     * Получает карту клиента
+     *
+     * @param id id клиента
+     * @return boolean
+     */
+    long getIdCard(long id);
 }

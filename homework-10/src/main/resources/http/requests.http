@@ -1,16 +1,16 @@
 ###
-POST localhost:8080/promocode
+POST localhost:8080/promo-code
 Content-Type: application/json
 
 {
-  "discount": 10
+  "discount": 0
 }
 
 ###
-GET localhost:8080/promocode?id=2
+GET localhost:8080/promo-code/4
 
 ###
-PUT localhost:8080/promocode
+PUT localhost:8080/promo-code
 Content-Type: application/json
 
 {
@@ -19,7 +19,16 @@ Content-Type: application/json
 }
 
 ###
-DELETE localhost:8080/promocode?id=1
+GET localhost:8080/promo-code
+Content-Type: application/json
+
+{
+  "minDiscount": 2,
+  "maxDiscount": 21
+}
+
+###
+DELETE localhost:8080/promo-code/1
 
 #-------------------------------------
 
@@ -36,10 +45,10 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/clients?id=1
+GET localhost:8080/clients/1
 
 ###
-DELETE localhost:8080/clients?id=5
+DELETE localhost:8080/clients/3
 
 
 #-------------------------------------
@@ -54,66 +63,67 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/products?name=Яблоко1
+GET localhost:8080/products?name=Яблоко
 
 ###
 GET localhost:8080/products
 
 ###
-GET localhost:8080/products/?id=2
+GET localhost:8080/products/30
+
 
 ###
 PUT localhost:8080/products
 Content-Type: application/json
 
 {
-  "id": 7,
-  "name": "Apple",
-  "price": 1000000,
-  "amount": 100
+  "id": 2,
+  "name": "Яблоко1",
+  "price": 10,
+  "amount": 10
 }
 
 ###
-DELETE localhost:8080/products?id=1
+DELETE localhost:8080/products/2
 
 
 #-------------------------------------
 
 
 ###
-POST localhost:8080/baskets?idClient=7
+POST localhost:8080/baskets/2
 Content-Type: application/json
 
 {
-  "id": 5,
-  "amount": 1000
-}
-
-###
-PUT localhost:8080/baskets?idClient=7
-Content-Type: application/json
-
-{
-  "id": 5,
+  "id": 10,
   "amount": 1
 }
 
 ###
-DELETE localhost:8080/baskets?idClient=1
+PUT localhost:8080/baskets/1
 Content-Type: application/json
 
 {
-  "id": 2
+  "id": 1,
+  "amount": 1
+}
+
+###
+DELETE localhost:8080/baskets/1
+Content-Type: application/json
+
+{
+  "id": 1
 }
 
 ###
 #---------------------------------------
 
 ###
-POST localhost:8080/payment
+POST localhost:8080/payments
 Content-Type: application/json
 
 {
-  "idClient": 7,
-  "idPromoCode": 2
+  "idClient": 1,
+  "idPromoCode": 4
 }

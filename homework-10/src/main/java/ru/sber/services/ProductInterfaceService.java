@@ -23,7 +23,7 @@ public interface ProductInterfaceService {
      * @param name имя продукта
      * @return List<Product>
      */
-    List<Product> getListProductName(String name);
+    List<Product> getListProductsByName(String name);
 
     /**
      * Выводит продут по id

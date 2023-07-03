@@ -1,4 +1,4 @@
-POST localhost:8080/payment
+POST localhost:8080/payments
 Content-Type: application/json
 
 {

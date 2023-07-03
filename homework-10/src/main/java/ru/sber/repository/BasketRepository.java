@@ -5,18 +5,28 @@ import ru.sber.entity.Client;
 import ru.sber.entity.ProductBasket;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Интерфейс для взаимодействия с корзиной
  */
 public interface BasketRepository extends JpaRepository<ProductBasket, Long> {
     /**
-     * Проверяет продукты в корзине на наличие
+     * Проверяет есть ли у клиента корзина
      *
-     * @param client id клиента
+     * @param idClient id клиента
      * @return boolean
      */
-    boolean existsByClientId(long client);
+    boolean existsByClientId(long idClient);
+
+    /**
+     * Проверяет продукты в корзине на наличие
+     *
+     * @param idClient  id клиента
+     * @param idProduct id продукта
+     * @return boolean
+     */
+    boolean existsByClientIdAndProductId(long idClient, long idProduct);
 
     /**
      * Получает товар в корзине по id клиента
@@ -27,9 +37,18 @@ public interface BasketRepository extends JpaRepository<ProductBasket, Long> {
     List<ProductBasket> findByClientId(long idClient);
 
     /**
-     * Удаляет клиента
+     * Удаляет корзину клиента
      *
      * @param client клиент
      */
-    void deleteByClient(Client client);
+    void deleteAllByClient(Client client);
+
+    /**
+     * Ищет продукт в корзине по id клиента и id продукта
+     *
+     * @param idClient  id клиента
+     * @param idProduct id продукта
+     * @return Optional<ProductBasket>
+     */
+    Optional<ProductBasket> findByClientIdAndProductId(long idClient, long idProduct);
 }

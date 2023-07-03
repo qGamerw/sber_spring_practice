@@ -11,7 +11,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/clients?id=1
+GET localhost:8080/clients/1
 
 ###
-DELETE localhost:8080/clients?id=1
+DELETE localhost:8080/clients/1

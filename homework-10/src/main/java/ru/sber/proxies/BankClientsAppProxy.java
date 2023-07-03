@@ -33,12 +33,13 @@ public class BankClientsAppProxy implements BankClientsInterfaceProxy {
         throw new BankClientException("Не является клиентом банка");
     }
 
+    @Override
     public BigDecimal getCashByIdClient(long card) {
         for (Card item : cards) {
             if (card == item.getIdCard()) {
                 return item.getAccount();
             }
         }
-        return BigDecimal.valueOf(0);
+        throw new BankClientException("Ошибка получения средств");
     }
 }

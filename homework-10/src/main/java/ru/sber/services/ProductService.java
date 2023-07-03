@@ -24,63 +24,54 @@ public class ProductService implements ProductInterfaceService {
 
     @Override
     public long addProduct(Product product) {
-        log.info("Добавляет продукт c id {}", product.getId());
+        log.info("ProductService добавляет продукт c id {}", product.getId());
 
         return productRepository.save(product).getId();
     }
 
     @Override
-    public List<Product> getListProductName(String name) {
-        log.info("Получает товар по имени {}", name);
+    public List<Product> getListProductsByName(String name) {
+        log.info("ProductService получает товар по имени {}", name);
 
         if (name == null) {
             return productRepository.findAll();
-        } else {
-            return productRepository.findAll()
-                    .stream()
-                    .filter(item -> name.equals(item.getName()))
-                    .toList();
         }
+
+        return productRepository.findByNameIsLikeIgnoreCase(name);
     }
 
     @Override
     public Optional<Product> getProductById(long id) {
-        log.info("Получает товар по id {}", id);
+        log.info("ProductService получает товар по id {}", id);
 
         return productRepository.findById(id);
     }
 
     @Override
     public boolean update(Product product) {
-        log.info("Обновляет товар по id {}", product.getId());
+        log.info("ProductService обновляет товар по id {}", product.getId());
 
-        var isProduct = productRepository.findAll()
-                .stream()
-                .filter(item -> item.getId() == product.getId())
-                .findAny();
+        var isProduct = productRepository.existsById(product.getId());
 
-        if (isProduct.isPresent()) {
+        if (isProduct) {
             productRepository.save(product);
-
             return true;
         }
+
         return false;
     }
 
     @Override
     public boolean delete(long id) {
-        log.info("Удаляет товар по id {}", id);
+        log.info("ProductService удаляет товар по id {}", id);
 
-        var isProduct = productRepository.findAll()
-                .stream()
-                .filter(item -> item.getId() == id)
-                .findAny();
+        var isProduct = productRepository.existsById(id);
 
-        if (isProduct.isPresent()) {
+        if (isProduct) {
             productRepository.deleteById(id);
-
             return true;
         }
+
         return false;
     }
 }

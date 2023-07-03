@@ -2,6 +2,7 @@ package ru.sber.services;
 
 import ru.sber.entity.PromoCode;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -46,5 +47,14 @@ public interface PromoCodeInterfaceService {
      * @param id id промокода
      * @return boolean
      */
-    boolean isPromoCode(long id);
+    boolean isPromoCodeById(long id);
+
+    /**
+     * Выводит промокоды в заданно диапазоне включительно
+     *
+     * @param minDiscount начальное значение
+     * @param maxDiscount конечное значение
+     * @return List<PromoCode>
+     */
+    List<PromoCode> getPromoCodeByDiscountRange(double minDiscount, double maxDiscount);
 }

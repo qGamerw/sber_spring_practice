@@ -5,16 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.entity.PromoCode;
+import ru.sber.model.RangePromoCode;
 import ru.sber.services.PromoCodeInterfaceService;
 
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
 
 /**
  * Контролер для взаимодействия с промокодом
  */
 @Slf4j
 @RestController
-@RequestMapping("promocode")
+@RequestMapping("promo-code")
 public class PromoCodeController {
     private final PromoCodeInterfaceService promoCodeInterfaceService;
 
@@ -24,16 +27,16 @@ public class PromoCodeController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addPromoCode(@RequestBody PromoCode promoCode) {
+    public ResponseEntity<Void> addPromoCode(@RequestBody PromoCode promoCode) throws URISyntaxException {
         log.info("Добавляет промокода {}", promoCode);
 
         return ResponseEntity
-                .created(URI.create("promocode/" + promoCodeInterfaceService.addPromoCode(promoCode)))
+                .created(new URI("promo-code/" + promoCodeInterfaceService.addPromoCode(promoCode)))
                 .build();
     }
 
-    @GetMapping
-    public ResponseEntity<PromoCode> getPromoCode(@RequestParam long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<PromoCode> getPromoCodeById(@PathVariable long id) {
         log.info("Получает промокода с id {}", id);
 
         var promoCode = promoCodeInterfaceService.getPromoCodeById(id);
@@ -49,8 +52,21 @@ public class PromoCodeController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<List<PromoCode>> getPromoCodeListRange(@RequestBody RangePromoCode rangePromoCode) {
+        log.info("Выводит скидку в диапазоне от {} до {}",
+                rangePromoCode.getMinDiscount(), rangePromoCode.getMaxDiscount());
+
+        var promoCodeList = promoCodeInterfaceService.getPromoCodeByDiscountRange(
+                rangePromoCode.getMinDiscount(), rangePromoCode.getMaxDiscount());
+
+        return ResponseEntity
+                .ok()
+                .body(promoCodeList);
+    }
+
     @PutMapping
-    public ResponseEntity<?> updatePromoCode(@RequestBody PromoCode promoCode) {
+    public ResponseEntity<Void> updatePromoCode(@RequestBody PromoCode promoCode) {
         log.info("Обновление промокода {}", promoCode);
 
         var isUpdate = promoCodeInterfaceService.update(promoCode);
@@ -66,8 +82,8 @@ public class PromoCodeController {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deletePromoCode(@RequestParam long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePromoCodeById(@PathVariable long id) {
         log.info("Удаляет промокода с id {}", id);
 
         boolean isDeleted = promoCodeInterfaceService.deletePromoCodeById(id);

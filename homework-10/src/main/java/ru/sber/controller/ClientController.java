@@ -9,6 +9,7 @@ import ru.sber.services.BasketInterfaceService;
 import ru.sber.services.ClientInterfaceService;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Получает запросы для взаимодействия с клиентом
@@ -26,20 +27,20 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addClient(@RequestBody Client client) {
+    public ResponseEntity<Void> addClient(@RequestBody Client client) throws URISyntaxException {
         log.info("Добавляет клиента: {}", client);
 
         return ResponseEntity
-                .created(URI.create("client/" + clientInterfaceService.addClient(client)))
+                .created(new URI("client/" + clientInterfaceService.addClient(client)))
                 .build();
     }
 
-    @GetMapping
-    public ResponseEntity<LimitedClient> getClient(@RequestParam long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<LimitedClient> getClientById(@PathVariable long id) {
         log.info("Получает клиента с id {}", id);
 
         var client = clientInterfaceService.getClientById(id);
-        var product = basketInterfaceService.getClientById(id);
+        var product = basketInterfaceService.getClientUnrepeatableProductListById(id);
 
         if (client.isPresent()) {
             return ResponseEntity
@@ -52,8 +53,8 @@ public class ClientController {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteClient(@RequestParam long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteClientById(@PathVariable long id) {
         log.info("Удаляет клиента с id {}", id);
 
         boolean isDeleted = clientInterfaceService.deleteClientById(id);

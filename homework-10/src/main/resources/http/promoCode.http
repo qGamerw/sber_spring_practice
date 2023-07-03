@@ -1,5 +1,5 @@
 ###
-POST localhost:8080/promocode
+POST localhost:8080/promo-code
 Content-Type: application/json
 
 {
@@ -7,16 +7,16 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/promocode?id=1
+GET localhost:8080/promo-code/7
 
 ###
-PUT localhost:8080/promocode
+PUT localhost:8080/promo-code
 Content-Type: application/json
 
 {
-  "id": 1,
-  "discount": 10
+  "id": 7,
+  "discount": 15
 }
 
 ###
-DELETE localhost:8080/promocode?id=1
+DELETE localhost:8080/promo-code/7

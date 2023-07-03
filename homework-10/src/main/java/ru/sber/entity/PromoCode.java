@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "promo_codes", schema = "ukhinms")
+@Table(name = "promo_codes")
 public class PromoCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "discount", nullable = false)
+    @Column(nullable = false)
     private double discount;
 }

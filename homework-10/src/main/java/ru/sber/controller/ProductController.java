@@ -7,6 +7,7 @@ import ru.sber.entity.Product;
 import ru.sber.services.ProductInterfaceService;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,33 +22,35 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addProduct(@RequestBody Product product) {
+    public ResponseEntity<Void> addProduct(@RequestBody Product product) throws URISyntaxException {
         log.info("Добавление продукта {}", product);
 
+        long id = productInterfaceService.addProduct(product);
+
         return ResponseEntity
-                .created(URI.create("product/" + productInterfaceService.addProduct(product)))
+                .created(new URI("http://localhost:8080/products/" + id))
                 .build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getProduct(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<Product>> getProductByName(@RequestParam(required = false) String name) {
         log.info("Получение продуктов с именем {}", name);
 
-        var product = productInterfaceService.getListProductName(name);
+        var productList = productInterfaceService.getListProductsByName(name);
 
-        if (product.isEmpty()) {
+        if (productList.isEmpty()) {
             return ResponseEntity
                     .notFound()
                     .build();
         } else {
             return ResponseEntity
                     .ok()
-                    .body(product);
+                    .body(productList);
         }
     }
 
-    @GetMapping("/")
-    public ResponseEntity<Optional<Product>> getProductById(@RequestParam long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Product>> getProductById(@PathVariable long id) {
         log.info("Получение списка продуктов по id {}", id);
 
         var product = productInterfaceService.getProductById(id);
@@ -64,7 +67,7 @@ public class ProductController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateProduct(@RequestBody Product product) {
+    public ResponseEntity<Void> updateProduct(@RequestBody Product product) {
         log.info("Обновление продукта {}", product);
 
         var isUpdate = productInterfaceService.update(product);
@@ -80,8 +83,8 @@ public class ProductController {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteProduct(@RequestParam long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProductById(@PathVariable long id) {
         log.info("Удаление продукта id {}", id);
 
         var isDeleted = productInterfaceService.delete(id);

@@ -7,6 +7,7 @@ import ru.sber.entity.Product;
 import ru.sber.services.BasketInterfaceService;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Получает запросы для взаимодействия с корзиной
@@ -21,15 +22,16 @@ public class BasketController {
         this.basketInterfaceService = basketInterfaceService;
     }
 
-    @PostMapping
-    public ResponseEntity<?> addProduct(@RequestParam long idClient, @RequestBody Product product) {
-        log.info("Добавляет продукт в корзину с id {} -> {} клиенту id {}", product.getId(), product.getAmount(), idClient);
+    @PostMapping("/{idClient}")
+    public ResponseEntity<Void> addProductInBasket(@PathVariable long idClient, @RequestBody Product product) throws URISyntaxException {
+        log.info("Добавляет продукт в корзину с id {} -> {} клиенту id {}",
+                product.getId(), product.getAmount(), idClient);
 
         var isCreated = basketInterfaceService.add(idClient, product);
 
         if (isCreated) {
             return ResponseEntity
-                    .created(URI.create("basket/" + product.getId()))
+                    .created(new URI("baskets/clients/" + idClient + "/" + product.getId()))
                     .build();
         } else {
             return ResponseEntity
@@ -38,15 +40,15 @@ public class BasketController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateProduct(@RequestParam long idClient, @RequestBody Product product) {
+    @PutMapping("/{idClient}")
+    public ResponseEntity<Void> updateProductInBasket(@PathVariable long idClient, @RequestBody Product product) throws URISyntaxException {
         log.info("Обновляет количество продукта в корзине с id: {} -> {}", product.getId(), 1);
 
         var isUpdated = basketInterfaceService.updateProduct(idClient, product);
 
         if (isUpdated) {
             return ResponseEntity
-                    .created(URI.create("basket/" + product.getId()))
+                    .created(new URI("baskets/clients/" + idClient + "/" + product.getId()))
                     .build();
         } else {
             return ResponseEntity
@@ -55,8 +57,8 @@ public class BasketController {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteProduct(@RequestParam long idClient, @RequestBody Product product) {
+    @DeleteMapping("/{idClient}")
+    public ResponseEntity<Void> deleteProductInBasket(@PathVariable long idClient, @RequestBody Product product) {
         log.info("Удаляет продукт в корзине с id: {} у клиента {}", product.getId(), idClient);
 
         boolean isDelete = basketInterfaceService.deleteProduct(idClient, product);
