@@ -52,7 +52,6 @@ public class ClientService implements ClientInterfaceService {
     public boolean deleteClientById(long id) {
         log.info("ClientService удаляет клиента с id {}", id);
 
-        basketInterfaceService.deleteBasket(id);
         clientRepository.deleteById(id);
 
         return true;

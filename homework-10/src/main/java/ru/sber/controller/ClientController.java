@@ -40,7 +40,7 @@ public class ClientController {
         log.info("Получает клиента с id {}", id);
 
         var client = clientInterfaceService.getClientById(id);
-        var product = basketInterfaceService.getClientUnrepeatableProductListById(id);
+        var product = basketInterfaceService.getClientProductListById(id);
 
         if (client.isPresent()) {
             return ResponseEntity

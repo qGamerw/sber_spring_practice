@@ -12,32 +12,32 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class PromoCodeService implements PromoCodeInterfaceService {
-    private final PromoCodeRepository productRepository;
+    private final PromoCodeRepository promoCodeRepository;
 
     @Autowired
-    public PromoCodeService(PromoCodeRepository productRepository) {
-        this.productRepository = productRepository;
+    public PromoCodeService(PromoCodeRepository promoCodeRepository) {
+        this.promoCodeRepository = promoCodeRepository;
     }
 
     @Override
     public long addPromoCode(PromoCode promoCode) {
         log.info("PromoCodeService добавляет промокод c id {}", promoCode.getId());
 
-        return productRepository.save(promoCode).getId();
+        return promoCodeRepository.save(promoCode).getId();
     }
 
     @Override
     public Optional<PromoCode> getPromoCodeById(long id) {
         log.info("PromoCodeService получает промокод по id {}", id);
 
-        return productRepository.findById(id);
+        return promoCodeRepository.findById(id);
     }
 
     @Override
     public boolean update(PromoCode promoCode) {
         log.info("PromoCodeService обновляет промокод {}", promoCode);
 
-        productRepository.save(promoCode);
+        promoCodeRepository.save(promoCode);
         return true;
     }
 
@@ -45,7 +45,7 @@ public class PromoCodeService implements PromoCodeInterfaceService {
     public boolean deletePromoCodeById(long id) {
         log.info("PromoCodeService удаляет промокод по id {}", id);
 
-        productRepository.deleteById(id);
+        promoCodeRepository.deleteById(id);
         return true;
     }
 
@@ -53,13 +53,13 @@ public class PromoCodeService implements PromoCodeInterfaceService {
     public boolean isPromoCodeById(long id) {
         log.info("PromoCodeService проверяет есть ли промокод с id {}", id);
 
-        return productRepository.existsById(id);
+        return promoCodeRepository.existsById(id);
     }
 
     @Override
     public List<PromoCode> getPromoCodeByDiscountRange(double minDiscount, double maxDiscount) {
         log.info("PromoCodeService получает список промокодов в диапазоне от {} до {}", minDiscount, maxDiscount);
 
-        return productRepository.findByDiscountBetween(minDiscount, maxDiscount);
+        return promoCodeRepository.findByDiscountBetween(minDiscount, maxDiscount);
     }
 }

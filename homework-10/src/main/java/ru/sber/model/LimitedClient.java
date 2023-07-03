@@ -14,9 +14,9 @@ public class LimitedClient {
     private String name;
     private String email;
     private long idCard;
-    private List<Product> products;
+    private List<LimitedProduct> products;
 
-    public LimitedClient(Client client, List<Product> products) {
+    public LimitedClient(Client client, List<LimitedProduct> products) {
 
         this.name = client.getName();
         this.email = client.getEmail();

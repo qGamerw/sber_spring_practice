@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 import ru.sber.entity.Client;
 import ru.sber.entity.Product;
 import ru.sber.entity.ProductBasket;
+import ru.sber.model.LimitedProduct;
 import ru.sber.repository.BasketRepository;
 import ru.sber.repository.ClientRepository;
 import ru.sber.repository.ProductRepository;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -168,31 +168,10 @@ public class BasketService implements BasketInterfaceService {
     }
 
     @Override
-    public List<Product> getClientUnrepeatableProductListById(long id) {
-        log.info("BasketService получаем неповторяющийся список продуктов у клиента с id {}", id);
+    public List<LimitedProduct> getClientProductListById(long id) {
+        log.info("BasketService получаем список продуктов у клиента с id {}", id);
 
-        List<ProductBasket> productBasketList = basketRepository.findByClientId(id);
-        List<Product> clientProductList = new ArrayList<>();
-
-        for (ProductBasket productInBasket : productBasketList) {
-            productInBasket.getProduct().setAmount(productInBasket.getAmount());
-
-            var productAtClient = clientProductList.stream()
-                    .filter(getProductPredicate(productInBasket))
-                    .findAny();
-
-            if (productAtClient.isPresent()) {
-                clientProductList.stream()
-                        .filter(prod -> prod == productAtClient.get())
-                        .findAny()
-                        .get()
-                        .setAmount(productAtClient.get().getAmount() + productInBasket.getAmount());
-            } else {
-                clientProductList.add(productInBasket.getProduct());
-            }
-        }
-
-        return clientProductList;
+        return basketRepository.findByClientId(id).stream().map(LimitedProduct::new).toList();
     }
 
     @Override

@@ -48,7 +48,7 @@ Content-Type: application/json
 GET localhost:8080/clients/1
 
 ###
-DELETE localhost:8080/clients/3
+DELETE localhost:8080/clients/1
 
 
 #-------------------------------------

@@ -2,6 +2,7 @@ package ru.sber.services;
 
 import ru.sber.entity.Client;
 import ru.sber.entity.Product;
+import ru.sber.model.LimitedProduct;
 
 import java.util.List;
 
@@ -67,7 +68,7 @@ public interface BasketInterfaceService {
      * @param id id клиента
      * @return List<Product>
      */
-    List<Product> getClientUnrepeatableProductListById(long id);
+    List<LimitedProduct> getClientProductListById(long id);
 
     /**
      * Удаляет корзину клиента
