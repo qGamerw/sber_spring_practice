@@ -1,4 +1,3 @@
-import logo from '../img/logo.svg';
 import {createSlice} from '@reduxjs/toolkit'
 
 export const basketsSlice = createSlice({
@@ -7,7 +6,7 @@ export const basketsSlice = createSlice({
         baskets: [
             {
                 id: 1,
-                idClient : 1,
+                idClient: 1,
                 idProduct: 1,
                 price: 100,
                 amount: 10,
@@ -15,7 +14,7 @@ export const basketsSlice = createSlice({
             },
             {
                 id: 2,
-                idClient : 1,
+                idClient: 1,
                 idProduct: 2,
                 price: 10,
                 amount: 1,
@@ -23,7 +22,7 @@ export const basketsSlice = createSlice({
             },
             {
                 id: 3,
-                idClient : 1,
+                idClient: 1,
                 idProduct: 3,
                 price: 30,
                 amount: 1,
@@ -33,7 +32,7 @@ export const basketsSlice = createSlice({
     },
     reducers: {
         pushBasket: (state, action) => {
-            const { product, amount } = action.payload;
+            const {product, amount} = action.payload;
             const existingProduct = state.baskets.find(p => p.idProduct === product.id);
             if (existingProduct) {
                 existingProduct.amount += +amount;
@@ -52,7 +51,7 @@ export const basketsSlice = createSlice({
             state.baskets = [productBasket, ...state.baskets];
         },
         editBasket: (state, action) => {
-            const { oldname, name, price } = action.payload;
+            const {oldname, name, price} = action.payload;
 
             state.products = state.products.map((product) => {
                 if (product.name === oldname) {
@@ -70,11 +69,11 @@ export const basketsSlice = createSlice({
                 existingProduct.amount += +1;
             }
         },
-        dicreaseAmount: (state, action) => {
+        decreaseAmount: (state, action) => {
             const product = action.payload;
             const existingProduct = state.baskets.find(p => p.idProduct === product.id);
             if (existingProduct) {
-                if (existingProduct.amount > 0){
+                if (existingProduct.amount > 0) {
                     existingProduct.amount -= +1;
                 }
             }
@@ -91,9 +90,10 @@ export const basketsSlice = createSlice({
     },
 })
 
-// Action creators are generated for each case reducer function
-export const {pushBasket, editBasket,
+export const {
+    pushBasket, editBasket,
     removeBasket, increaseAmount,
-    dicreaseAmount, pay} = basketsSlice.actions
+    decreaseAmount, pay
+} = basketsSlice.actions
 
 export default basketsSlice.reducer

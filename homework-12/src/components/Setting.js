@@ -47,7 +47,7 @@ export const AddProductForm = () => {
             >
                 <Form.Item
                     name="name"
-                    label="Name"
+                    label="Название товара"
                     rules={[
                         {
                             required: true,
@@ -59,7 +59,7 @@ export const AddProductForm = () => {
 
                 <Form.Item
                     name="price"
-                    label="Price"
+                    label="Цена"
                     rules={[
                         {
                             required: true,
@@ -71,13 +71,13 @@ export const AddProductForm = () => {
 
                 <Form.Item {...tailLayout}>
                     <Button type="primary" htmlType="submit">
-                        Добавить
+                        Добавить товар
                     </Button>
                     <Button htmlType="button" onClick={onReset}>
-                        Reset
+                        Очистить поле ввода
                     </Button>
                     <Button type="link" htmlType="button" onClick={onFill}>
-                        Fill form
+                        Автоматический заполнить поля
                     </Button>
                 </Form.Item>
             </Form>
@@ -112,12 +112,12 @@ const GetCart = () => {
                         id: product.id, name: document.getElementById(product.id).value,
                         price: document.getElementById(product.id + 1).value
                     }))} style={{
-                        marginLeft: 45,
-                    }}>Изменить</Button>
+                        marginLeft: 25,
+                    }}>Изменить товар</Button>
                     <Button type={"primary"} onClick={() => dispatch(removeProduct(product.id))} style={{
-                        marginLeft: 50,
+                        marginLeft: 30,
                         marginTop: 10
-                    }}>Удалить</Button>
+                    }}>Удалить товар</Button>
                 </Card>
             </Col>
         );

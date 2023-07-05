@@ -1,6 +1,13 @@
 import './App.css';
 
-import {MenuFoldOutlined, MenuUnfoldOutlined, ManOutlined , UserOutlined, ShopOutlined, SettingOutlined} from '@ant-design/icons';
+import {
+    ManOutlined,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    SettingOutlined,
+    ShopOutlined,
+    UserOutlined
+} from '@ant-design/icons';
 import {Clients} from "./components/Client";
 import SearchProduct from "./search/SearchProduct";
 
@@ -8,7 +15,7 @@ import {Button, Layout, Menu, theme} from 'antd';
 import {useState} from 'react';
 import {Products} from "./components/Product";
 import {SettingProducts} from "./components/Setting";
-import {SearchSetting} from "./search/SearchSetting";
+import SearchSetting from "./search/SearchSetting";
 
 const {Header, Sider, Content} = Layout;
 
@@ -54,7 +61,7 @@ const App = () => {
                     items={[
                         {
                             key: '0',
-                            icon: <ManOutlined  />,
+                            icon: <ManOutlined/>,
                             label: 'Gachimuchi',
                             disabled: true,
                         },
@@ -95,7 +102,7 @@ const App = () => {
                         }}
                     />
                     {(isProduct) ? <SearchProduct/> : ""}
-                    {(isSetting) ? <SearchProduct/> : ""}
+                    {(isSetting) ? <SearchSetting/> : ""}
                     {isClient ? <Button type="primary" shape="round" size={size} style={{float: "right", margin: 10}}>
                         Login, Van Darkholm
                     </Button> : ""}

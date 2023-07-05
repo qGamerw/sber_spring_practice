@@ -7,21 +7,21 @@ export const productSlice = createSlice({
         products: [
             {
                 id: 1,
-                oldname : "",
+                oldname: "",
                 name: "Самый нужный товар №1",
                 price: 100,
                 url: logo
             },
             {
                 id: 2,
-                oldname : "",
+                oldname: "",
                 name: "Самый нужный товар №2",
                 price: 10,
                 url: logo
             },
             {
                 id: 3,
-                oldname : "",
+                oldname: "",
                 name: "Самый нужный товар №3",
                 price: 30,
                 url: logo
@@ -38,16 +38,16 @@ export const productSlice = createSlice({
             state.products = [action.payload, ...state.products]
         },
         editProduct: (state, action) => {
-            const { id, name, price } = action.payload;
+            const {id, name, price} = action.payload;
 
             state.products = state.products.map((product) => {
                 if (product.id === id) {
 
-                    product.name = name; // Измененное значение присваивается полю name
+                    product.name = name;
                     product.price = price;
                     console.log(product);
                 }
-                return product; // Обязательно возвращаем объект product из map()
+                return product;
             });
         },
         removeProduct: (state, action) => {
@@ -61,7 +61,6 @@ export const productSlice = createSlice({
     },
 })
 
-// Action creators are generated for each case reducer function
 export const {pushProduct, editProduct, searchProducts, removeProduct} = productSlice.actions
 
 export default productSlice.reducer

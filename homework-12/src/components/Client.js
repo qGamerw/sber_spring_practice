@@ -1,8 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
-import {dicreaseAmount, increaseAmount, pay, removeBasket} from "../slices/BasketSlices";
+import {decreaseAmount, increaseAmount, pay, removeBasket} from "../slices/BasketSlices";
 import {Avatar, Badge, Button, Descriptions, message, Table} from "antd";
-
-import {useState} from "react";
 
 const GetClient = () => {
     const productBasket = useSelector((state) => state.baskets.baskets);
@@ -18,17 +16,17 @@ const GetClient = () => {
             key: 'name',
         },
         {
-            title: 'Price',
+            title: 'Цена',
             dataIndex: 'price',
             key: 'price',
         },
         {
-            title: 'Amount',
+            title: 'Количество',
             dataIndex: 'amount',
             key: 'amount',
         },
         {
-            title: 'Увеличить',
+            title: 'Увеличить на 1',
             dataIndex: 'amountDic',
             key: 'amountDic',
             render: (_, product) => (
@@ -38,17 +36,17 @@ const GetClient = () => {
             ),
         },
         {
-            title: 'Уменьшить',
+            title: 'Уменьшить на 1',
             dataIndex: 'amountDic',
             key: 'amountDic',
             render: (_, product) => (
-                <Button type="primary" onClick={() => dispatch(dicreaseAmount(product))}>
+                <Button type="primary" onClick={() => dispatch(decreaseAmount(product))}>
                     <a>Уменьшить</a>
                 </Button>
             ),
         },
         {
-            title: 'Удалить',
+            title: 'Удалить из корзины',
             key: 'delete',
             render: (_, product) => (
                 <Button type="primary" onClick={() => dispatch(removeBasket(product.id))}>
@@ -92,7 +90,9 @@ const GetClient = () => {
             <Descriptions title="Информаци о заказе" bordered>
                 <Descriptions.Item label="Оплата">Ожидает оплаты</Descriptions.Item>
                 <Descriptions.Item label="Время заказа">2018-04-24 18:00:00</Descriptions.Item>
-                <Descriptions.Item label="Статус" span={3}> {(totalPrice > 0) ?  <Badge status="processing" text="Ожидание"/> : <Badge status="success" text="В пути"/>}</Descriptions.Item>
+                <Descriptions.Item label="Статус" span={3}> {(totalPrice > 0) ?
+                    <Badge status="processing" text="Ожидание"/> :
+                    <Badge status="success" text="В пути"/>}</Descriptions.Item>
                 <Descriptions.Item label="Итог">{totalPrice} GCoins</Descriptions.Item>
                 <Descriptions.Item label="Количество товара">{totalAmount}</Descriptions.Item>
             </Descriptions>
@@ -100,7 +100,6 @@ const GetClient = () => {
         </>
     );
 }
-
 export const Clients = () => {
     const dispatch = useDispatch();
 
