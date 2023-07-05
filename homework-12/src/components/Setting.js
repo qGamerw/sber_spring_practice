@@ -1,7 +1,8 @@
 import {Button, Card, Col, Form, Input, Row, Select} from 'antd';
-import {editProduct, pushProduct, removeProduct} from "../slices/ProductSlices";
+import {clearSearchResults, editProduct, pushProduct, removeProduct} from "../slices/ProductSlices";
 import {useDispatch, useSelector} from "react-redux";
 import Meta from "antd/es/card/Meta";
+import {useEffect} from "react";
 
 const {Option} = Select;
 const layout = {
@@ -91,6 +92,12 @@ const GetCart = () => {
     const allProduct = useSelector((state) => state.products.products);
 
     const products = selectProduct || allProduct;
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearSearchResults());
+        };
+    }, [dispatch]);
 
     return products.map(product => {
         return (
