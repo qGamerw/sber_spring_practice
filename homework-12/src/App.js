@@ -15,7 +15,6 @@ import {Button, Layout, Menu, theme} from 'antd';
 import {useState} from 'react';
 import {Products} from "./components/Product";
 import {SettingProducts} from "./components/Setting";
-import SearchSetting from "./search/SearchSetting";
 
 const {Header, Sider, Content} = Layout;
 
@@ -102,7 +101,7 @@ const App = () => {
                         }}
                     />
                     {(isProduct) ? <SearchProduct/> : ""}
-                    {(isSetting) ? <SearchSetting/> : ""}
+                    {(isSetting) ? <SearchProduct/> : ""}
                     {isClient ? <Button type="primary" shape="round" size={size} style={{float: "right", margin: 10}}>
                         Login, Van Darkholm
                     </Button> : ""}
