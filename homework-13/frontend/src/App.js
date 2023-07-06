@@ -27,32 +27,27 @@ const App = () => {
     const [isClient, setIsClient] = useState(true);
     const [isProduct, setIsProduct] = useState(false);
     const [isSetting, setIsSetting] = useState(false);
-    const [countGatchi, setCountGatchi] = useState(0);
-    const [isGatchi, setIssgatchi] = useState(false);
+    const [count, setCount] = useState(0);
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleButtonClick = (key) => {
-        console.log(countGatchi)
-        if (countGatchi >= 4){
-            setIsProduct(false);
-            setIsClient(false);
-            setIsSetting(false);
-            setIssgatchi(true);
+        if (count >= 10){
+            setIsOpen(true);
         } else if (parseInt(key) === 1) {
             setIsProduct(false);
             setIsSetting(false);
             setIsClient(true);
-            setCountGatchi(countGatchi+1)
+            setCount(count+1)
         } else if (parseInt(key) === 2) {
             setIsClient(false);
             setIsSetting(false);
             setIsProduct(true);
-            setCountGatchi(countGatchi+1)
+            setCount(count+1)
         } else if (parseInt(key) === 3) {
             setIsProduct(false);
             setIsClient(false);
             setIsSetting(true);
-
-            setCountGatchi(countGatchi+1)
+            setCount(count+1)
         }
     };
 
@@ -94,13 +89,6 @@ const App = () => {
                             icon: <SettingOutlined/>,
                             label: 'Настройка каталога',
                         },
-
-                        (isGatchi? {
-                            key: '4',
-                            icon: <SettingOutlined/>,
-                            label: 'НЕ СОМТРЕТЬ',
-                        } : "")
-
                     ]}
                 />
             </Sider>
@@ -124,7 +112,6 @@ const App = () => {
                     {(isProduct) ? <SearchProduct/> : ""}
                     {(isSetting) ? <SearchProduct/> : ""}
                     <div style={{float: "right", margin: 10}}> {isClient ? <Registration/> : ""}</div>
-
                 </Header>
                 <Content
                     style={{
@@ -137,7 +124,7 @@ const App = () => {
                     {isClient ? <Clients/> : ""}
                     {isProduct ? <Products/> : ""}
                     {isSetting ? <SettingProducts/> : ""}
-                    {isGatchi ? <AudioPlayer/> : ""}
+                    {isOpen ? <AudioPlayer/> : ""}
                 </Content>
             </Layout>
         </Layout>
