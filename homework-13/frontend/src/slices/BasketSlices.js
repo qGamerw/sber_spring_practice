@@ -13,10 +13,7 @@ export const basketsSlice = createSlice({
 })
 
 export const {
-    set,
-    pushBasket, editBasket,
-    removeBasket, increaseAmount,
-    decreaseAmount, pay
+    set
 } = basketsSlice.actions
 
 export default basketsSlice.reducer

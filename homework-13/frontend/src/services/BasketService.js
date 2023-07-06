@@ -3,7 +3,6 @@ import {getUser} from "./UserService";
 
 const API_URL = "http://localhost:8080/baskets";
 
-
 export const add = (userId, productId, amountProduct, dispatch) => {
     return axios.post(API_URL + `/${userId}`, {"id": productId, "amount": amountProduct}).then(
         (response) => {
@@ -49,6 +48,5 @@ const deleteProduct = (userId, productId, dispatch) => {
 const cartService = {
     add, updateProduct, deleteProduct
 };
-
 
 export default cartService;

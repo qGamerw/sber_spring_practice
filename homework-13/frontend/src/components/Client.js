@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import userService from "../services/UserService";
 import basketService from "../services/BasketService";
 import payService from "../services/Payment";
+import logo from '../img/censored.png';
 
 export const Registration = () => {
     const [loading, setLoading] = useState(false);
@@ -174,7 +175,7 @@ const GetClient = () => {
                     xl: 80 * 2,
                     xxl: 100 * 2,
                 }}
-                src='https://image.emojisky.com/974/10189974-middle.png'
+                src={logo}
                 alt={"Van"}
                 style={{marginLeft: 10, marginTop: -20}}
             />

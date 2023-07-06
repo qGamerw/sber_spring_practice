@@ -21,10 +21,8 @@ export const productSlice = createSlice({
 
 export const {
     set,
-
-    pushProduct, editProduct,
-    searchProducts, removeProduct
-    , clearSearchResults
+    searchProducts,
+    clearSearchResults
 } = productSlice.actions
 
 export default productSlice.reducer
