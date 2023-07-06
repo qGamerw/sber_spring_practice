@@ -15,6 +15,8 @@ import {Button, Layout, Menu, theme} from 'antd';
 import {useState} from 'react';
 import {Products} from "./components/Product";
 import {SettingProducts} from "./components/Setting";
+import payService from "./services/Payment";
+import AudioPlayer from "./components/sectrt";
 
 const {Header, Sider, Content} = Layout;
 
@@ -25,20 +27,32 @@ const App = () => {
     const [isClient, setIsClient] = useState(true);
     const [isProduct, setIsProduct] = useState(false);
     const [isSetting, setIsSetting] = useState(false);
+    const [countGatchi, setCountGatchi] = useState(0);
+    const [isGatchi, setIssgatchi] = useState(false);
 
     const handleButtonClick = (key) => {
-        if (parseInt(key) === 1) {
+        console.log(countGatchi)
+        if (countGatchi >= 4){
+            setIsProduct(false);
+            setIsClient(false);
+            setIsSetting(false);
+            setIssgatchi(true);
+        } else if (parseInt(key) === 1) {
             setIsProduct(false);
             setIsSetting(false);
             setIsClient(true);
+            setCountGatchi(countGatchi+1)
         } else if (parseInt(key) === 2) {
             setIsClient(false);
             setIsSetting(false);
             setIsProduct(true);
+            setCountGatchi(countGatchi+1)
         } else if (parseInt(key) === 3) {
             setIsProduct(false);
             setIsClient(false);
             setIsSetting(true);
+
+            setCountGatchi(countGatchi+1)
         }
     };
 
@@ -80,6 +94,13 @@ const App = () => {
                             icon: <SettingOutlined/>,
                             label: 'Настройка каталога',
                         },
+
+                        (isGatchi? {
+                            key: '4',
+                            icon: <SettingOutlined/>,
+                            label: 'НЕ СОМТРЕТЬ',
+                        } : "")
+
                     ]}
                 />
             </Sider>
@@ -116,6 +137,7 @@ const App = () => {
                     {isClient ? <Clients/> : ""}
                     {isProduct ? <Products/> : ""}
                     {isSetting ? <SettingProducts/> : ""}
+                    {isGatchi ? <AudioPlayer/> : ""}
                 </Content>
             </Layout>
         </Layout>

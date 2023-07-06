@@ -34,20 +34,20 @@ export const Registration = () => {
     return (
         <>
             <Button type="primary" onClick={() => handleModal('open')}>
-                {isClientLogin ? 'Войти' : 'Логин, Ван'}
+                {isClientLogin ? 'Войти' : 'Логин, Ван-сама'}
             </Button>
 
             <Modal
                 open={open}
-                title={isClientLogin ? 'Авторизация' : 'Выход'}
+                title={isClientLogin ? 'Добро пожаловать в клуб настоящих мужчин' : 'После нажатия кнопки ты станешь обычным человеко'}
                 onOk={() => handleModal('ok')}
                 onCancel={() => handleModal('cancel')}
                 footer={isClientLogin ? [] : [
                     <Button key="back" onClick={() => handleModal('cancel')}>
-                        Отмена
+                        {isClientLogin ? 'Предать свою волю' : 'Нажми меня, чтобы очистить грех'}
                     </Button>,
                     <Button key="submit" type="primary" loading={loading} onClick={() => handleModal('ok')}>
-                        Выход
+                        {isClientLogin ? 'Присоединиться' : 'Предать свою волю'}
                     </Button>,
                 ]}
             >
@@ -62,37 +62,40 @@ export const Registration = () => {
                     style={{
                         maxWidth: 600,
                     }}
-                    initialValues={{
-                        remember: true,
-                    }}
                     onFinish={onFinish}
                     autoComplete="off"
                 >
-                    <Form.Item
-                        label="Username"
-                        name="username"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your username!',
-                            },
-                        ]}
-                    >
-                        <Input/>
-                    </Form.Item>
 
-                    <Form.Item
-                        label="Password"
-                        name="password"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your password!',
-                            },
-                        ]}
-                    >
-                        <Input.Password/>
-                    </Form.Item>
+
+                    {isClientLogin ?
+                        <>
+                            <Form.Item
+                                label="Username"
+                                name="username"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please input your username!',
+                                    },
+                                ]}
+                            >
+                                <Input/>
+                            </Form.Item>
+                            <Form.Item
+                                label="Password"
+                                name="password"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please input your password!',
+                                    },]}
+                            > <Input.Password/>
+                            </Form.Item>
+                        </>
+                        :
+                        ""
+                    }
+
 
                     {isClientLogin && (
                         <Form.Item
@@ -103,7 +106,7 @@ export const Registration = () => {
                         >
                             <Button type="primary" htmlType="submit" loading={loading}
                                     onClick={() => handleModal('ok')}>
-                                Submit
+                                Присоединиться
                             </Button>
                         </Form.Item>
                     )}
@@ -204,7 +207,7 @@ const GetClient = () => {
                     <Badge status="processing" text="Ожидание"/> :
                     <Badge status="success" text="В пути"/>}</Descriptions.Item>
                 <Descriptions.Item label="Итог">{totalPrice} GCoins</Descriptions.Item>
-                <Descriptions.Item label="Количество товара">totalAmount</Descriptions.Item>
+                {/*<Descriptions.Item label="Количество товара">totalAmount</Descriptions.Item>*/}
             </Descriptions>
             <br/>
             <Table rowKey="id" columns={columns} dataSource={client.products}/>
