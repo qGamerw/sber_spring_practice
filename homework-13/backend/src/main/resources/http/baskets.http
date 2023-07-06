@@ -1,0 +1,25 @@
+###
+POST localhost:8080/baskets/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "amount": 1
+}
+
+###
+PUT localhost:8080/baskets/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "amount": 1
+}
+
+###
+DELETE localhost:8080/baskets/1
+Content-Type: application/json
+
+{
+  "id": 1
+}

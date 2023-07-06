@@ -1,0 +1,6 @@
+POST localhost:8080/payments
+Content-Type: application/json
+
+{
+  "id": 1
+}

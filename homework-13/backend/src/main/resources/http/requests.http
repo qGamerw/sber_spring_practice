@@ -1,0 +1,136 @@
+###
+POST localhost:8080/promo-code
+Content-Type: application/json
+
+{
+  "discount": 0
+}
+
+###
+GET localhost:8080/promo-code/4
+
+###
+PUT localhost:8080/promo-code
+Content-Type: application/json
+
+{
+  "id": 2,
+  "discount": 21
+}
+
+###
+GET localhost:8080/promo-code
+Content-Type: application/json
+
+{
+  "minDiscount": 2,
+  "maxDiscount": 21
+}
+
+###
+DELETE localhost:8080/promo-code/1
+
+#-------------------------------------
+
+###
+POST localhost:8080/clients
+Content-Type: application/json
+
+{
+  "name": "Unanimous",
+  "username": "admin",
+  "password": "admin",
+  "email": "ad.Unanimous@Unanim.ad",
+  "idCard": 1111
+}
+
+###
+GET localhost:8080/clients/1
+
+###
+GET localhost:8080/clients
+Content-Type: application/json
+
+{
+  "username": "dfg"
+}
+
+###
+DELETE localhost:8080/clients/5
+
+
+#-------------------------------------
+###
+POST localhost:8080/products
+Content-Type: application/json
+
+{
+  "name": "ананас",
+  "price": 10,
+  "amount": 10
+}
+
+###
+GET localhost:8080/products?name=Яблоко
+
+###
+GET localhost:8080/products
+
+###
+GET localhost:8080/products/8
+
+
+###
+PUT localhost:8080/products
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "Яблоко1",
+  "price": 10,
+  "amount": 10
+}
+
+###
+DELETE localhost:8080/products/1
+
+
+#-------------------------------------
+
+
+###
+POST localhost:8080/baskets/1
+Content-Type: application/json
+
+{
+  "id": 5,
+  "amount": 1
+}
+
+###
+PUT localhost:8080/baskets/1
+Content-Type: application/json
+
+{
+  "id": 5,
+  "amount": 10
+}
+
+###
+DELETE localhost:8080/baskets/1
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+###
+#---------------------------------------
+
+###
+POST localhost:8080/payments
+Content-Type: application/json
+
+{
+  "idClient": 1
+}
