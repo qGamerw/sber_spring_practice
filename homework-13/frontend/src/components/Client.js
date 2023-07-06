@@ -1,12 +1,8 @@
 import {useDispatch, useSelector} from "react-redux";
-import {decreaseAmount, increaseAmount, pay, removeBasket} from "../slices/BasketSlices";
 import {Avatar, Badge, Button, Descriptions, Form, Input, message, Modal, Table} from "antd";
-import {useEffect, useState} from "react";
-import productService from "../services/ProductService";
+import React, {useEffect, useState} from "react";
 import userService from "../services/UserService";
 import basketService from "../services/BasketService";
-import React from 'react';
-import {prepareAutoBatched} from "@reduxjs/toolkit";
 import payService from "../services/Payment";
 
 export const Registration = () => {
@@ -42,7 +38,7 @@ export const Registration = () => {
 
             <Modal
                 open={open}
-                title={isClientLogin ?'Авторизация' : 'Выход'}
+                title={isClientLogin ? 'Авторизация' : 'Выход'}
                 onOk={() => handleModal('ok')}
                 onCancel={() => handleModal('cancel')}
                 footer={isClientLogin ? [] : [
@@ -81,7 +77,7 @@ export const Registration = () => {
                             },
                         ]}
                     >
-                        <Input />
+                        <Input/>
                     </Form.Item>
 
                     <Form.Item
@@ -94,7 +90,7 @@ export const Registration = () => {
                             },
                         ]}
                     >
-                        <Input.Password />
+                        <Input.Password/>
                     </Form.Item>
 
                     {isClientLogin && (
@@ -104,7 +100,8 @@ export const Registration = () => {
                                 span: 16,
                             }}
                         >
-                            <Button type="primary" htmlType="submit" loading={loading} onClick={() => handleModal('ok')}>
+                            <Button type="primary" htmlType="submit" loading={loading}
+                                    onClick={() => handleModal('ok')}>
                                 Submit
                             </Button>
                         </Form.Item>
@@ -149,12 +146,12 @@ const GetClient = () => {
             key: 'amountDic',
             render: (_, product) => (
 
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Button type="primary" style={{display: 'flex' }} onClick={() =>
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <Button type="primary" style={{display: 'flex'}} onClick={() =>
                         basketService.updateProduct(1, product.id, product.amount + 1, dispatch)}>
                         <a>+</a>
                     </Button>
-                    <Button type="primary" style={{display: 'flex' }} onClick={product.amount >0 ?
+                    <Button type="primary" style={{display: 'flex'}} onClick={product.amount > 0 ?
                         () => basketService.updateProduct(1, product.id, product.amount - 1, dispatch) : null}>
                         <a>-</a>
                     </Button> <br/>

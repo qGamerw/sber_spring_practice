@@ -1,5 +1,5 @@
 import {Button, Card, Col, Form, Input, Row, Select} from 'antd';
-import {clearSearchResults, editProduct, pushProduct, removeProduct} from "../slices/ProductSlices";
+import {clearSearchResults} from "../slices/ProductSlices";
 import {useDispatch, useSelector} from "react-redux";
 import Meta from "antd/es/card/Meta";
 import {useEffect} from "react";

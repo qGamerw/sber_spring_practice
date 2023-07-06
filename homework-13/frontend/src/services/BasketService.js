@@ -5,7 +5,7 @@ const API_URL = "http://localhost:8080/baskets";
 
 
 export const add = (userId, productId, amountProduct, dispatch) => {
-    return axios.post(API_URL + `/${userId}`, { "id": productId, "amount": amountProduct}).then(
+    return axios.post(API_URL + `/${userId}`, {"id": productId, "amount": amountProduct}).then(
         (response) => {
             getUser(userId, dispatch)
         },
@@ -19,7 +19,7 @@ export const add = (userId, productId, amountProduct, dispatch) => {
 };
 
 const updateProduct = (userId, productId, amountProduct, dispatch) => {
-    return axios.put(API_URL + `/${userId}`, { "id": productId, amount: amountProduct}).then(
+    return axios.put(API_URL + `/${userId}`, {"id": productId, amount: amountProduct}).then(
         (response) => {
             getUser(userId, dispatch)
         },
@@ -33,7 +33,7 @@ const updateProduct = (userId, productId, amountProduct, dispatch) => {
 };
 
 const deleteProduct = (userId, productId, dispatch) => {
-    return axios.delete(API_URL + `/${userId}`, { data: { "id": productId } }).then(
+    return axios.delete(API_URL + `/${userId}`, {data: {"id": productId}}).then(
         (response) => {
             getUser(userId, dispatch)
         },
@@ -49,7 +49,6 @@ const deleteProduct = (userId, productId, dispatch) => {
 const cartService = {
     add, updateProduct, deleteProduct
 };
-
 
 
 export default cartService;

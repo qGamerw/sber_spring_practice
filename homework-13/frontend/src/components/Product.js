@@ -1,6 +1,5 @@
 import {Button, Card, Col, Input, Row} from 'antd';
 import {useDispatch, useSelector} from "react-redux";
-import {pushBasket} from "../slices/BasketSlices";
 import {useEffect} from "react";
 import {clearSearchResults} from "../slices/ProductSlices";
 import basketService from "../services/BasketService";

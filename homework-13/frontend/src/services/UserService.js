@@ -1,5 +1,5 @@
 import axios from "axios";
-import {calculateTotal, set} from "../slices/UserSlices";
+import {set} from "../slices/UserSlices";
 
 const API_URL = "http://localhost:8080/clients";
 
@@ -45,7 +45,7 @@ const updateUser = (dispatch, user) => {
         });
 };
 const signIn = (dispatch, email) => {
-    return axios.get(API_URL+"/email?email="+email).then(
+    return axios.get(API_URL + "/email?email=" + email).then(
         (response) => {
             dispatch(set(response.data))
         },

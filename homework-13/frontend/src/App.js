@@ -102,7 +102,7 @@ const App = () => {
                     />
                     {(isProduct) ? <SearchProduct/> : ""}
                     {(isSetting) ? <SearchProduct/> : ""}
-                    <div style={{float : "right", margin: 10}}> {isClient ? <Registration/> : ""}</div>
+                    <div style={{float: "right", margin: 10}}> {isClient ? <Registration/> : ""}</div>
 
                 </Header>
                 <Content
