@@ -1,11 +1,12 @@
 import axios from "axios";
+import {getUser} from "./UserService";
 
 const API_URL = "http://localhost:8080/payments";
 
 const pay = (idClient, dispatch) => {
-    return axios.post(API_URL, {"idClient": 1}).then(
+    return axios.post(API_URL, {"idClient": idClient}).then(
         (response) => {
-            return true;
+            getUser(idClient, dispatch)
         },
         (error) => {
             const _content = (error.response && error.response.data) ||
@@ -15,6 +16,8 @@ const pay = (idClient, dispatch) => {
             console.error(_content)
         });
 };
+
+
 
 const payService = {
     pay

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.entity.Product;
+import ru.sber.model.PaymentDetails;
 import ru.sber.services.BasketInterfaceService;
 
 import java.net.URI;
@@ -68,6 +69,23 @@ public class BasketController {
         if (isDelete) {
             return ResponseEntity
                     .noContent()
+                    .build();
+        } else {
+            return ResponseEntity
+                    .notFound()
+                    .build();
+        }
+    }
+
+    @GetMapping("/{idClient}")
+    public ResponseEntity<Void> isProductInBasket(@PathVariable long idClient) {
+        log.info("Проверяем есть ли продукт в корзине у клиента {}", idClient);
+
+        boolean isDelete = basketInterfaceService.isBasket(idClient);
+
+        if (isDelete) {
+            return ResponseEntity
+                    .ok()
                     .build();
         } else {
             return ResponseEntity

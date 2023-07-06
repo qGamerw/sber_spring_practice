@@ -150,7 +150,7 @@ const GetClient = () => {
             key: 'amountDic',
             render: (_, product) => (
 
-                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <div style={{ display: 'flex' }}>
                     <Button type="primary" style={{display: 'flex'}} onClick={() =>
                         basketService.updateProduct(1, product.id, product.amount + 1, dispatch)}>
                         <a>+</a>
@@ -229,7 +229,7 @@ export const Clients = () => {
         <>
             <GetClient/>
             <br/>
-            <Button type="primary" onClick={handleButtonClick}>Оплата</Button>
+            <Button type="primary" onClick={handleButtonClick} >Оплата</Button>
         </>
     );
 }

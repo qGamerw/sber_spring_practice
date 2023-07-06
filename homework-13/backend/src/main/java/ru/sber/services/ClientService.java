@@ -62,10 +62,10 @@ public class ClientService implements ClientInterfaceService {
         log.info("ClientService получает сумма к оплате у клиента id {} с учетом скидки", idClient);
 
         var price = clientRepository.findById(idClient).get().getPrice();
-        var promoCode = promoCodeInterfaceService.getPromoCodeById(idPromoCode)
-                .get().getDiscount();
+//        var promoCode = promoCodeInterfaceService.getPromoCodeById(idPromoCode)
+//                .get().getDiscount();
 
-        var discount = promoCode;// / 100;
+        var discount = 1; // promoCode/ 100;
 
         return price.subtract(
                 price.multiply(BigDecimal.valueOf(discount)));

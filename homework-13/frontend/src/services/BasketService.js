@@ -45,8 +45,27 @@ const deleteProduct = (userId, productId, dispatch) => {
         });
 };
 
+const isProductBasket = async (userId, dispatch) => {
+    try {
+        const response = await axios.get(`${API_URL}/${userId}`);
+        getUser(userId, dispatch);
+
+        return response.status === 200;
+    } catch (error) {
+        const _content = (error.response && error.response.data) + " " +
+            error.message + " " +
+            error.toString();
+
+        console.error(_content);
+        return false;
+    }
+};
+
 const cartService = {
-    add, updateProduct, deleteProduct
+    add,
+    updateProduct,
+    deleteProduct,
+    isProductBasket
 };
 
 export default cartService;
