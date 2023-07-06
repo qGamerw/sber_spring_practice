@@ -1,10 +1,9 @@
 package ru.sber.services;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.sber.entity.Client;
+import ru.sber.entity.User;
 import ru.sber.exception.EmptyBasketException;
 import ru.sber.exception.InsufficientQuantityException;
 import ru.sber.exception.NoFoundPromoCodeException;
@@ -21,18 +20,17 @@ public class PaymentService implements PaymentInterfaceService {
     private final BasketInterfaceService basketInterfaceService;
     private final TransferInterfaceProxy transferInterfaceProxy;
     private final PromoCodeInterfaceService promoCodeInterfaceService;
-    private final ClientInterfaceService clientInterfaceService;
+    private final UserInterfaceService userInterfaceService;
 
-    @Autowired
     public PaymentService(BasketInterfaceService basketInterfaceService,
                           TransferInterfaceProxy transferInterfaceProxy,
-                          ClientInterfaceService clientInterfaceService,
-                          PromoCodeInterfaceService promoCodeInterfaceService) {
+                          PromoCodeInterfaceService promoCodeInterfaceService,
+                          UserInterfaceService userInterfaceService) {
 
         this.basketInterfaceService = basketInterfaceService;
         this.transferInterfaceProxy = transferInterfaceProxy;
         this.promoCodeInterfaceService = promoCodeInterfaceService;
-        this.clientInterfaceService = clientInterfaceService;
+        this.userInterfaceService = userInterfaceService;
     }
 
     @Transactional
@@ -42,9 +40,9 @@ public class PaymentService implements PaymentInterfaceService {
 
         isChecks(paymentDetails);
 
-        var price = clientInterfaceService.getPrice(paymentDetails.getIdClient(), paymentDetails.getIdPromoCode());
-        var idCard = clientInterfaceService.getIdCard(paymentDetails.getIdClient());
-        var isRemove = basketInterfaceService.basketCleaning(paymentDetails.getIdClient());
+        var price = userInterfaceService.getPrice(paymentDetails.getIdUser(), paymentDetails.getIdPromoCode());
+        var idCard = userInterfaceService.getIdCard(paymentDetails.getIdUser());
+        var isRemove = basketInterfaceService.basketCleaning(paymentDetails.getIdUser());
 
         if (!isRemove) {
             throw new RemoveProductException("Ошибка удаления товара");
@@ -54,23 +52,23 @@ public class PaymentService implements PaymentInterfaceService {
     }
 
     private void isChecks(PaymentDetails paymentDetails) {
-        log.info("PaymentService проверяем исключительные ситуации у клиента {} при оплате", paymentDetails.getIdClient());
+        log.info("PaymentService проверяем исключительные ситуации у клиента {} при оплате", paymentDetails.getIdUser());
 
-        var isBankClient = basketInterfaceService.isBasket(paymentDetails.getIdClient());
-        if (!isBankClient) {
+        var isBankUser = basketInterfaceService.isBasket(paymentDetails.getIdUser());
+        if (!isBankUser) {
             throw new EmptyBasketException("Корзина пустая");
         }
 
-        var client = new Client();
-        client.setId(paymentDetails.getIdClient());
-        var isInsufficientQuantity = basketInterfaceService.isCountProduct(client);
+        var user = new User();
+        user.setId(paymentDetails.getIdUser());
+        var isInsufficientQuantity = basketInterfaceService.isCountProduct(user);
         if (!isInsufficientQuantity) {
             throw new InsufficientQuantityException("Недостаточно количество товара на складе");
         }
 
-//        var isPromoCode = promoCodeInterfaceService.isPromoCodeById(paymentDetails.getIdPromoCode());
-//        if (!isPromoCode) {
-//            throw new NoFoundPromoCodeException("Промокод не найден");
-//        }
+        var isPromoCode = promoCodeInterfaceService.isPromoCodeById(paymentDetails.getIdPromoCode());
+        if (!isPromoCode) {
+            throw new NoFoundPromoCodeException("Промокод не найден");
+        }
     }
 }

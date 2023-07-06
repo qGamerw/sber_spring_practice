@@ -15,21 +15,17 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "products")
 public class Product {
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    List<ProductBasket> productBaskets = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     @Column(nullable = false)
     private String name;
-
     @Column(nullable = false)
     private BigDecimal price;
-
     @Column(nullable = false)
     private int amount;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<ProductBasket> productBaskets = new ArrayList<>();
 
     public Product(long id, String name, BigDecimal price, int amount) {
         this.id = id;

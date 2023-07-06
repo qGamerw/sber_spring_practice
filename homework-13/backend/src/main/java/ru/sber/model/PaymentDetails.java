@@ -7,7 +7,7 @@ import lombok.Data;
  */
 @Data
 public class PaymentDetails {
-    private long idClient;
+    private long idUser;
     private long idPromoCode;
 }
 

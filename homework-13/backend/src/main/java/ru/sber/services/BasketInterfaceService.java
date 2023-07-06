@@ -1,7 +1,7 @@
 package ru.sber.services;
 
-import ru.sber.entity.Client;
 import ru.sber.entity.Product;
+import ru.sber.entity.User;
 import ru.sber.model.LimitedProduct;
 
 import java.util.List;
@@ -14,45 +14,45 @@ public interface BasketInterfaceService {
     /**
      * Добавляет продукт в корзину
      *
-     * @param idClient id клиента
-     * @param product  продукт
+     * @param idUser  id клиента
+     * @param product продукт
      * @return boolean
      */
-    boolean add(long idClient, Product product);
+    boolean add(long idUser, Product product);
 
     /**
      * Обновляет количество продуктов в корзине
      *
-     * @param idClient id клиента
-     * @param product  продукт
+     * @param idUser  id клиента
+     * @param product продукт
      * @return boolean
      */
-    boolean updateProduct(long idClient, Product product);
+    boolean updateProduct(long idUser, Product product);
 
     /**
      * Удаляет продут в корзине
      *
-     * @param idClient id клиента
-     * @param product  продукт
+     * @param idUser  id клиента
+     * @param product продукт
      * @return boolean
      */
-    boolean deleteProduct(long idClient, Product product);
+    boolean deleteProduct(long idUser, Product product);
 
     /**
      * Проверяет если ли товары в корзине
      *
-     * @param client id клиента
+     * @param user id клиента
      * @return boolean
      */
-    boolean isBasket(long client);
+    boolean isBasket(long user);
 
     /**
      * Проверяет достаточно ли количество товара на складе
      *
-     * @param client id клиента
+     * @param user id клиента
      * @return boolean
      */
-    boolean isCountProduct(Client client);
+    boolean isCountProduct(User user);
 
     /**
      * Удаляет товары в корзине при оплате
@@ -68,7 +68,7 @@ public interface BasketInterfaceService {
      * @param id id клиента
      * @return List<Product>
      */
-    List<LimitedProduct> getClientProductListById(long id);
+    List<LimitedProduct> getUserProductListById(long id);
 
     /**
      * Удаляет корзину клиента

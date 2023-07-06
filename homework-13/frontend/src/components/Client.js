@@ -11,6 +11,7 @@ export const Registration = () => {
     const [open, setOpen] = useState(false);
     const [isClientLogin, setIsClientLogin] = useState(true);
 
+
     const handleModal = (action) => {
         if (action === 'open') {
             setOpen(true);

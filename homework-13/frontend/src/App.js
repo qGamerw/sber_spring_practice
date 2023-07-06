@@ -15,39 +15,32 @@ import {Button, Layout, Menu, theme} from 'antd';
 import {useState} from 'react';
 import {Products} from "./components/Product";
 import {SettingProducts} from "./components/Setting";
-import payService from "./services/Payment";
-import AudioPlayer from "./components/sectrt";
+import {MainPage} from "./pages/Main";
+import {NotFoundPage} from "./pages/NotFoundPage";
+import {Link, NavLink, Route, Routes} from "react-router-dom";
+import {ProductsPage} from "./pages/ProductsPage";
+import {SettingProductsPage} from "./pages/SettingProductPage";
+import RegistrationPage from "./pages/RegistrationPage";
+import LoginPage from "./pages/LoginPage";
+import {useDispatch, useSelector} from "react-redux";
 
 const {Header, Sider, Content} = Layout;
 
 const App = () => {
     const [collapsed, setCollapsed] = useState(false);
-    const [size, setSize] = useState('large');
 
-    const [isClient, setIsClient] = useState(true);
-    const [isProduct, setIsProduct] = useState(false);
-    const [isSetting, setIsSetting] = useState(false);
-    const [count, setCount] = useState(0);
-    const [isOpen, setIsOpen] = useState(false);
-
+    const {user: currentUser} = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+    console.log(currentUser)
     const handleButtonClick = (key) => {
-        if (count >= 10){
-            setIsOpen(true);
-        } else if (parseInt(key) === 1) {
-            setIsProduct(false);
-            setIsSetting(false);
-            setIsClient(true);
-            setCount(count+1)
+
+        console.log(key)
+        if (parseInt(key) === 1) {
+
+            return <Link to="/"></Link>
         } else if (parseInt(key) === 2) {
-            setIsClient(false);
-            setIsSetting(false);
-            setIsProduct(true);
-            setCount(count+1)
-        } else if (parseInt(key) === 3) {
-            setIsProduct(false);
-            setIsClient(false);
-            setIsSetting(true);
-            setCount(count+1)
+
+            return <Link to="/products"></Link>
         }
     };
 
@@ -55,42 +48,52 @@ const App = () => {
         token: {colorBgContainer},
     } = theme.useToken();
     return (
-        <Layout className={"App"}>
+        <Layout className="App">
             <Sider trigger={null} collapsible collapsed={collapsed}>
-                <div className="demo-logo-vertical"/>
+                <div className="demo-logo-vertical" />
                 <Menu
                     theme="dark"
                     mode="inline"
                     defaultSelectedKeys={['1']}
-                    onClick={({key}) => handleButtonClick(key)}
                     style={{
                         fontSize: '14px',
                     }}
-                    items={[
-                        {
-                            key: '0',
-                            icon: <ManOutlined/>,
-                            label: 'Gachimuchi',
-                            disabled: true,
-                        },
-                        {
-                            key: '1',
-                            icon: <UserOutlined/>,
-                            label: 'Клиент',
+                >
+                    <Menu.Item key="0" icon={<ManOutlined />} disabled>
+                        Gachimuchi
+                    </Menu.Item>
 
-                        },
-                        {
-                            key: '2',
-                            icon: <ShopOutlined/>,
-                            label: 'Каталог продуктов',
-                        },
-                        {
-                            key: '3',
-                            icon: <SettingOutlined/>,
-                            label: 'Настройка каталога',
-                        },
-                    ]}
-                />
+                    <Menu.Item key="1" icon={<UserOutlined />}>
+                        <NavLink to="/" activeclassname="active">
+                            Клиент
+                        </NavLink>
+                    </Menu.Item>
+
+                    <Menu.Item key="2" icon={<ShopOutlined />}>
+                        <NavLink to="/products" activeclassname="active">
+                            Каталог продуктов
+                        </NavLink>
+                    </Menu.Item>
+
+                    <Menu.Item key="3" icon={<SettingOutlined />}>
+                        <NavLink to="/setting-products" activeclassname="active">
+                            Настройка каталога
+                        </NavLink>
+                    </Menu.Item>
+
+                    <Menu.Item key="4" icon={<SettingOutlined />}>
+                        <NavLink to="/login" activeclassname="active">
+                            Вход
+                        </NavLink>
+                    </Menu.Item>
+
+                    <Menu.Item key="5" icon={<SettingOutlined />}>
+                        <NavLink to="/register" activeclassname="active">
+                            Регистрация
+                        </NavLink>
+                    </Menu.Item>
+
+                </Menu>
             </Sider>
             <Layout>
                 <Header
@@ -101,17 +104,13 @@ const App = () => {
                 >
                     <Button
                         type="text"
-                        icon={collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
+                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                         onClick={() => setCollapsed(!collapsed)}
                         style={{
                             fontSize: '32px',
                             width: 64,
                             height: 64,
-                        }}
-                    />
-                    {(isProduct) ? <SearchProduct/> : ""}
-                    {(isSetting) ? <SearchProduct/> : ""}
-                    <div style={{float: "right", margin: 10}}> {isClient ? <Registration/> : ""}</div>
+                        }}/>
                 </Header>
                 <Content
                     style={{
@@ -121,14 +120,18 @@ const App = () => {
                         background: colorBgContainer,
                     }}
                 >
-                    {isClient ? <Clients/> : ""}
-                    {isProduct ? <Products/> : ""}
-                    {isSetting ? <SettingProducts/> : ""}
-                    {isOpen ? <AudioPlayer/> : ""}
+                    <Routes>
+                        <Route index element={<MainPage/>}/>
+                        <Route path="/products" element={<ProductsPage />} />
+                        <Route path="/setting-products" element={<SettingProductsPage/>}/>
+                        <Route path="*" element={<NotFoundPage/>}/>
+                        <Route path="/login" element={<LoginPage/>}/>
+                        <Route path="/register" element={<RegistrationPage/>}/>
+                    </Routes>
                 </Content>
             </Layout>
         </Layout>
-    );
+    )
 };
 
 export default App;

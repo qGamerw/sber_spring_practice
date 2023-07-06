@@ -1,6 +1,7 @@
 package ru.sber.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import ru.sber.entity.PromoCode;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Интерфейс для взаимодействия с промокодом
  */
+@Repository
 public interface PromoCodeRepository extends JpaRepository<PromoCode, Long> {
     /**
      * Проверяет есть ли такой промокод

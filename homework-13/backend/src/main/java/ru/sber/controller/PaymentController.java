@@ -26,15 +26,15 @@ public class PaymentController {
     @PostMapping
     public ResponseEntity<Void> payProductsInBasket(@RequestBody PaymentDetails paymentDetails) throws URISyntaxException {
         log.info("Оплата товара клиента id {} с промокодом {}",
-                paymentDetails.getIdClient(), paymentDetails.getIdPromoCode());
+                paymentDetails.getIdUser(), paymentDetails.getIdPromoCode());
 
         var isPay = paymentInterfaceService.pay(paymentDetails);
-        log.info("Оплата клиента с id {} {}", paymentDetails.getIdClient(), isPay ? "удалились" : "не удалились");
+        log.info("Оплата клиента с id {} {}", paymentDetails.getIdUser(), isPay ? "удалились" : "не удалились");
 
         if (isPay) {
             return ResponseEntity
                     .ok()
-                    .location(new URI("payments/clients/" + paymentDetails.getIdClient()))
+                    .location(new URI("payments/users/" + paymentDetails.getIdUser()))
                     .build();
         } else {
             return ResponseEntity

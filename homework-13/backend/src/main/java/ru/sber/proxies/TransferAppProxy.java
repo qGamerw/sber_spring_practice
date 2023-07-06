@@ -13,10 +13,10 @@ import java.math.BigDecimal;
 @Slf4j
 @Component
 public class TransferAppProxy implements TransferInterfaceProxy {
-    private final BankClientsInterfaceProxy bankClientsInterfaceProxy;
+    private final BankUsersInterfaceProxy bankUsersInterfaceProxy;
 
-    public TransferAppProxy(BankClientsInterfaceProxy bankClientsInterfaceProxy) {
-        this.bankClientsInterfaceProxy = bankClientsInterfaceProxy;
+    public TransferAppProxy(BankUsersInterfaceProxy bankUsersInterfaceProxy) {
+        this.bankUsersInterfaceProxy = bankUsersInterfaceProxy;
     }
 
     @Override
@@ -27,8 +27,8 @@ public class TransferAppProxy implements TransferInterfaceProxy {
             throw new IncorrectAmountException("Некорректное значение");
         }
 
-        if (bankClientsInterfaceProxy.isBankClient(card)
-                && bankClientsInterfaceProxy.getCashByIdClient(card).compareTo(sum) > 0) {
+        if (bankUsersInterfaceProxy.isBankUser(card)
+                && bankUsersInterfaceProxy.getCashByIdUser(card).compareTo(sum) > 0) {
 
             return true;
         } else {

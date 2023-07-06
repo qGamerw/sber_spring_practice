@@ -1,7 +1,7 @@
 
 # Нормальная работа на карте 10_000
 ###
-POST localhost:8080/clients
+POST localhost:8080/users
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ POST localhost:8080/products
 Content-Type: application/json
 
 {
-  "name": "Макароны- 1",
+  "name": "Макароны-1",
   "price": 10,
   "amount": 100
 }
@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/clients/1
+GET localhost:8080/users/1
 
 ###
 POST localhost:8080/promo-code
@@ -61,7 +61,7 @@ Content-Type: application/json
 
 # Недостаточно средств (на карте 10_000)
 ###
-POST localhost:8080/clients
+POST localhost:8080/users
 Content-Type: application/json
 
 {
@@ -92,7 +92,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/clients/2
+GET localhost:8080/users/2
 
 ###
 POST localhost:8080/promo-code
@@ -120,7 +120,7 @@ Content-Type: application/json
 
 # Недостаточно количество товара на складе (на карте 10_000)
 ###
-POST localhost:8080/clients
+POST localhost:8080/users
 Content-Type: application/json
 
 {
@@ -151,7 +151,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/clients/3
+GET localhost:8080/users/3
 
 ###
 POST localhost:8080/promo-code
@@ -179,7 +179,7 @@ Content-Type: application/json
 
 # Пустая корзина
 ###
-POST localhost:8080/clients
+POST localhost:8080/users
 Content-Type: application/json
 
 {
@@ -191,7 +191,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/clients/4
+GET localhost:8080/users/4
 
 ###
 POST localhost:8080/promo-code
@@ -219,7 +219,7 @@ Content-Type: application/json
 # Не является клиентом банка
 
 ###
-POST localhost:8080/clients
+POST localhost:8080/users
 Content-Type: application/json
 
 {
@@ -250,7 +250,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/clients/5
+GET localhost:8080/users/5
 
 ###
 POST localhost:8080/promo-code
@@ -278,7 +278,7 @@ Content-Type: application/json
 # Проверка стакак проодуктов с одинаковым именем и ценой
 
 ###
-POST localhost:8080/clients
+POST localhost:8080/users
 Content-Type: application/json
 
 {
@@ -309,7 +309,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/clients/6
+GET localhost:8080/users/6
 
 ###
 POST localhost:8080/promo-code
@@ -338,7 +338,7 @@ Content-Type: application/json
 # Проверка на не нахождение прмокода
 
 ###
-POST localhost:8080/clients
+POST localhost:8080/users
 Content-Type: application/json
 
 {
@@ -369,7 +369,7 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/clients/7
+GET localhost:8080/users/7
 
 ###
 POST localhost:8080/promo-code

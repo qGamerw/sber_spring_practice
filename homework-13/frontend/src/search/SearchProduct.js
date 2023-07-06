@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {searchProducts} from "../slices/ProductSlices";
 
 const SearchProduct = () => {
-    const products = useSelector((state) => state.products.products)
+    const products = useSelector((state) => state.products.products);
     const dispatch = useDispatch();
     const [options, setOptions] = useState([]);
 
@@ -18,15 +18,21 @@ const SearchProduct = () => {
     };
 
     const searchResult = (query) => {
-        return products
-            .filter(product => product.name.toLowerCase().includes(query.toLowerCase()))
-            .map(product => {
-                return {
-                    value: product.name,
-                    label: <div key={product.id}>{product.name}</div>
-                }
-            })
-    }
+        const uniqueProducts = new Set(); // Создаем Set для уникальных продуктов
+
+        products.forEach((product) => {
+            if (product.name.toLowerCase().includes(query.toLowerCase())) {
+                uniqueProducts.add(product); // Добавляем только уникальные продукты в Set
+            }
+        });
+
+        return Array.from(uniqueProducts).map((product) => {
+            return {
+                value: product.name,
+                label: <div key={product.id}>{product.name}</div>,
+            };
+        });
+    };
 
     return (
         <AutoComplete
@@ -45,4 +51,5 @@ const SearchProduct = () => {
         </AutoComplete>
     );
 };
+
 export default SearchProduct;

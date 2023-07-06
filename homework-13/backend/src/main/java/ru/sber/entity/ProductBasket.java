@@ -21,7 +21,7 @@ public class ProductBasket {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private Client client;
+    private User user;
 
     @Column(nullable = false)
     private int amount;

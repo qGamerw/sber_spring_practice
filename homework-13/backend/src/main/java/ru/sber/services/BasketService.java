@@ -3,13 +3,13 @@ package ru.sber.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.sber.entity.Client;
 import ru.sber.entity.Product;
 import ru.sber.entity.ProductBasket;
+import ru.sber.entity.User;
 import ru.sber.model.LimitedProduct;
 import ru.sber.repository.BasketRepository;
-import ru.sber.repository.ClientRepository;
 import ru.sber.repository.ProductRepository;
+import ru.sber.repository.UserRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,16 +23,16 @@ import java.util.function.Predicate;
 public class BasketService implements BasketInterfaceService {
 
     private final BasketRepository basketRepository;
-    private final ClientRepository clientRepository;
+    private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
     @Autowired
     public BasketService(BasketRepository basketRepository,
-                         ClientRepository clientRepository,
+                         UserRepository userRepository,
                          ProductRepository productRepository) {
 
         this.basketRepository = basketRepository;
-        this.clientRepository = clientRepository;
+        this.userRepository = userRepository;
         this.productRepository = productRepository;
     }
 
@@ -42,29 +42,29 @@ public class BasketService implements BasketInterfaceService {
     }
 
     @Override
-    public boolean add(long idClient, Product product) {
-        log.info("BasketService добавляет продукт {} в корзине id  {}", product, idClient);
+    public boolean add(long idUser, Product product) {
+        log.info("BasketService добавляет продукт {} в корзине id  {}", product, idUser);
 
         var isProduct = productRepository.existsById(product.getId());
-        var isBasket = basketRepository.existsByClientIdAndProductId(idClient, product.getId());
-        var isClient = clientRepository.existsById(idClient);
+        var isBasket = basketRepository.existsByUserIdAndProductId(idUser, product.getId());
+        var isUser = userRepository.existsById(idUser);
 
-        var client = clientRepository.findById(idClient);
+        var user = userRepository.findById(idUser);
 
-        if (isProduct && isClient && !isBasket) {
+        if (isProduct && isUser && !isBasket) {
 
             ProductBasket productBasket = new ProductBasket(0, product,
-                    client.get(), product.getAmount());
+                    user.get(), product.getAmount());
 
-            updateClientTotalPrice(product, client.get(), productBasket);
+            updateUserTotalPrice(product, user.get(), productBasket);
 
             return true;
-        } else if (isProduct && isClient) {
+        } else if (isProduct && isUser) {
 
-            var productBasket = basketRepository.findByClientIdAndProductId(idClient, product.getId()).get();
+            var productBasket = basketRepository.findByUserIdAndProductId(idUser, product.getId()).get();
             productBasket.setAmount(product.getAmount() + productBasket.getAmount());
 
-            updateClientTotalPrice(product, client.get(), productBasket);
+            updateUserTotalPrice(product, user.get(), productBasket);
 
             return true;
         }
@@ -73,13 +73,13 @@ public class BasketService implements BasketInterfaceService {
     }
 
     @Override
-    public boolean updateProduct(long idClient, Product product) {
-        log.info("BasketService обновляет продукт {} в корзине id {}", idClient, product);
+    public boolean updateProduct(long idUser, Product product) {
+        log.info("BasketService обновляет продукт {} в корзине id {}", idUser, product);
 
-        var isBasket = basketRepository.existsByClientIdAndProductId(idClient, product.getId());
+        var isBasket = basketRepository.existsByUserIdAndProductId(idUser, product.getId());
 
-        var client = clientRepository.findById(idClient);
-        var productBasket = basketRepository.findByClientIdAndProductId(idClient, product.getId());
+        var user = userRepository.findById(idUser);
+        var productBasket = basketRepository.findByUserIdAndProductId(idUser, product.getId());
 
         if (isBasket) {
             var priceOldProduct = productBasket.get().getProduct().getPrice()
@@ -90,11 +90,11 @@ public class BasketService implements BasketInterfaceService {
 
             var totalPrice = productRepository.findById(product.getId()).get().getPrice()
                     .multiply(BigDecimal.valueOf(product.getAmount()))
-                    .add(client.get().getPrice())
+                    .add(user.get().getPrice())
                     .subtract(priceOldProduct);
 
-            client.get().setPrice(totalPrice);
-            clientRepository.save(client.get());
+            user.get().setPrice(totalPrice);
+            userRepository.save(user.get());
 
             return true;
         }
@@ -103,23 +103,23 @@ public class BasketService implements BasketInterfaceService {
     }
 
     @Override
-    public boolean deleteProduct(long idClient, Product product) {
-        log.info("BasketService удаляет продукт {} в корзине id {}", product, idClient);
+    public boolean deleteProduct(long idUser, Product product) {
+        log.info("BasketService удаляет продукт {} в корзине id {}", product, idUser);
 
-        var isBasket = basketRepository.existsByClientIdAndProductId(idClient, product.getId());
+        var isBasket = basketRepository.existsByUserIdAndProductId(idUser, product.getId());
 
-        var productBasket = basketRepository.findByClientIdAndProductId(idClient, product.getId());
-        var client = clientRepository.findById(idClient);
+        var productBasket = basketRepository.findByUserIdAndProductId(idUser, product.getId());
+        var user = userRepository.findById(idUser);
 
         if (isBasket) {
             basketRepository.deleteById(productBasket.get().getId());
 
-            var totalPrice = client.get().getPrice()
+            var totalPrice = user.get().getPrice()
                     .subtract(productBasket.get().getProduct().getPrice()
                             .multiply(BigDecimal.valueOf(productBasket.get().getAmount())));
 
-            client.get().setPrice(totalPrice);
-            clientRepository.save(client.get());
+            user.get().setPrice(totalPrice);
+            userRepository.save(user.get());
 
             return true;
         }
@@ -127,17 +127,17 @@ public class BasketService implements BasketInterfaceService {
     }
 
     @Override
-    public boolean isBasket(long client) {
-        log.info("BasketService проверяет есть ли у клиента корзина {}", client);
+    public boolean isBasket(long user) {
+        log.info("BasketService проверяет есть ли у клиента корзина {}", user);
 
-        return basketRepository.existsByClientId(client);
+        return basketRepository.existsByUserId(user);
     }
 
     @Override
-    public boolean isCountProduct(Client client) {
-        log.info("BasketService проверяет достаточно ли товара у клиента id {}", client.getId());
+    public boolean isCountProduct(User user) {
+        log.info("BasketService проверяет достаточно ли товара у клиента id {}", user.getId());
 
-        var productBasketList = basketRepository.findByClientId(client.getId());
+        var productBasketList = basketRepository.findByUserId(user.getId());
 
         for (ProductBasket productBasket : productBasketList) {
             var product = productRepository.findById(productBasket.getProduct().getId());
@@ -150,17 +150,17 @@ public class BasketService implements BasketInterfaceService {
     }
 
     @Override
-    public boolean basketCleaning(long idClient) {
-        log.info("BasketService отчищает корзину id {} при оплате", idClient);
+    public boolean basketCleaning(long idUser) {
+        log.info("BasketService отчищает корзину id {} при оплате", idUser);
 
-        updateAmountProduct(idClient);
-        var client = clientRepository.findById(idClient);
+        updateAmountProduct(idUser);
+        var user = userRepository.findById(idUser);
 
-        if (client.isPresent()) {
-            client.get().setPrice(BigDecimal.ZERO);
-            clientRepository.save(client.get());
+        if (user.isPresent()) {
+            user.get().setPrice(BigDecimal.ZERO);
+            userRepository.save(user.get());
 
-            basketRepository.deleteAllByClient(client.get());
+            basketRepository.deleteAllByUser(user.get());
             return true;
         }
 
@@ -168,10 +168,10 @@ public class BasketService implements BasketInterfaceService {
     }
 
     @Override
-    public List<LimitedProduct> getClientProductListById(long id) {
+    public List<LimitedProduct> getUserProductListById(long id) {
         log.info("BasketService получаем список продуктов у клиента с id {}", id);
 
-        return basketRepository.findByClientId(id)
+        return basketRepository.findByUserId(id)
                 .stream()
                 .map(LimitedProduct::new)
                 .toList();
@@ -181,28 +181,28 @@ public class BasketService implements BasketInterfaceService {
     public boolean deleteBasket(long id) {
         log.info("BasketService удаляет корзину клиента с id {}", id);
 
-        var client = new Client();
-        client.setId(id);
-        basketRepository.deleteAllByClient(client);
+        var user = new User();
+        user.setId(id);
+        basketRepository.deleteAllByUser(user);
 
         return true;
     }
 
-    private void updateClientTotalPrice(Product product, Client client, ProductBasket productBasket) {
+    private void updateUserTotalPrice(Product product, User user, ProductBasket productBasket) {
         basketRepository.save(productBasket);
 
         var totalPrice = productRepository.findById(product.getId()).get().getPrice()
                 .multiply(BigDecimal.valueOf(product.getAmount()))
-                .add(client.getPrice());
+                .add(user.getPrice());
 
-        client.setPrice(totalPrice);
-        clientRepository.save(client);
+        user.setPrice(totalPrice);
+        userRepository.save(user);
     }
 
     private boolean updateAmountProduct(long id) {
         log.info("Обновляет количество товара на складе");
 
-        var productBasketList = basketRepository.findByClientId(id);
+        var productBasketList = basketRepository.findByUserId(id);
 
         for (ProductBasket productBasket : productBasketList) {
 
