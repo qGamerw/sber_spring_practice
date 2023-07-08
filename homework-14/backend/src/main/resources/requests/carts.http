@@ -1,0 +1,68 @@
+###
+//Добавление товара в корзину
+POST localhost:8080/cart/7/product/1
+Content-Type: application/json
+
+{
+  "amount": 3
+}
+
+###
+//Попытка добавить товар в несуществующую корзину
+POST localhost:8080/cart/111/product/1
+Content-Type: application/json
+
+{
+  "amount": 3
+}
+
+###
+//Попытка добавить несуществующий товар в корзину
+POST localhost:8080/cart/1/product/111
+Content-Type: application/json
+
+{
+  "amount": 3
+}
+
+###
+//Обновление количества товара в корзине
+PUT localhost:8080/cart/1/product/1
+Content-Type: application/json
+
+{
+  "amount": 3
+}
+
+###
+//Попытка обновить количество товара в несуществующей корзине
+PUT localhost:8080/cart/111/product/1
+Content-Type: application/json
+
+{
+  "amount": 1
+}
+
+###
+//Попытка обновить количество несуществующего товара в корзине
+PUT localhost:8080/cart/1/product/111
+Content-Type: application/json
+
+{
+  "amount": 1
+}
+
+###
+//Удаление товара из корзины
+DELETE localhost:8080/cart/1/product/1
+
+###
+//Попытка удалить товар из несуществующей корзины
+DELETE localhost:8080/cart/111/product/2
+
+###
+//Попытка удалить несуществующий товар из корзины
+DELETE localhost:8080/cart/1/product/222
+
+###
+GET localhost:8080/cart/8

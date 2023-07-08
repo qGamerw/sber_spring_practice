@@ -1,0 +1,59 @@
+###
+//Запрос с несуществующим userId
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "cardNumber": 123456,
+  "userId": 44
+}
+
+
+###
+//Запрос с несуществующим номером банковской карты
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "cardNumber": 111111,
+  "userId": 1
+}
+
+###
+//Запрос для пользователя, у которого не хватит денег для покупки
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "cardNumber": 123444,
+  "userId": 3
+}
+
+###
+//Запрос для пользователя, для которого не хватит товаров на складе
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "cardNumber": 123456,
+  "userId": 2
+}
+
+###
+//Запрос для пользователя, у которого всё нормально
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "cardNumber": 123456,
+  "userId": 1
+}
+
+###
+//Запрос для платежа у которого заполнены не все поля
+POST localhost:8080/payment
+Content-Type: application/json
+
+{
+  "userId": 1
+}
