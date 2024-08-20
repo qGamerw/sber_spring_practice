@@ -14,4 +14,4 @@
 12. Ant Design и React-Redux
 13. Axios, React-Router
 14. Введение в Spring Security
-15. Разработка учебного проекта
+15. Разработка учебного проекта (TODO List)
